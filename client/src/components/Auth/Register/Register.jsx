@@ -4,6 +4,15 @@ function Register() {
   return (
     <div>
       <h1>Register</h1>
+      <form>
+        <label>Username:</label>
+        <input type="text" placeholder="Username" />
+        <label>Email:</label>
+        <input type="email" placeholder="Email" />
+        <label>Password:</label>
+        <input type="password" placeholder="Password" />
+        <button type="submit">Register</button>
+      </form>
     </div>
   );
 }

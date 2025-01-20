@@ -1,7 +1,7 @@
 import React from "react";
 import "./Footer.css";
 
-const Footer = () => {
+function Footer() {
   return (
     <footer className="footer">
       <p className="footer-text">© {new Date().getFullYear()} ProTasker | Created by Abdihakim Faizal & Baran Bulduk.</p>
