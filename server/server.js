@@ -13,5 +13,5 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+    console.log(`Server listening on port ${port}`);
 });
