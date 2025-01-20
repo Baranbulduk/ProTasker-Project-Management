@@ -1,12 +1,12 @@
-import React from 'react';
-import './Footer.css';
+import React from "react";
+import "./Footer.css";
 
 const Footer = () => {
-    return (
-        <footer className="footer">
-            <h1>Footer</h1>
-        </footer>
-    );
+  return (
+    <footer className="footer">
+      <p className="footer-text">© {new Date().getFullYear()} ProTasker | Created by Abdihakim Faizal & Baran Bulduk.</p>
+    </footer>
+  );
 };
 
 export default Footer;

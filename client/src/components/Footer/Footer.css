@@ -1,7 +1,16 @@
 .footer {
-    background-color: #980c0c;
+    background-color: #0f50b0;
     color: white;
-    height: 200px;
+    height: 100px;
     padding: 10px 0;
     width: 100%;
+}
+
+.footer-text {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    padding-top: 80px;
+    
+
 }
