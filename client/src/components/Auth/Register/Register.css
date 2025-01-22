@@ -1,1 +1,17 @@
+.register {
+    width: 600px;
+    margin: auto;
+    background-color: red;
+}
 
+.register-button {
+    margin: 10px;
+    padding: 8px 20px;
+    background: linear-gradient(90deg, #4074e8, #330867);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+}
