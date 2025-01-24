@@ -1,8 +1,13 @@
 import "./Login.css";
+import Header from "../../Header/Header";
+import Footer from "../../Footer/Footer";
 
 function Login() {
   return (
-    <div className="login-page">
+    <div>
+   <Header /> 
+   <div className="login-page">
+      
       <div className="login-container">
         <h1 className="login-title">Login</h1>
         <form className="login-form">
@@ -25,7 +30,11 @@ function Login() {
           </div>
         </form>
       </div>
-    </div>
+     
+     </div>
+     <Footer />
+     </div>
+   
   );
 }
 
