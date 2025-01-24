@@ -1,16 +1,14 @@
 .footer {
-    background-color: #0f50b0;
-    color: white;
-    height: 100px;
-    padding: 10px 0;
-    width: 100%;
+  background-color: #000;
+  opacity: 0.4;
+  color: white;
+  height: 100px;
+  width: 100%;
 }
 
 .footer-text {
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    padding-top: 80px;
-    
-
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  padding-top: 70px;
 }
