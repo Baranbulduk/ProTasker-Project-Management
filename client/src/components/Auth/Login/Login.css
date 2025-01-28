@@ -1,10 +1,11 @@
 .login-title {
   text-align: center;
   font-size: 32px;
+  margin-top: 10px;
 }
 
 .login-page {
-  background: linear-gradient(90deg, #4074e8, #330867);
+  background: linear-gradient(90deg, #4074e8, #081467);
   height: 800px;
   display: flex;
   justify-content: center;
@@ -41,8 +42,9 @@ input {
   font-size: 16px;
 }
 
-.forget-password-link {
+.forgot-password-link {
   color: #4074e8;
+  margin-top: 5px;
 }
 
 .login-button {
@@ -51,7 +53,7 @@ input {
   margin: auto;
   margin-top: 40px;
   padding: 10px 25px;
-  background: linear-gradient(90deg, #4074e8, #330867);
+  background: linear-gradient(90deg, #4074e8, #081467);
   color: white;
   border: none;
   border-radius: 20px;

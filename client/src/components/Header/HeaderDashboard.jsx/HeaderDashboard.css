@@ -1,6 +1,5 @@
-.header {
-    background-color: #000;
-    opacity: 0.4;
+.header-dashboard {
+    background: linear-gradient(90deg, #4074e8, #081467);
     height: 50px;
     padding: 20px;
     display: flex;

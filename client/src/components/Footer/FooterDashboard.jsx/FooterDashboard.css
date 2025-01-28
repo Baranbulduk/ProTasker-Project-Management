@@ -1,6 +1,5 @@
-.footer {
-  background-color: #000;
-  opacity: 0.4;
+.footer-dashboard {
+  background: linear-gradient(90deg, #4074e8, #081467);
   color: white;
   height: 100px;
   width: 100%;

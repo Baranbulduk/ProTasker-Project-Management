@@ -14,8 +14,8 @@ function Login() {
             <input type="email" placeholder="Email" />
             <label>Password:</label>
             <input type="password" placeholder="Password" />
-            <a className="forget-password-link" href="/forget-password">
-              Forget Password?
+            <a className="forgot-password-link" href="/forgot-password">
+              Forgot Password?
             </a>
             <button className="login-button" type="submit">
               Login

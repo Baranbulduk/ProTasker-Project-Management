@@ -5,7 +5,7 @@ import Login from "./components/Auth/Login/Login.jsx";
 import Register from "./components/Auth/Register/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Tasks from "./pages/Tasks.jsx";
-import ForgetPassword from "./components/Auth/ForgetPassword.jsx";
+import ForgotPassword from "./components/Auth/ForgotPassword/ForgotPassword.jsx";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/tasks" element={<Tasks />} />
-        <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </BrowserRouter>
   );
