@@ -1,3 +1,6 @@
+import React from "react";
+import "./Dashboard.css";
+
 function EmployerDashboard() {
   return (
     <div>

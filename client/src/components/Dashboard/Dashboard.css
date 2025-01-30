@@ -1,0 +1,25 @@
+.dashboard-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.dashboard-card {
+    height: 250px;
+    width: 280px;
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    border: solid 1px #ececec;
+}
+
+.dashboard-card-header {
+    background: linear-gradient(90deg, #4074e8, #081467);
+    color: white;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+}
+
+.dashboard-card-body {
+    padding: 10px;
+}

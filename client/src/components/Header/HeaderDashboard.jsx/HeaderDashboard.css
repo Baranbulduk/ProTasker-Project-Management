@@ -5,4 +5,14 @@
     display: flex;
     justify-content: space-between;
     color: white;
-  }
+}
+
+.header-dashboard-title, a{
+  color: white;
+  text-decoration: none;
+}
+
+.header-dashboard-title {
+  color: white;
+  opacity: 0.6;
+}

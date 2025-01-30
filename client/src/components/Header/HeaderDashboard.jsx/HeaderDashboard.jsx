@@ -4,7 +4,7 @@ import "./HeaderDashboard.css";
 function HeaderDashboard() {
   return (
     <header className="header-dashboard">
-     <h1>ProTasker</h1> 
+     <a href="/dashboard"><h1 className="header-dashboard-title">ProTasker</h1></a>
     </header>
   );
 };
