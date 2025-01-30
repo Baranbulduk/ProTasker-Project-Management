@@ -3,9 +3,9 @@ import ManagerDashboard from "../components/Dashboard/ManagerDashboard";
 import EmployerDashboard from "../components/Dashboard/EmployerDashboard";
 import HeaderDashboard from "../components/Header/HeaderDashboard.jsx/HeaderDashboard";
 import FooterDashboard from "../components/Footer/FooterDashboard.jsx/FooterDashboard";
-import "../styles/Dashboard.css";
+import "../styles/DashboardPage.css";
 
-function Dashboard() {
+function DashboardPage() {
   return (
     <>
       <HeaderDashboard />
@@ -26,4 +26,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default DashboardPage;

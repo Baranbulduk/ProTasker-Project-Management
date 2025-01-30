@@ -1,9 +1,12 @@
-function AdminDashboard() {
+import React from "react";
+import "./Members.css";
+
+function AdminMembers() {
   return (
     <>
-      <h2>Admin Dashboard</h2>
+      <h2>Admin Members</h2>
     </>
   );
 }   
 
-export default AdminDashboard;
+export default AdminMembers;

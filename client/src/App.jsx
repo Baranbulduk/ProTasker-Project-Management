@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./components/Auth/Login/Login.jsx";
 import Register from "./components/Auth/Register/Register.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
+import DashboardPage from "./pages/DashboardPage.jsx";
 import Tasks from "./pages/Tasks.jsx";
 import ForgotPassword from "./components/Auth/ForgotPassword/ForgotPassword.jsx";
 
@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/tasks" element={<Tasks />} />
       </Routes>
     </BrowserRouter>

@@ -12,15 +12,26 @@ function Tasks() {
   return (
     <>
       <HeaderDashboard />
+      <div className="tasks-header">
+        <h1>Project Name</h1>
+      </div>
       <div className="app-wrapper">
+        <div className="tasks-body">
+          <div>
+          <button>Tasks</button>
+          <button>Members</button>
+          </div>
+          <button className="tasks-button">Add Task</button>
+        </div>
         <h1>Tasks</h1>
         <AdminTasks />
-        <ManagerTasks />
-        <EmployerTasks />
+        {/*<ManagerTasks />
+        <EmployerTasks />*/}
+        {/*
         <h1>Members</h1>
         <AdminMembers />
         <ManagerMembers />
-        <EmployerMembers />
+        <EmployerMembers />*/}
       </div>
       <FooterDashboard />
     </>
