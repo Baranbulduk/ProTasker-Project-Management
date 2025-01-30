@@ -1,6 +1,38 @@
+.table-container {
+    margin-bottom: 20px;
+    background-color: red;  
+    display: flex;
+    flex-direction: column; 
+    border-radius: 20px;
+}
+
 .table-header {
     background-color: black;
-    border-bottom: solid 1px #ececec;
     color: white;
     padding: 20px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 20px 20px 0 0;
+}
+
+.table-header-title {
+    display: flex;
+    gap: 150px;
+    padding-left: 100px;
+}
+
+.table-body {
+    padding: 20px;
+}
+    
+.table-body-title {
+    display: flex;
+    gap: 135px;
+    padding-left: 100px;
+    padding-bottom: 20px;
+}
+
+.table-body-button {
+    display: flex;
+    gap: 10px;
 }

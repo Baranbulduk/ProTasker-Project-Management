@@ -17,6 +17,25 @@
   margin-bottom: 20px;
 }
 
+.tasks-menu-button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.tasks-menu-button {
+  padding: 10px 25px;
+  background-color: #f4f4f4;border: solid 1px #ececec;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.tasks-menu-button:active {
+    background-color: black;
+    color: white;
+}
+
 .tasks-button {
     padding: 10px 25px;
     background: linear-gradient(90deg, #4074e8, #081467);
@@ -27,3 +46,5 @@
     font-size: 18px;
     cursor: pointer;
 }
+
+

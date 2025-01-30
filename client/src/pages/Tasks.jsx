@@ -17,9 +17,9 @@ function Tasks() {
       </div>
       <div className="app-wrapper">
         <div className="tasks-body">
-          <div>
-          <button>Tasks</button>
-          <button>Members</button>
+          <div className="tasks-menu-button-container">
+          <button className="tasks-menu-button">Tasks</button>
+          <button className="tasks-menu-button">Members</button>
           </div>
           <button className="tasks-button">Add Task</button>
         </div>
