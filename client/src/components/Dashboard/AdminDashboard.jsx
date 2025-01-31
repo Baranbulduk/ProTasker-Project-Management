@@ -4,7 +4,6 @@ import "./Dashboard.css";
 function AdminDashboard() {
   return (
     <div>
-      <h1>Admin Dashboard</h1>
       <main className="dashboard-container">
         <div className="dashboard-card">
           <div className="dashboard-card-header">

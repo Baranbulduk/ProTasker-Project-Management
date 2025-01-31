@@ -3,53 +3,52 @@ import "./Tasks.css";
 
 function AdminTasks() {
   return (
+    <>
     <div>
-      <h2>Admin Tasks</h2>
-      <table className="table-container">
-        <thead className="table-header">
-          <tr className="table-header-title">
-            <th>Title</th>
-            <th>Assigned to</th>
-            <th>Created</th>
-            <th>Status</th>
+      <table className="tasks-table-container">
+        <thead className="tasks-table-header">
+          <tr className="tasks-table-header-title-container">
+            <th className="tasks-table-header-title">Title</th>
+            <th className="tasks-table-header-title">Assigned To</th>
+            <th className="tasks-table-header-title">Created</th>
+            <th className="tasks-table-header-title-status">
+            <th className="tasks-table-header-title">Status</th>
+            <th className="tasks-table-header-title">Actions</th></th>
           </tr>
         </thead>
-        <tbody className="table-body">
-          <tr className="table-body-title">
+        <tbody className="tasks-table-body">
+          <tr className="tasks-table-body-title-container">
             <td>Task 1</td>
             <td>Description 1</td>
             <td>Deadline 1</td>
-            <td>
-              <select>
+            <td className="tasks-table-body-container">
+            <select className="status-select">
                 <option value="pending">Pending</option>
                 <option value="in-progress">In Progress</option>
                 <option value="completed">Completed</option>
               </select>
-            </td>
-            <td className="table-body-button">
-              <button>Edit</button>
-              <button>Remove</button>
+              <button className="actions-button edit-button">Edit</button>
+              <button className="actions-button remove-button">Remove</button>
             </td>
           </tr>
-          <tr className="table-body-title">
+          <tr className="tasks-table-body-title-container">
             <td>Task 1</td>
             <td>Description 1</td>
             <td>Deadline 1</td>
-            <td>
-              <select>
+            <td className="tasks-table-body-container">
+            <select className="status-select">
                 <option value="pending">Pending</option>
                 <option value="in-progress">In Progress</option>
                 <option value="completed">Completed</option>
               </select>
-            </td>
-            <td className="table-body-button">
-              <button>Edit</button>
-              <button>Remove</button>
+              <button className="actions-button edit-button">Edit</button>
+              <button className="actions-button remove-button">Remove</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    </>
   );
 }
 

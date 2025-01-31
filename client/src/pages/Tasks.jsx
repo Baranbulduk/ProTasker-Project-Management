@@ -23,13 +23,12 @@ function Tasks() {
           </div>
           <button className="tasks-button">Add Task</button>
         </div>
-        <h1>Tasks</h1>
         <AdminTasks />
         {/*<ManagerTasks />
         <EmployerTasks />*/}
-        {/*
-        <h1>Members</h1>
+        
         <AdminMembers />
+        {/*
         <ManagerMembers />
         <EmployerMembers />*/}
       </div>

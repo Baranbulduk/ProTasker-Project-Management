@@ -1,38 +1,91 @@
-.table-container {
+.tasks-table-container {
     margin-bottom: 20px;
-    background-color: red;  
+    background-color: #f4f4f4;border: solid 1px #ececec; 
     display: flex;
     flex-direction: column; 
     border-radius: 20px;
 }
 
-.table-header {
+.tasks-table-header {
     background-color: black;
     color: white;
-    padding: 20px;
+    padding: 10px 90px;
     display: flex;
     flex-direction: row;
     border-radius: 20px 20px 0 0;
 }
 
-.table-header-title {
+.tasks-table-header-title-container {
     display: flex;
-    gap: 150px;
-    padding-left: 100px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 125px;
 }
 
-.table-body {
-    padding: 20px;
+.tasks-table-header-title {
+    font-size: 22px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tasks-table-header-title-status {
+    display: flex;
+    flex-direction: row;
+    padding: 0 50px;
+    gap: 140px;
+}
+
+.tasks-table-body {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
     
-.table-body-title {
+.tasks-table-body-title-container {
     display: flex;
-    gap: 135px;
-    padding-left: 100px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
     padding-bottom: 20px;
 }
 
-.table-body-button {
+select {
+    padding: 10px 20px;
+    border: solid 1px #ececec;
+    border-radius: 5px;
+}
+option {
+    padding: 10px 20px;
+}
+
+.tasks-table-body-container {
     display: flex;
-    gap: 10px;
+}
+
+.status-select {
+    margin-right: 30px;
+}
+
+.actions-button {
+    color: white;
+    padding: 10px 25px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.edit-button {
+    background-color: #000000;
+    border: none;
+}
+
+.remove-button {
+    background-color: #c40000;
+    border: none;
+    margin-left: 10px;
 }

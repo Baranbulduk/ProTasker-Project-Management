@@ -4,7 +4,6 @@ import "./Members.css";
 function ManagerMembers() {
   return (
     <div>
-      <h2>Manager Members</h2>
     </div>
   );
 }
