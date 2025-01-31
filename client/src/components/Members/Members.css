@@ -46,6 +46,17 @@
   padding: 0 50px;
   padding-bottom: 20px;
 }
+
+/*Employer Members*/
+.employer-members-table-body-title-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 420px 0 50px;
+  padding-bottom: 20px;
+}
+
 .actions-button {
   color: white;
   padding: 10px 25px;

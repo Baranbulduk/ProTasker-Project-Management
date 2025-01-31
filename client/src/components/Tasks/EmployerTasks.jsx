@@ -13,12 +13,11 @@ function EmployerTasks() {
               <th className="tasks-table-header-title">Created</th>
               <th className="tasks-table-header-title-status">
                 <div className="tasks-table-header-title">Status</div>
-                <div className="tasks-table-header-title">Actions</div>
               </th>
             </tr>
           </thead>
           <tbody className="tasks-table-body">
-            <tr className="tasks-table-body-title-container">
+            <tr className="employer-tasks-table-body-title-container">
               <td>Task 1</td>
               <td>Description 1</td>
               <td>Deadline 1</td>
@@ -28,11 +27,9 @@ function EmployerTasks() {
                   <option value="in-progress">In Progress</option>
                   <option value="completed">Completed</option>
                 </select>
-                <button className="actions-button edit-button">Edit</button>
-                <button className="actions-button remove-button">Remove</button>
               </td>
             </tr>
-            <tr className="tasks-table-body-title-container">
+            <tr className="employer-tasks-table-body-title-container">
               <td>Task 1</td>
               <td>Description 1</td>
               <td>Deadline 1</td>
@@ -42,8 +39,6 @@ function EmployerTasks() {
                   <option value="in-progress">In Progress</option>
                   <option value="completed">Completed</option>
                 </select>
-                <button className="actions-button edit-button">Edit</button>
-                <button className="actions-button remove-button">Remove</button>
               </td>
             </tr>
           </tbody>
