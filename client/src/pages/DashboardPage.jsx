@@ -10,7 +10,7 @@ function DashboardPage() {
     <>
       <HeaderDashboard />
       <div className="dashboard-header">
-        <h1>Hi, Name!</h1>
+        <h2>Hi, Name!</h2>
       </div>
       <div className="app-wrapper">
         <div className="dashboard-body">

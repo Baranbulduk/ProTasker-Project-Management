@@ -13,20 +13,20 @@ function Tasks() {
     <>
       <HeaderDashboard />
       <div className="tasks-header">
-        <h1>Project Name</h1>
+        <h2>Project Name</h2>
       </div>
       <div className="app-wrapper">
         <div className="tasks-body">
           <div className="tasks-menu-button-container">
-          <button className="tasks-menu-button">Tasks</button>
-          <button className="tasks-menu-button">Members</button>
+            <button className="tasks-menu-button">Tasks</button>
+            <button className="tasks-menu-button">Members</button>
           </div>
           <button className="tasks-button">Add Task</button>
         </div>
         <AdminTasks />
         {/*<ManagerTasks />
         <EmployerTasks />*/}
-        
+
         <AdminMembers />
         {/*
         <ManagerMembers />

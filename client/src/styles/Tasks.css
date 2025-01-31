@@ -1,12 +1,12 @@
 .app-wrapper {
-    padding: 20px 20px 100px 20px;
+  padding: 20px 20px 100px 20px;
 }
 
 .tasks-header {
-    background-color: #f4f4f4;
-    border-bottom: solid 1px #ececec;
-    color: rgb(0, 0, 0);
-    padding: 20px;
+  background-color: #f4f4f4;
+  border-bottom: solid 1px #ececec;
+  color: rgb(0, 0, 0);
+  padding: 20px;
 }
 
 .tasks-body {
@@ -18,13 +18,14 @@
 }
 
 .tasks-menu-button-container {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .tasks-menu-button {
   padding: 10px 25px;
-  background-color: #f4f4f4;border: solid 1px #ececec;
+  background-color: #f4f4f4;
+  border: solid 1px #ececec;
   border-radius: 20px;
   font-weight: 700;
   font-size: 18px;
@@ -32,19 +33,17 @@
 }
 
 .tasks-menu-button:active {
-    background-color: black;
-    color: white;
+  background-color: black;
+  color: white;
 }
 
 .tasks-button {
-    padding: 10px 25px;
-    background: linear-gradient(90deg, #4074e8, #081467);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 18px;
-    cursor: pointer;
+  padding: 10px 25px;
+  background: linear-gradient(90deg, #4074e8, #081467);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
 }
-
-

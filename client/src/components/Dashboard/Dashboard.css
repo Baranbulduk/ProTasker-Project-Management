@@ -14,7 +14,7 @@
 }
 
 .dashboard-card-header {
-    background: linear-gradient(90deg, #4074e8, #081467);
+    background-color: black;
     color: white;
     padding: 10px;
     border-radius: 10px 10px 0 0;
