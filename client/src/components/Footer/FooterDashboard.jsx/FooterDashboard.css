@@ -1,14 +1,14 @@
 .footer-dashboard {
-  background: linear-gradient(90deg, #4074e8, #081467);
+  background: linear-gradient(90deg, #014ae6, #040e4f);
   color: white;
   height: 100px;
   width: 100%;
 }
 
 .footer-text {
-  height: 30px;
+  height: 20px;
   display: flex;
   justify-content: center;
-  padding-top: 70px;
+  padding-top: 75px;
   opacity: 0.4;
 }

@@ -24,13 +24,12 @@ function Tasks() {
           <button className="tasks-button">Add Task</button>
         </div>
         <AdminTasks />
-        {/*<ManagerTasks />
-        <EmployerTasks />*/}
+        <ManagerTasks />
+        <EmployerTasks />
 
         <AdminMembers />
-        {/*
         <ManagerMembers />
-        <EmployerMembers />*/}
+        <EmployerMembers />
       </div>
       <FooterDashboard />
     </>

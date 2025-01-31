@@ -18,7 +18,7 @@ function EmployerMembers() {
             <tr className="members-table-body-title-container">
               <td>Member 1</td>
               <td>member1@example.com</td>
-              <td>Role 1</td>
+              <td>Employer</td>
               <td>
                 <button className="actions-button edit-button">Edit</button>
                 <button className="actions-button remove-button">Remove</button>
@@ -27,7 +27,7 @@ function EmployerMembers() {
             <tr className="members-table-body-title-container">
               <td>Member 2</td>
               <td>member2@example.com</td>
-              <td>Role 2</td>
+              <td>Employer</td>
               <td>
                 <button className="actions-button edit-button">Edit</button>
                 <button className="actions-button remove-button">Remove</button>

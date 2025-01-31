@@ -11,8 +11,14 @@ function ManagerDashboard() {
               <h2>Project Name</h2>
             </div>
             <div className="dashboard-card-body">
+            <p>
+                <strong>Description:</strong> Lorem ipsum
+              </p>
               <p>
-                <strong>Role:</strong> Admin
+                <strong>Tasks:</strong> Lorem ipsum
+              </p>
+              <p>
+                <strong>Members:</strong> Member 1, Member 2
               </p>
             </div>
           </div>
@@ -21,8 +27,14 @@ function ManagerDashboard() {
               <h2>Project Name</h2>
             </div>
             <div className="dashboard-card-body">
+            <p>
+                <strong>Description:</strong> Lorem ipsum
+              </p>
               <p>
-                <strong>Role:</strong> Admin
+                <strong>Tasks:</strong> Lorem ipsum
+              </p>
+              <p>
+                <strong>Members:</strong> Member 1, Member 2
               </p>
             </div>
           </div>
@@ -31,8 +43,14 @@ function ManagerDashboard() {
               <h2>Project Name</h2>
             </div>
             <div className="dashboard-card-body">
+            <p>
+                <strong>Description:</strong> Lorem ipsum
+              </p>
               <p>
-                <strong>Role:</strong> Admin
+                <strong>Tasks:</strong> Lorem ipsum
+              </p>
+              <p>
+                <strong>Members:</strong> Member 1, Member 2
               </p>
             </div>
           </div>
@@ -41,8 +59,14 @@ function ManagerDashboard() {
               <h2>Project Name</h2>
             </div>
             <div className="dashboard-card-body">
+            <p>
+                <strong>Description:</strong> Lorem ipsum
+              </p>
               <p>
-                <strong>Role:</strong> Admin
+                <strong>Tasks:</strong> Lorem ipsum
+              </p>
+              <p>
+                <strong>Members:</strong> Member 1, Member 2
               </p>
             </div>
           </div>
@@ -51,8 +75,14 @@ function ManagerDashboard() {
               <h2>Project Name</h2>
             </div>
             <div className="dashboard-card-body">
+            <p>
+                <strong>Description:</strong> Lorem ipsum
+              </p>
               <p>
-                <strong>Role:</strong> Admin
+                <strong>Tasks:</strong> Lorem ipsum
+              </p>
+              <p>
+                <strong>Members:</strong> Member 1, Member 2
               </p>
             </div>
           </div>

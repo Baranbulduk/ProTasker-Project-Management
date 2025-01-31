@@ -18,8 +18,8 @@ function DashboardPage() {
           <button className="dashboard-button">Add Project</button>
         </div>
         <AdminDashboard />
-        {/*<ManagerDashboard />*/}
-        {/*<EmployerDashboard />*/}
+        <ManagerDashboard />
+        <EmployerDashboard />
       </div>
       <FooterDashboard />
     </>

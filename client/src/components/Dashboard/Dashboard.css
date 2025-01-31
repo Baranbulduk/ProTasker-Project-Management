@@ -11,6 +11,7 @@
     border-radius: 20px;
     background-color: #f4f4f4;
     border: solid 1px #ececec;
+    cursor: pointer;
 }
 
 .dashboard-card-header {
@@ -21,5 +22,9 @@
 }
 
 .dashboard-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     padding: 10px;
+    
 }
