@@ -11,35 +11,40 @@ function EmployerTasks() {
               <th className="tasks-table-header-title">Title</th>
               <th className="tasks-table-header-title">Assigned To</th>
               <th className="tasks-table-header-title">Created</th>
-              <th className="tasks-table-header-title-status">
-                <div className="tasks-table-header-title">Status</div>
-              </th>
+              <th className="tasks-table-header-title">Status</th>
+              <th></th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody className="tasks-table-body">
-            <tr className="employer-tasks-table-body-title-container">
+            <tr className="tasks-table-body-title-container">
               <td>Task 1</td>
               <td>Description 1</td>
               <td>Deadline 1</td>
-              <td className="tasks-table-body-container">
-                <select className="status-select">
+              <td>
+                <select>
                   <option value="pending">Pending</option>
                   <option value="in-progress">In Progress</option>
                   <option value="completed">Completed</option>
                 </select>
               </td>
+              <td></td>
+              <td></td>
             </tr>
-            <tr className="employer-tasks-table-body-title-container">
+            <tr className="tasks-table-body-title-container">
               <td>Task 1</td>
               <td>Description 1</td>
               <td>Deadline 1</td>
-              <td className="tasks-table-body-container">
-                <select className="status-select">
+              <td>
+                <select>
                   <option value="pending">Pending</option>
                   <option value="in-progress">In Progress</option>
                   <option value="completed">Completed</option>
                 </select>
               </td>
+              <td></td>
+              <td></td>
             </tr>
           </tbody>
         </table>

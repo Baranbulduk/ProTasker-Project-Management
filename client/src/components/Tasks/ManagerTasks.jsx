@@ -11,10 +11,9 @@ function ManagerTasks() {
               <th className="tasks-table-header-title">Title</th>
               <th className="tasks-table-header-title">Assigned To</th>
               <th className="tasks-table-header-title">Created</th>
-              <th className="tasks-table-header-title-status">
-                <div className="tasks-table-header-title">Status</div>
-                <div className="tasks-table-header-title">Actions</div>
-              </th>
+              <th className="tasks-table-header-title">Status</th>
+              <th className="tasks-table-header-title">Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody className="tasks-table-body">
@@ -22,8 +21,8 @@ function ManagerTasks() {
               <td>Task 1</td>
               <td>Description 1</td>
               <td>Deadline 1</td>
-              <td className="tasks-table-body-container">
-                <select className="status-select">
+              <td>
+                <select>
                   <option value="pending">Pending</option>
                   <option value="in-progress">In Progress</option>
                   <option value="completed">Completed</option>
@@ -36,8 +35,8 @@ function ManagerTasks() {
               <td>Task 1</td>
               <td>Description 1</td>
               <td>Deadline 1</td>
-              <td className="tasks-table-body-container">
-                <select className="status-select">
+              <td>
+                <select>
                   <option value="pending">Pending</option>
                   <option value="in-progress">In Progress</option>
                   <option value="completed">Completed</option>

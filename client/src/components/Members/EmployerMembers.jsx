@@ -11,18 +11,23 @@ function EmployerMembers() {
               <th className="members-table-header-title">Name</th>
               <th className="members-table-header-title">Email</th>
               <th className="members-table-header-title">Role</th>
+              <th></th>
             </tr>
           </thead>
           <tbody className="members-table-body">
-            <tr className="employer-members-table-body-title-container">
+            <tr className="members-table-body-title-container">
               <td>Member 1</td>
               <td>member1@example.com</td>
               <td>Employer</td>
+              <td></td>
+              <td></td>
             </tr>
-            <tr className="employer-members-table-body-title-container">
+            <tr className="members-table-body-title-container">
               <td>Member 2</td>
               <td>member2@example.com</td>
               <td>Employer</td>
+              <td></td>
+              <td></td>
             </tr>
           </tbody>
         </table>

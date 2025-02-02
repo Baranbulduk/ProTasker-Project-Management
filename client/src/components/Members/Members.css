@@ -10,7 +10,7 @@
 .members-table-header {
   background-color: black;
   color: white;
-  padding: 10px 90px;
+  padding: 10px 30px;
   display: flex;
   flex-direction: row;
   border-radius: 20px 20px 0 0;
@@ -18,21 +18,16 @@
 
 .members-table-header-title-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 240px;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
 .members-table-header-title {
   font-size: 22px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .members-table-body {
-  padding: 40px;
+  padding: 30px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -41,19 +36,9 @@
 .members-table-body-title-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  width: 100%;
   align-items: center;
-  padding: 0 50px;
-  padding-bottom: 20px;
-}
-
-/*Employer Members*/
-.employer-members-table-body-title-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 420px 0 50px;
   padding-bottom: 20px;
 }
 
