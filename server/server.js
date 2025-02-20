@@ -1,16 +1,18 @@
 const express = require('express');
-const { config } = require('dotenv');
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const bodyParser = require('body-parser');
 const cors = require('cors');
+const connectDB = require('./config/db');
+const authRoutes = require('./routes/auth');
 const port = process.env.PORT || 3000;
-
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+// Connect to MongoDB
+connectDB();
+
+app.use('/auth', authRoutes);
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);

@@ -42,6 +42,18 @@ input {
   font-size: 16px;
 }
 
+.register-select {
+  background-color: #f1f1f1;
+  border: none;
+  font-size: 16px;
+  width: 100%;
+  padding: 10px 5px;
+}
+
+.register-option {
+  font-size: 16px;
+}
+
 .register-button {
   margin: 10px;
   width: 150px;

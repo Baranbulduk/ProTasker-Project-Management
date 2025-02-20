@@ -8,6 +8,11 @@ import HeaderDashboard from "../components/Header/HeaderDashboard.jsx/HeaderDash
 import FooterDashboard from "../components/Footer/FooterDashboard.jsx/FooterDashboard";
 import "../styles/Tasks.css";
 
+import TasksIcon from "../assets/tasks.png";
+import MembersIcon from "../assets/members.png";
+// import TasksIconActive from "../assets/tasks-active.png";
+// import MembersIconActive from "../assets/members-active.png";
+
 function Tasks() {
   return (
     <>
@@ -18,8 +23,18 @@ function Tasks() {
       <div className="app-wrapper">
         <div className="tasks-body">
           <div className="tasks-menu-button-container">
-            <button className="tasks-menu-button">Tasks</button>
-            <button className="tasks-menu-button">Members</button>
+            <button className="tasks-menu-button">
+              <img className="tasks-menu-button-icon" src={TasksIcon} alt="tasks" />
+              Tasks
+            </button>
+            <button className="tasks-menu-button">
+              <img
+                className="tasks-menu-button-icon"
+                src={MembersIcon}
+                alt="members"
+              />
+              Members
+            </button>
           </div>
           <button className="tasks-button">Add Task</button>
         </div>
