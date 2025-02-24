@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
@@ -7,8 +8,9 @@ import "./Login.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const login = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const user = { email, password };
@@ -17,7 +19,7 @@ function Login() {
         user
       );
       localStorage.setItem("token", response.data.token);
-      window.location.replace("/");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +31,7 @@ function Login() {
       <div className="login-page">
         <div className="login-container">
           <h1 className="login-title">Login</h1>
-          <form className="login-form" onSubmit={login}>
+          <form className="login-form" onSubmit={handleLogin}>
             <label>Email:</label>
             <input
               type="email"

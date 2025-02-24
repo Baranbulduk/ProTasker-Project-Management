@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
@@ -9,13 +10,14 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("member");
+  const navigate = useNavigate();
 
-  const register = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const newUser = { username, email, password, role };
       await axios.post("http://localhost:3000/auth/register", newUser);
-      window.location.replace("/login");
+      navigate("/login");
     } catch (error) {
       console.log(error);
     }
@@ -27,7 +29,7 @@ function Register() {
       <div className="register-page">
         <div className="register-container">
           <h1 className="register-title">Register</h1>
-          <form className="register-form" onSubmit={register}>
+          <form className="register-form" onSubmit={handleRegister}>
             <label>Username:</label>
             <input
               type="text"
