@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const authenticateToken = require('../middleware/authToken');
 
 // Registrering
 router.post('/register', async (req, res) => {
@@ -33,18 +34,14 @@ router.post('/login', async (req, res) => {
 
         // Check user
         const user = await User.findOne({ email });
-        if (user) {
-            return res.status(200).json({ message: "Valid User" })
-        } else {
-            res.status(400).json({ message: "Invalid User" });
+        if (!user) {
+            return res.status(400).json({ message: "Invalid User" });
         }
 
         // Check password
         const isMatched = await bcrypt.compare(password, user.password);
-        if (isMatched) {
-            return res.status(200).json({ message: "Valid credentials" })
-        } else {
-            res.status(400).json({ message: "Invalid credentials" });
+        if (!isMatched) {
+            return res.status(400).json({ message: "Invalid credentials" });
         }
 
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1h" });
@@ -106,6 +103,16 @@ router.post('/update-password', async (req, res) => {
         await user.save();
 
         res.status(200).json({ message: "Password updated successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error. Please try again later." });
+    }
+});
+
+// Användarens information
+router.get('/me', authenticateToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        res.json(user);
     } catch (error) {
         res.status(500).json({ message: "Server error. Please try again later." });
     }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../Header/Header";
@@ -9,6 +10,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { setUser } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,7 +20,11 @@ function Login() {
         "http://localhost:3000/auth/login",
         user
       );
-      localStorage.setItem("token", response.data.token);
+
+      const { token, user: userData } = response.data;
+      localStorage.setItem("token", token);
+      setUser(userData);
+
       navigate("/");
     } catch (error) {
       console.log(error);

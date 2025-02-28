@@ -9,7 +9,7 @@ function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("member");
+  const [role, setRole] = useState("employer");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -57,14 +57,14 @@ function Register() {
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
-              <option className="register-option" value="member">
-                Member
+              <option className="register-option" value="employer">
+                Employer
               </option>
               <option className="register-option" value="manager">
                 Manager
               </option>
-              <option className="register-option" value="owner">
-                Owner
+              <option className="register-option" value="admin">
+                Admin
               </option>
             </select>
             <button className="register-button" type="submit">

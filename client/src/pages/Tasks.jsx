@@ -11,7 +11,7 @@ import "../styles/Tasks.css";
 import TasksIcon from "../assets/tasks.png";
 import MembersIcon from "../assets/members.png";
 // import TasksIconActive from "../assets/tasks-active.png";
-// import MembersIconActive from "../assets/members-active.png";
+// import employersIconActive from "../assets/employers-active.png";
 
 function Tasks() {
   return (
@@ -31,9 +31,9 @@ function Tasks() {
               <img
                 className="tasks-menu-button-icon"
                 src={MembersIcon}
-                alt="members"
+                alt="employers"
               />
-              Members
+              employers
             </button>
           </div>
           <button className="tasks-button">Add Task</button>

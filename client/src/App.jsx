@@ -7,19 +7,22 @@ import DashboardPage from "./pages/DashboardPage.jsx";
 import Tasks from "./pages/Tasks.jsx";
 import ForgotPassword from "./components/Auth/ForgotPassword/ForgotPassword.jsx";
 import UpdatePassword from "./components/Auth/UpdatePassword/UpdatePassword.jsx";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<DashboardPage />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/update-password" element={<UpdatePassword />} />
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

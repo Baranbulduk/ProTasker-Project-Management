@@ -18,7 +18,7 @@ function AdminDashboard() {
                 <strong>Tasks:</strong> Lorem ipsum
               </p>
               <p>
-                <strong>Members:</strong> Member 1, Member 2
+                <strong>employers:</strong> Admin
               </p>
             </div>
           </div>
@@ -34,7 +34,7 @@ function AdminDashboard() {
                 <strong>Tasks:</strong> Lorem ipsum
               </p>
               <p>
-                <strong>Members:</strong> Member 1, Member 2
+                <strong>employers:</strong> Admin
               </p>
             </div>
           </div>
@@ -50,7 +50,7 @@ function AdminDashboard() {
                 <strong>Tasks:</strong> Lorem ipsum
               </p>
               <p>
-                <strong>Members:</strong> Member 1, Member 2
+                <strong>employers:</strong> Admin
               </p>
             </div>
           </div>
@@ -66,7 +66,7 @@ function AdminDashboard() {
                 <strong>Tasks:</strong> Lorem ipsum
               </p>
               <p>
-                <strong>Members:</strong> Member 1, Member 2
+                <strong>employers:</strong> Admin
               </p>
             </div>
           </div>
@@ -82,7 +82,7 @@ function AdminDashboard() {
                 <strong>Tasks:</strong> Lorem ipsum
               </p>
               <p>
-                <strong>Members:</strong> Member 1, Member 2
+                <strong>employers:</strong> Admin
               </p>
             </div>
           </div>
