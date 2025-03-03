@@ -21,7 +21,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['admin', 'manager', 'employer'],
         default: 'employer'
-    }
+    },
+    tasks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Task"
+    }],
+    projects: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Project"
+    }]
 });
 
 module.exports = mongoose.model('User', userSchema);
