@@ -10,10 +10,7 @@ function DashboardPage() {
   const { user } = useAuth();
 
   console.log("User in DashboardPage:", user);
-
-  if (!user) {
-    return <div>Please log in to access your dashboard</div>;
-  }
+  
   const renderDashboardRole = () => {
     switch (user.role) {
       case "admin":
