@@ -44,14 +44,14 @@ input {
 
 .forgot-password-link {
   color: #014ae6;
-  margin-top: 5px;
+  text-align: center;
+  margin: 20px 0;
 }
 
 .login-button {
   margin: 10px;
   width: 150px;
   margin: auto;
-  margin-top: 40px;
   padding: 10px 25px;
   background: linear-gradient(90deg, #014ae6, #040e4f);
   color: white;
