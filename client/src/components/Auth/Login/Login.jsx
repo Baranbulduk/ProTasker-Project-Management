@@ -25,7 +25,7 @@ function Login() {
       localStorage.setItem("token", token);
       setUser(userData);
 
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
     }

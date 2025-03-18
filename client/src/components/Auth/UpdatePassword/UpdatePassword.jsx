@@ -38,7 +38,7 @@ function UpdatePassword() {
         token,
       });
       console.log("Password updated successfully! Redirecting to login...");
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log("Failed to update password. Please try again.");
     }

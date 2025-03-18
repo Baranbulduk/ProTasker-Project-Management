@@ -31,20 +31,6 @@ function AdminDashboard() {
     setShowEditModal(true);
   };
 
-  const handleDeleteClick = async (projectId) => {
-    try {
-      const token = localStorage.getItem("token");
-      console.log(`Deleting project with ID: ${projectId}`);
-      await axios.delete(`http://localhost:3000/projects/${projectId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setProjects(projects.filter((project) => project._id !== projectId));
-      console.log(`Project with ID: ${projectId} deleted successfully`);
-    } catch (error) {
-      console.error("Error deleting project:", error);
-    }
-  };
-
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -72,10 +58,19 @@ function AdminDashboard() {
     setSelectedProject({ ...selectedProject, [name]: value });
   };
 
-
-
-
-
+  const handleDeleteClick = async (projectId) => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log(`Deleting project with ID: ${projectId}`);
+      await axios.delete(`http://localhost:3000/projects/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setProjects(projects.filter((project) => project._id !== projectId));
+      console.log(`Project with ID: ${projectId} deleted successfully`);
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    }
+  };
 
   return (
     <div>
