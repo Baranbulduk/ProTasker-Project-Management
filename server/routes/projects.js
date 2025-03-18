@@ -90,6 +90,16 @@ router.get('/', authenticateToken, isAdmin, async (req, res) => {
   }
 });
 
+// Hämtar alla projekt som är tilldelade till den inloggade arbetsgivaren
+router.get('/assigned', authenticateToken, isEmployer, async (req, res) => {
+  try {
+    const projects = await Project.find({ assignedTo: req.user.id });
+    res.json(projects);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Hämta ett specifikt projekt (endast projekt som användaren har tillgång till)
 router.get('/:id', authenticateToken, findProjectId, isEmployer, async (req, res) => {
   if (req.user.role === 'manager' && req.project.creator.toString() !== req.user.id) {
@@ -153,9 +163,10 @@ router.delete('/:id', authenticateToken, findProjectId, isManager, async (req, r
   }
 
   try {
-    await Project.deleteOne({ _id: res.project._id });
+    await Project.deleteOne({ _id: req.project._id });
     res.json({ message: 'Project deleted' });
   } catch (error) {
+    console.error("Error deleting project:", error);
     res.status(500).json({ message: error.message });
   }
 });

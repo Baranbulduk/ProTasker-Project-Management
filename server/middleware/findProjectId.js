@@ -1,3 +1,5 @@
+const Project = require('../models/Project');
+
 async function findProjectId(req, res, next) {
   let project;
   try {
@@ -9,7 +11,7 @@ async function findProjectId(req, res, next) {
     return res.status(500).json({ message: error.message });
   }
 
-  res.project = project;
+  req.project = project;
   next();
 }
 

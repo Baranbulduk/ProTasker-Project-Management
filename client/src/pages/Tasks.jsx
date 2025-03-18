@@ -4,8 +4,8 @@ import EmployerTasks from "../components/Tasks/EmployerTasks";
 import AdminMembers from "../components/Members/AdminMembers";
 import ManagerMembers from "../components/Members/ManagerMembers";
 import EmployerMembers from "../components/Members/EmployerMembers";
-import HeaderDashboard from "../components/Header/HeaderDashboard.jsx/HeaderDashboard";
-import FooterDashboard from "../components/Footer/FooterDashboard.jsx/FooterDashboard";
+import HeaderDashboard from "../components/Header/HeaderDashboard/HeaderDashboard";
+import FooterDashboard from "../components/Footer/FooterDashboard/FooterDashboard";
 import "../styles/Tasks.css";
 
 import TasksIcon from "../assets/tasks.png";
