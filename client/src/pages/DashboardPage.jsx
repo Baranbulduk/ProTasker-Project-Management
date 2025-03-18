@@ -4,7 +4,7 @@ import ManagerDashboard from "../components/Dashboard/ManagerDashboard";
 import EmployerDashboard from "../components/Dashboard/EmployerDashboard";
 import HeaderDashboard from "../components/Header/HeaderDashboard/HeaderDashboard";
 import FooterDashboard from "../components/Footer/FooterDashboard/FooterDashboard";
-import NewProject from "../components/Modal/NewProject";
+import AddProject from "../components/Modal/Project/AddProject";
 import { useAuth } from "../context/AuthContext";
 import "../styles/DashboardPage.css";
 
@@ -47,17 +47,19 @@ function DashboardPage() {
       </div>
       <div className="app-wrapper">
         <div className="dashboard-body">
-          <h1>Projects</h1>
-          {(user.role === "admin" || user.role === "manager") && (
-            <button className="dashboard-button" onClick={handleAddProject}>
-              Add Project
-            </button>
-          )}
+          <div className="dashboard-menu-container">
+            <h1>Projects</h1>
+            {(user.role === "admin" || user.role === "manager") && (
+              <button className="dashboard-button" onClick={handleAddProject}>
+                Add Project
+              </button>
+            )}
+          </div>
         </div>
         {renderDashboardRole()}
       </div>
       <FooterDashboard />
-      <NewProject show={showModal} onClose={handleCloseAddProject} />
+      <AddProject show={showModal} onClose={handleCloseAddProject} />
     </>
   );
 }

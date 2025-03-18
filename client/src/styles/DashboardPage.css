@@ -1,6 +1,5 @@
 .app-wrapper {
   padding: 20px 20px 100px 20px;
-  height: 100vh;
 }
 
 .dashboard-header {
@@ -11,11 +10,14 @@
 }
 
 .dashboard-body {
+  margin-bottom: 20px;
+}
+
+.dashboard-menu-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100px;
-  margin-bottom: 20px;
 }
 
 .dashboard-button {

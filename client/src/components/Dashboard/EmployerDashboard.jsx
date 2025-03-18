@@ -5,7 +5,6 @@ import "./Dashboard.css";
 
 function EmployerDashboard() {
   const [projects, setProjects] = useState([]);
-  const { user } = useAuth();
 
   useEffect(() => {
     const fetchProjects = async () => {

@@ -1,6 +1,5 @@
 .app-wrapper {
   padding: 20px 20px 100px 20px;
-  height: 100vh;
 }
 
 .tasks-header {
@@ -14,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100px;
+  height: 100vh;
   margin-bottom: 20px;
 }
 

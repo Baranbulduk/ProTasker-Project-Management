@@ -4,7 +4,7 @@ import "./Footer.css";
 function Footer() {
   return (
     <footer className="footer">
-      <p className="footer-text">© {new Date().getFullYear()} ProTasker | Created by Abdihakim Faizal & Baran Bulduk.</p>
+      <p className="footer-text">© {new Date().getFullYear()} ProTasker | Created by Baran Bulduk & Abdihakim Faizal.</p>
     </footer>
   );
 };
