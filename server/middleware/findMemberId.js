@@ -1,4 +1,4 @@
-const Member = require('../models/Member');
+const Member = require('../models/Project');
 
 async function findMemberId(req, res, next) {
   let member;
