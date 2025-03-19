@@ -1,4 +1,4 @@
-const Task = require('../models/Porject');
+const Task = require('../models/Task');
 
 async function findTaskId(req, res, next) {
   let task;
@@ -11,6 +11,8 @@ async function findTaskId(req, res, next) {
     return res.status(500).json({ message: error.message });
   }
 
-  req.task = task;
+  req.task = task; // Lägg till uppgiften i req-objektet
   next();
 }
+
+module.exports = findTaskId;

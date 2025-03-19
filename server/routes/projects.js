@@ -39,7 +39,7 @@ router.get('/:id', authenticateToken, findProjectId, isEmployer, async (req, res
 // Skapa ett nytt projekt (endast manager och admin)
 router.post('/', authenticateToken, isManager, async (req, res) => {
   const project = new Project({
-    name: req.body.name,
+    projectTitle: req.body.projectTitle,
     description: req.body.description,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
