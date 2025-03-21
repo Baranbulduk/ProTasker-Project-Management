@@ -1,7 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import EditTask from "../Modal/Task/EditTask";
 import "./Tasks.css";
 
-function AdminTasks() {
+function AdminTasks({ projectId }) {
+  const [tasks, setTasks] = useState([]);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:3000/projects/${projectId}/tasks`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setTasks(response.data);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks();
+  }, [projectId]);
+
+  const handleEditClick = (task) => {
+    setSelectedTask(task);
+    setShowEditModal(true);
+  };
+
+  const handleDeleteClick = async (taskId) => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log(`Deleting task with ID: ${taskId}`);
+      await axios.delete(`http://localhost:3000/tasks/${taskId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setTasks(tasks.filter((task) => task._id !== taskId));
+      console.log(`Task with ID: ${taskId} deleted successfully`);
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
+  const handleUpdateTask = (updatedTask) => {
+    setTasks(
+      tasks.map((task) =>
+        task._id === updatedTask._id ? updatedTask : task
+      )
+    );
+  };
+
   return (
     <>
       <div>
@@ -17,36 +66,47 @@ function AdminTasks() {
             </tr>
           </thead>
           <tbody className="tasks-table-body">
-            <tr className="tasks-table-body-title-container">
-              <td>Task 1</td>
-              <td>Description 1</td>
-              <td>Deadline 1</td>
+          {tasks.map((task) => (
+            <tr key={task._id} className="tasks-table-body-title-container">
+              <td>{task.taskName}</td>
+              <td>{task.assigned_to}</td>
+              <td>{task.deadline}</td>
               <td>
-                <select>
+                <select
+                  value={task.status}
+                  onChange={(e) =>
+                    handleUpdateTask({ ...task, status: e.target.value })
+                  }
+                >
                   <option value="pending">Pending</option>
                   <option value="in-progress">In Progress</option>
                   <option value="completed">Completed</option>
                 </select>
-                <button className="actions-button edit-button">Edit</button>
-                <button className="actions-button remove-button">Remove</button>
               </td>
-            </tr>
-            <tr className="tasks-table-body-title-container">
-              <td>Task 1</td>
-              <td>Description 1</td>
-              <td>Deadline 1</td>
               <td>
-                <select className="status-select">
-                  <option value="pending">Pending</option>
-                  <option value="in-progress">In Progress</option>
-                  <option value="completed">Completed</option>
-                </select>
-                <button className="actions-button edit-button">Edit</button>
-                <button className="actions-button remove-button">Remove</button>
+                <button
+                  className="actions-button edit-button"
+                  onClick={() => handleEditClick(task)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="actions-button remove-button"
+                  onClick={() => handleDeleteClick(task._id)}
+                >
+                  Remove
+                </button>
               </td>
             </tr>
-          </tbody>
+          ))}
+        </tbody>
         </table>
+        <EditTask
+        show={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        task={selectedTask}
+        onUpdate={handleUpdateTask}
+      />
       </div>
     </>
   );

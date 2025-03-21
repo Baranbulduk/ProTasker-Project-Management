@@ -43,7 +43,7 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
     description: req.body.description,
     startDate: req.body.startDate,
     endDate: req.body.endDate,
-    creator: req.user.id, // Lägg till skaparen av projektet
+    creator: req.user.id,
   });
 
   try {
@@ -60,8 +60,8 @@ router.patch('/:id', authenticateToken, findProjectId, isManager, async (req, re
     return res.status(403).json({ message: 'Access denied. Managers can only update their own projects.' });
   }
 
-  if (req.body.name != null) {
-    req.project.name = req.body.name;
+  if (req.body.projectTitle != null) {
+    req.project.projectTitle = req.body.projectTitle;
   }
   if (req.body.description != null) {
     req.project.description = req.body.description;
@@ -88,6 +88,7 @@ router.delete('/:id', authenticateToken, findProjectId, isManager, async (req, r
   }
 
   try {
+    await Task.deleteMany({ project_id: req.project._id });
     await Project.deleteOne({ _id: req.project._id });
     res.json({ message: 'Project deleted' });
   } catch (error) {

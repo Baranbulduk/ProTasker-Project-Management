@@ -10,16 +10,19 @@
 }
 
 .tasks-body {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 100vh;
   margin-bottom: 20px;
 }
 
-.tasks-menu-button-container {
+.tasks-menu-container {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+}
+
+.tasks-menu-button-container {
   gap: 10px;
+  display: flex;
 }
 
 .tasks-menu-button {

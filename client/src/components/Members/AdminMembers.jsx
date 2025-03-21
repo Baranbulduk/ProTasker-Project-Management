@@ -1,21 +1,22 @@
 import React from "react";
+import EditMember from "../Modal/Member/EditMember";
 import "./Members.css";
 
 function Adminemployers() {
   return (
     <>
       <div>
-        <table className="employers-table-container">
-          <thead className="employers-table-header">
-            <tr className="employers-table-header-title-container">
-              <th className="employers-table-header-title">Name</th>
-              <th className="employers-table-header-title">Email</th>
-              <th className="employers-table-header-title">Role</th>
-              <th className="employers-table-header-title">Actions</th>
+        <table className="members-table-container">
+          <thead className="members-table-header">
+            <tr className="members-table-header-title-container">
+              <th className="members-table-header-title">Name</th>
+              <th className="members-table-header-title">Email</th>
+              <th className="members-table-header-title">Role</th>
+              <th className="members-table-header-title">Actions</th>
             </tr>
           </thead>
-          <tbody className="employers-table-body">
-            <tr className="employers-table-body-title-container">
+          <tbody className="members-table-body">
+            <tr className="members-table-body-title-container">
               <td>employer 1</td>
               <td>employer1@example.com</td>
               <td>Admin</td>
@@ -24,7 +25,7 @@ function Adminemployers() {
                 <button className="actions-button remove-button">Remove</button>
               </td>
             </tr>
-            <tr className="employers-table-body-title-container">
+            <tr className="members-table-body-title-container">
               <td>employer 2</td>
               <td>employer2@example.com</td>
               <td>Admin</td>

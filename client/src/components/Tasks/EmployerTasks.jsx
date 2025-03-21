@@ -24,8 +24,8 @@ function EmployerTasks() {
               <td>Deadline 1</td>
               <td>
                 <select>
-                  <option value="pending">Pending</option>
-                  <option value="in-progress">In Progress</option>
+                  <option value="pending">Begin</option>
+                  <option value="in-progress">Ongoing</option>
                   <option value="completed">Completed</option>
                 </select>
               </td>
@@ -38,8 +38,8 @@ function EmployerTasks() {
               <td>Deadline 1</td>
               <td>
                 <select>
-                  <option value="pending">Pending</option>
-                  <option value="in-progress">In Progress</option>
+                  <option value="pending">Begin</option>
+                  <option value="in-progress">Ongoing</option>
                   <option value="completed">Completed</option>
                 </select>
               </td>

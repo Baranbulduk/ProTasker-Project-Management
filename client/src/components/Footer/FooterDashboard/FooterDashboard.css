@@ -3,6 +3,8 @@
   color: white;
   height: 100px;
   width: 100%;
+  position: fixed;
+  bottom: 0;
 }
 
 .footer-text {

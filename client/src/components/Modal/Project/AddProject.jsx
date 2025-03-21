@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./Modal.css";
+import "../Modal.css";
 
 function AddProject({ show, onClose }) {
   const [name, setName] = useState("");

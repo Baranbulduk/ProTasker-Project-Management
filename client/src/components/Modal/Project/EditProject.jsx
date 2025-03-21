@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Modal.css";
+import "../Modal.css";
 
 function EditProject({ show, onClose, project, onUpdate }) {
   const [name, setName] = useState("");

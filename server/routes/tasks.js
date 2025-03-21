@@ -6,27 +6,22 @@ const Task = require('../models/Task');
 const findTaskId = require('../middleware/findTaskId');
 const { isAdmin, isManager, isEmployer } = require('../middleware/role');
 const authenticateToken = require('../middleware/authToken');
+const Project = require('../models/Project');
 
-// Hämta alla uppgifter
-router.get('/', authenticateToken, isAdmin, async (req, res) => {
+
+
+// IN PROGRESS //
+// Hämta alla uppgifter för ett specifikt projekt (endast admin och manager)
+router.get('/projects/:projectId/tasks', authenticateToken, async (req, res) => {
   try {
-    const tasks = await Task.find();
+    const tasks = await Task.find({ project_id: req.params.projectId });
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Hämta en specifik uppgift (endast projekt som användaren har tillgång till)
-router.get('/:id', authenticateToken, findTaskId, isEmployer, async (req, res) => {
-  if (req.user.role === 'manager' && req.task.creator.toString() !== req.user.id) {
-    return res.status(403).json({ message: 'Access denied. Managers can only access their own tasks.' });
-  }
-  if (req.user.role === 'employer' && !req.task.assignedTo.includes(req.user.id)) {
-    return res.status(403).json({ message: 'Access denied. Employers can only access tasks assigned to them.' });
-  }
-  res.json(req.task);
-});
+
 
 // Skapa en ny uppgift (endast manager och admin)
 router.post('/', authenticateToken, isManager, async (req, res) => {
@@ -35,11 +30,13 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
     description: req.body.description,
     deadline: req.body.deadline,
     assignedTo: req.body.assignedTo,
-    creator: req.user.id, // Lägg till skaparen av uppgiften
+    creator: req.user.id,
+    project_id: req.body.project_id
   });
 
   try {
     const newTask = await task.save();
+    await Project.findByIdAndUpdate(req.body.project_id, { $push: { tasks: newTask._id } });
     res.status(201).json(newTask);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -48,42 +45,27 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
 
 
 // Uppdatera en specifik uppgift (endast manager och admin)
-router.patch('/:id', authenticateToken, findTaskId, isManager, async (req, res) => {
-  if (req.user.role === 'manager' && req.task.creator.toString() !== req.user.id) {
-    return res.status(403).json({ message: 'Access denied. Managers can only update their own tasks.' });
-  }
-
-  if (req.body.name != null) {
-    req.task.name = req.body.name;
-  }
-  if (req.body.description != null) {
-    req.task.description = req.body.description;
-  }
-  if (req.body.deadline != null) {
-    req.task.deadline = req.body.deadline;
-  }
-  if (req.body.assignedTo != null) {
-    req.task.assignedTo = req.body.assignedTo;
-  }
-
+router.patch('/:id', authenticateToken, isManager, async (req, res) => {
   try {
-    const updatedTask = await req.task.save();
-    res.json(updatedTask);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+    const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
 
-// Uppdatera en specifik uppgifts status (endast manager och admin)
-router.patch('/:id/status', authenticateToken, findTaskId, isManager, async (req, res) => {
-  if (req.user.role === 'manager' && req.task.creator.toString() !== req.user.id) {
-    return res.status(403).json({ message: 'Access denied. Managers can only update their own tasks.' });
-  }
+    if (req.body.taskName != null) {
+      task.taskName = req.body.taskName;
+    }
+    if (req.body.description != null) {
+      task.description = req.body.description;
+    }
+    if (req.body.deadline != null) {
+      task.deadline = req.body.deadline;
+    }
+    if (req.body.assigned_to != null) {
+      task.assigned_to = req.body.assigned_to;
+    }
 
-  req.task.status = req.body.status;
-
-  try {
-    const updatedTask = await req.task.save();
+    const updatedTask = await task.save();
     res.json(updatedTask);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -91,17 +73,21 @@ router.patch('/:id/status', authenticateToken, findTaskId, isManager, async (req
 });
 
 // Ta bort en specifik uppgift (endast manager och admin)
-router.delete('/:id', authenticateToken, findTaskId, isManager, async (req, res) => {
-  if (req.user.role === 'manager' && req.task.creator.toString() !== req.user.id) {
-    return res.status(403).json({ message: 'Access denied. Managers can only delete their own tasks.' });
-  }
-
+router.delete('/:id', authenticateToken, isManager, async (req, res) => {
   try {
-    await req.task.remove();
+    const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    await task.remove();
+    // Ta bort uppgiften från projektet
+    await Project.findByIdAndUpdate(task.project_id, { $pull: { tasks: task._id } });
     res.json({ message: 'Task removed' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
 
 module.exports = router;

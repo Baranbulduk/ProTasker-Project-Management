@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import EditProject from "../Modal/Project/EditProject";
-import { useAuth } from "../../context/AuthContext";
 import "./Dashboard.css";
 
 function AdminDashboard() {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -52,16 +53,23 @@ function AdminDashboard() {
     );
   };
 
+  const handleViewTasks = (projectId) => {
+    navigate(`/tasks/${projectId}`);
+  };
+
   return (
     <div>
       <main className="dashboard-container">
         {projects.map((project) => (
           <div key={project._id} className="dashboard-card">
             <div className="dashboard-card-header">
-              <h2>{project.name}</h2>
+              <h2>{project.projectTitle}</h2>
               <button onClick={() => handleEditClick(project)}>Edit</button>
               <button onClick={() => handleDeleteClick(project._id)}>
                 Delete
+              </button>
+              <button onClick={() => handleViewTasks(project._id)}>
+                View
               </button>
             </div>
             <div className="dashboard-card-body">
