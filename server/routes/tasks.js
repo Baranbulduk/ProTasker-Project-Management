@@ -38,11 +38,11 @@ router.get('/:id', authenticateToken, findTaskId, (req, res) => {
 router.post('/', authenticateToken, isManager, async (req, res) => {
   const task = new Task({
     taskName: req.body.taskName,
-    description: req.body.description,
-    deadline: req.body.deadline,
-    assignedTo: req.body.assignedTo,
-    creator: req.user.id,
-    project_id: req.body.project_id
+    description: req.body.description || "",
+    status: req.body.status || "Begin",
+    assignedTo: req.body.assignedTo || null,
+    project_id: req.body.project_id,
+    notifications: req.body.notifications || []
   });
 
   try {
@@ -64,11 +64,17 @@ router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) 
     if (req.body.description != null) {
       req.task.description = req.body.description;
     }
-    if (req.body.deadline != null) {
-      req.task.deadline = req.body.deadline;
+    if (req.body.status != null) {
+      req.task.status = req.body.status;
     }
-    if (req.body.assigned_to != null) {
-      req.task.assigned_to = req.body.assigned_to;
+    if (req.body.assignedTo != null) {
+      req.task.assignedTo = req.body.assignedTo;
+    }
+    if (req.body.project_id != null) {
+      req.task.project_id = req.body.project_id;
+    }
+    if (req.body.notifications != null) {
+      req.task.notifications = req.body.notifications;
     }
 
     const updatedTask = await req.task.save();

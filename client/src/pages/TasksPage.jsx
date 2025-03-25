@@ -15,6 +15,7 @@ import "../styles/TasksPage.css";
 
 import TasksIcon from "../assets/tasks.png";
 import MembersIcon from "../assets/members.png";
+
 // import TasksIconActive from "../assets/tasks-active.png";
 // import employersIconActive from "../assets/employers-active.png";
 
@@ -22,6 +23,7 @@ function TasksPage() {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showMemberModal, setShowMemberModal] = useState(false);
   const [view, setView] = useState("tasks");
+  const [tasks, setTasks] = useState([]);
   const { projectId } = useParams();
   const { user } = useAuth();
 
@@ -34,11 +36,11 @@ function TasksPage() {
   const renderTasksRole = () => {
     switch (user.role) {
       case "admin":
-        return <AdminTasks projectId={projectId} />;
+        return <AdminTasks projectId={projectId} tasks={tasks} />;
       case "manager":
-        return <ManagerTasks projectId={projectId} />;
+        return <ManagerTasks projectId={projectId} tasks={tasks} />;
       case "employer":
-        return <EmployerTasks projectId={projectId} />;
+        return <EmployerTasks projectId={projectId} tasks={tasks} />;
       default:
         return <p>Unauthorized</p>;
     }
@@ -126,8 +128,19 @@ function TasksPage() {
         {view === "members" && renderMembersRole()}
       </div>
       <FooterDashboard />
-      <AddTask show={showTaskModal} onClose={handleCloseAddTask} />
-      <AddMember show={showMemberModal} onClose={handleCloseAddMember} />
+      <AddTask
+        show={showTaskModal}
+        onClose={handleCloseAddTask}
+        projectId={projectId}
+        onTaskAdded={(newTask) => {
+          setTasks((prevTasks) => [...prevTasks, newTask]);
+        }}
+      />
+      <AddMember
+        show={showMemberModal}
+        onClose={handleCloseAddMember}
+        projectId={projectId}
+      />
     </>
   );
 }

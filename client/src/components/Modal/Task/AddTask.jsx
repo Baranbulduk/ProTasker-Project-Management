@@ -5,21 +5,32 @@ import "../Modal.css";
 function AddTask({ show, onClose, projectId, onTaskAdded }) {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
-  const [deadline, setDeadline] = useState("");
+  const [status, setStatus] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
+
+      console.log("Sending data:", {
+        taskName,
+        description,
+        status,
+        assignedTo,
+        project_id: projectId,
+        notifications: [],
+      });
+
       const response = await axios.post(
         "http://localhost:3000/tasks",
         {
           taskName,
           description,
-          deadline,
+          status,
           assignedTo,
-          project_id: projectId, // Skicka project_id
+          project_id: projectId,
+          notifications: [],
         },
         {
           headers: {
@@ -67,14 +78,16 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
               ></textarea>
             </div>
             <div>
-              <label>Deadline:</label>
-              <input
-                type="date"
-                name="deadline"
-                value={deadline}
-                onChange={(e) => setDeadline(e.target.value)}
-                required
-              />
+              <label>Status:</label>
+              <select
+                name="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="Begin">Begin</option>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Completed">Completed</option>
+              </select>
             </div>
             <div>
               <label>Assigned To:</label>
