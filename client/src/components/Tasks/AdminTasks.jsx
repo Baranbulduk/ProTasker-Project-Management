@@ -80,6 +80,7 @@ function AdminTasks({ projectId }) {
             <tr key={task._id} className="tasks-table-body-title-container">
               <td>{task.taskName}</td>
               <td>{task.assignedTo}</td>
+              <td>{task.creator ? new Date(task.creator).toLocaleDateString() : "N/A"}</td>
               <td>{task.deadline ? new Date(task.deadline).toLocaleDateString() : "N/A"}</td>
               <td>
                 <select

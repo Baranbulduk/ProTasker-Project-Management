@@ -9,7 +9,6 @@ const { isAdmin, isManager, isEmployer } = require('../middleware/role');
 const authenticateToken = require('../middleware/authToken');
 const mongoose = require('mongoose');
 
-// IN PROGRESS //
 // Hämta alla uppgifter för ett specifikt projekt (endast admin och manager)
 router.get('/', authenticateToken, async (req, res) => {
   try {
@@ -30,7 +29,10 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
-
+// Hämta en specifik uppgift med hjälp av findTaskId
+router.get('/:id', authenticateToken, findTaskId, (req, res) => {
+  res.json(req.task); // Returnera uppgiften som hittades av findTaskId
+});
 
 // Skapa en ny uppgift (endast manager och admin)
 router.post('/', authenticateToken, isManager, async (req, res) => {
@@ -54,27 +56,22 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
 
 
 // Uppdatera en specifik uppgift (endast manager och admin)
-router.patch('/:id', authenticateToken, isManager, async (req, res) => {
+router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
-    if (!task) {
-      return res.status(404).json({ message: 'Task not found' });
-    }
-
     if (req.body.taskName != null) {
-      task.taskName = req.body.taskName;
+      req.task.taskName = req.body.taskName;
     }
     if (req.body.description != null) {
-      task.description = req.body.description;
+      req.task.description = req.body.description;
     }
     if (req.body.deadline != null) {
-      task.deadline = req.body.deadline;
+      req.task.deadline = req.body.deadline;
     }
     if (req.body.assigned_to != null) {
-      task.assigned_to = req.body.assigned_to;
+      req.task.assigned_to = req.body.assigned_to;
     }
 
-    const updatedTask = await task.save();
+    const updatedTask = await req.task.save();
     res.json(updatedTask);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -82,16 +79,10 @@ router.patch('/:id', authenticateToken, isManager, async (req, res) => {
 });
 
 // Ta bort en specifik uppgift (endast manager och admin)
-router.delete('/:id', authenticateToken, isManager, async (req, res) => {
+router.delete('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
-    if (!task) {
-      return res.status(404).json({ message: 'Task not found' });
-    }
-
-    await task.remove();
-    // Ta bort uppgiften från projektet
-    await Project.findByIdAndUpdate(task.project_id, { $pull: { tasks: task._id } });
+    await req.task.remove();
+    await Project.findByIdAndUpdate(req.task.project_id, { $pull: { tasks: req.task._id } });
     res.json({ message: 'Task removed' });
   } catch (error) {
     res.status(500).json({ message: error.message });

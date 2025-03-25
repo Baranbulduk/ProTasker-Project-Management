@@ -11,7 +11,7 @@ async function findTaskId(req, res, next) {
     return res.status(500).json({ message: error.message });
   }
 
-  req.task = task; // Lägg till uppgiften i req-objektet
+  req.task = task;
   next();
 }
 
