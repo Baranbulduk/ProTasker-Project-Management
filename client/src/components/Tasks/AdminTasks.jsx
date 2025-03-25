@@ -12,7 +12,7 @@ function AdminTasks({ projectId }) {
     const fetchTasks = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:3000/projects/${projectId}/tasks`, {
+        const response = await axios.get(`http://localhost:3000/tasks?project_id=${projectId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTasks(response.data);
@@ -43,12 +43,22 @@ function AdminTasks({ projectId }) {
     }
   };
 
-  const handleUpdateTask = (updatedTask) => {
-    setTasks(
-      tasks.map((task) =>
-        task._id === updatedTask._id ? updatedTask : task
-      )
-    );
+  const handleStatusChange = async (task, newstatus) => {
+    try {
+      const token = localStorgae.getItem("token");
+      const updatedTask = { ...task, status: newstatus };
+
+      await axios.put(`http://localhost:3000/tasks/${task._id}`, 
+        updatedTask, 
+        {
+        headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setTasks(tasks.map((t) => (t._id === task._id ? updatedTask : t)));
+    } catch (error) {
+      console.error("Error updating task status:", error);
+    }
   };
 
   return (
@@ -69,13 +79,13 @@ function AdminTasks({ projectId }) {
           {tasks.map((task) => (
             <tr key={task._id} className="tasks-table-body-title-container">
               <td>{task.taskName}</td>
-              <td>{task.assigned_to}</td>
-              <td>{task.deadline}</td>
+              <td>{task.assignedTo}</td>
+              <td>{task.deadline ? new Date(task.deadline).toLocaleDateString() : "N/A"}</td>
               <td>
                 <select
                   value={task.status}
                   onChange={(e) =>
-                    handleUpdateTask({ ...task, status: e.target.value })
+                    handleStatusChange(task, e.target.value)
                   }
                 >
                   <option value="pending">Pending</option>
@@ -105,7 +115,9 @@ function AdminTasks({ projectId }) {
         show={showEditModal}
         onClose={() => setShowEditModal(false)}
         task={selectedTask}
-        onUpdate={handleUpdateTask}
+        onUpdate={(handleUpdateTask) => {
+          setTasks(tasks.map((t) => (t._id === handleUpdateTask._id ? handleUpdateTask : t)));
+        }}
       />
       </div>
     </>

@@ -2,19 +2,28 @@
 
 const express = require('express');
 const router = express.Router();
+const Project = require('../models/Project');
 const Task = require('../models/Task');
 const findTaskId = require('../middleware/findTaskId');
 const { isAdmin, isManager, isEmployer } = require('../middleware/role');
 const authenticateToken = require('../middleware/authToken');
-const Project = require('../models/Project');
-
-
+const mongoose = require('mongoose');
 
 // IN PROGRESS //
 // Hämta alla uppgifter för ett specifikt projekt (endast admin och manager)
-router.get('/projects/:projectId/tasks', authenticateToken, async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
   try {
-    const tasks = await Task.find({ project_id: req.params.projectId });
+    const { project_id } = req.query; // Hämta från query params
+    if (!mongoose.Types.ObjectId.isValid(project_id)) {
+      return res.status(400).json({ message: 'Invalid Project ID' });
+    }
+
+    const tasks = await Task.find({ project_id: new mongoose.Types.ObjectId(project_id) });
+
+    if (!tasks.length) {
+      return res.status(404).json({ message: 'No tasks found for this project' });
+    }
+
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ message: error.message });

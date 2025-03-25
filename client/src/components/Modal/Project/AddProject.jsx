@@ -3,7 +3,7 @@ import axios from "axios";
 import "../Modal.css";
 
 function AddProject({ show, onClose }) {
-  const [name, setName] = useState("");
+  const [projectTitle, setProjectTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -15,7 +15,7 @@ function AddProject({ show, onClose }) {
       const response = await axios.post(
         "http://localhost:3000/projects",
         {
-          name,
+          projectTitle,
           description,
           startDate,
           endDate,
@@ -50,9 +50,9 @@ function AddProject({ show, onClose }) {
               <label>Project Name:</label>
               <input
                 type="text"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                name="projectTitle"
+                value={projectTitle}
+                onChange={(e) => setProjectTitle(e.target.value)}
                 required
               />
             </div>

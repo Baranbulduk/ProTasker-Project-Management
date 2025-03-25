@@ -18,7 +18,7 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
           taskName,
           description,
           deadline,
-          assigned_to: assignedTo,
+          assignedTo,
           project_id: projectId, // Skicka project_id
         },
         {

@@ -13,7 +13,7 @@ const taskSchema = new mongoose.Schema({
         enum: ["Begin", "Ongoing", "Completed"],
         default: "Begin"
     },
-    assigned_to: {
+    assignedTo: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },

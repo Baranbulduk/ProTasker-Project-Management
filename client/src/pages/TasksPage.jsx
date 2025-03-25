@@ -73,11 +73,6 @@ function TasksPage() {
     setShowMemberModal(false);
   };
 
-  const handleTaskAdded = (newTask) => {
-    // Uppdatera uppgiftslistan när en ny uppgift har lagts till
-    // Detta kan implementeras i AdminTasks-komponenten
-  };
-
   return (
     <>
       <HeaderDashboard />
