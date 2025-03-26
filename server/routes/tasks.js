@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
+const User = require('../models/User');
 const Task = require('../models/Task');
 const findTaskId = require('../middleware/findTaskId');
 const { isAdmin, isManager, isEmployer } = require('../middleware/role');
@@ -58,6 +59,8 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
 // Uppdatera en specifik uppgift (endast manager och admin)
 router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
   try {
+    console.log("Incoming data:", req.body);
+
     if (req.body.taskName != null) {
       req.task.taskName = req.body.taskName;
     }
@@ -67,19 +70,20 @@ router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) 
     if (req.body.status != null) {
       req.task.status = req.body.status;
     }
+    
+    // Hantera assignedTo (leta upp användare via username)
     if (req.body.assignedTo != null) {
-      req.task.assignedTo = req.body.assignedTo;
-    }
-    if (req.body.project_id != null) {
-      req.task.project_id = req.body.project_id;
-    }
-    if (req.body.notifications != null) {
-      req.task.notifications = req.body.notifications;
+      const user = await User.findOne({ username: req.body.assignedTo });
+      if (!user) {
+        return res.status(400).json({ message: 'User not found' });
+      }
+      req.task.assignedTo = user._id;
     }
 
     const updatedTask = await req.task.save();
     res.json(updatedTask);
   } catch (error) {
+    console.error("Error updating task:", error);
     res.status(400).json({ message: error.message });
   }
 });
@@ -87,7 +91,7 @@ router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) 
 // Ta bort en specifik uppgift (endast manager och admin)
 router.delete('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
   try {
-    await req.task.remove();
+    await req.task.deleteOne();
     await Project.findByIdAndUpdate(req.task.project_id, { $pull: { tasks: req.task._id } });
     res.json({ message: 'Task removed' });
   } catch (error) {

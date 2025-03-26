@@ -43,7 +43,7 @@
   margin-right: 10px;
 }
 
-.tasks-menu-button:active {
+.tasks-menu-button.active {
   background-color: black;
   color: white;
 }

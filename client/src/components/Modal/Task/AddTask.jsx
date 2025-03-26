@@ -13,25 +13,25 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
     try {
       const token = localStorage.getItem("token");
 
-      console.log("Sending data:", {
+      const taskData = {
         taskName,
         description,
         status,
         assignedTo,
-        project_id: projectId,
-        notifications: [],
-      });
+      };
+
+      // Det ska räcka att skriva username för att tilldela en uppgift till en användare
+      if (assignedTo.match(/^[0-9a-fA-F]{24}$/)) {
+         taskData.assignedTo = assignedTo;
+      } else {
+         taskData.assignedTo = null;
+      }
+
+      console.log("Sending data:", taskData);
 
       const response = await axios.post(
         "http://localhost:3000/tasks",
-        {
-          taskName,
-          description,
-          status,
-          assignedTo,
-          project_id: projectId,
-          notifications: [],
-        },
+        taskData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -78,6 +78,16 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
               ></textarea>
             </div>
             <div>
+              <label>Assigned To:</label>
+              <input
+                type="text"
+                name="assignedTo"
+                value={assignedTo}
+                onChange={(e) => setAssignedTo(e.target.value)}
+                required
+              />
+            </div>
+            <div>
               <label>Status:</label>
               <select
                 name="status"
@@ -89,16 +99,7 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
                 <option value="Completed">Completed</option>
               </select>
             </div>
-            <div>
-              <label>Assigned To:</label>
-              <input
-                type="text"
-                name="assignedTo"
-                value={assignedTo}
-                onChange={(e) => setAssignedTo(e.target.value)}
-                required
-              />
-            </div>
+
             <button type="submit">Submit</button>
           </form>
         </div>

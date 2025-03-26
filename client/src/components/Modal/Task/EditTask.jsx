@@ -5,7 +5,6 @@ import "../Modal.css";
 function EditTask({ show, onClose, task, onUpdate }) {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
-  const [deadline, setDeadline] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
   const [status, setStatus] = useState("");
 
@@ -13,7 +12,6 @@ function EditTask({ show, onClose, task, onUpdate }) {
     if (task) {
       setTaskName(task.taskName || "");
       setDescription(task.description || "");
-      setDeadline(task.deadline || "");
       setAssignedTo(task.assignedTo || "");
       setStatus(task.status || "");
     }
@@ -23,22 +21,22 @@ function EditTask({ show, onClose, task, onUpdate }) {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
+      const payload = {
+        taskName,
+        description,
+        assignedTo,
+        status,
+      };
+
       const response = await axios.patch(
         `http://localhost:3000/tasks/${task._id}`,
-        {
-          taskName,
-          description,
-          deadline,
-          assignedTo,
-          status,
-        },
+        payload,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log("Task updated:", response.data);
       onUpdate(response.data);
       onClose();
     } catch (error) {
@@ -75,18 +73,7 @@ function EditTask({ show, onClose, task, onUpdate }) {
                 name="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required
               ></textarea>
-            </div>
-            <div>
-              <label>Deadline:</label>
-              <input
-                type="date"
-                name="deadline"
-                value={deadline}
-                onChange={(e) => setDeadline(e.target.value)}
-                required
-              />
             </div>
             <div>
               <label>Assigned To:</label>
@@ -95,7 +82,6 @@ function EditTask({ show, onClose, task, onUpdate }) {
                 name="assignedTo"
                 value={assignedTo}
                 onChange={(e) => setAssignedTo(e.target.value)}
-                required
               />
             </div>
             <div>
@@ -106,8 +92,8 @@ function EditTask({ show, onClose, task, onUpdate }) {
                 onChange={(e) => setStatus(e.target.value)}
                 required
               >
-                <option value="pending">Pending</option>
-                <option value="in-progress">In Progress</option>
+                <option value="pending">Begin</option>
+                <option value="in-progress">Ongoing</option>
                 <option value="completed">Completed</option>
               </select>
             </div>

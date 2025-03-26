@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import AdminTasks from "../components/Tasks/AdminTasks";
 import ManagerTasks from "../components/Tasks/ManagerTasks";
@@ -15,23 +16,52 @@ import "../styles/TasksPage.css";
 
 import TasksIcon from "../assets/tasks.png";
 import MembersIcon from "../assets/members.png";
-
-// import TasksIconActive from "../assets/tasks-active.png";
-// import employersIconActive from "../assets/employers-active.png";
+import TasksIconActive from "../assets/tasks-active.png";
+import MembersIconActive from "../assets/members-active.png";
 
 function TasksPage() {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showMemberModal, setShowMemberModal] = useState(false);
   const [view, setView] = useState("tasks");
   const [tasks, setTasks] = useState([]);
+  const [project, setProject] = useState(null);
   const { projectId } = useParams();
   const { user } = useAuth();
+
+  useEffect(() => {
+    // Hämta projektdata från backend
+    const fetchProject = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:3000/projects`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("Fetched project data:", response.data);
+
+        const matchedProject = response.data.find(
+          (proj) => proj._id === projectId
+        );
+
+        if (matchedProject) {
+          setProject(matchedProject);
+        } else {
+          console.error("Project not found");
+        }
+
+      } catch (error) {
+        console.error("Error fetching project:", error);
+      }
+    };
+
+    fetchProject();
+  }, [projectId]);
 
   if (!user) {
     return <div>Please log in to access your tasks</div>;
   }
-
-  console.log("User in TasksPage:", user);
 
   const renderTasksRole = () => {
     switch (user.role) {
@@ -79,7 +109,7 @@ function TasksPage() {
     <>
       <HeaderDashboard />
       <div className="tasks-header">
-        <h2>Project Name</h2>
+        <h2>{project ? project.projectTitle : "Loading..."}</h2>
       </div>
       <div className="app-wrapper">
         <div className="tasks-body">
@@ -93,7 +123,7 @@ function TasksPage() {
               >
                 <img
                   className="tasks-menu-button-icon"
-                  src={TasksIcon}
+                  src={view === "tasks" ? TasksIconActive : TasksIcon}
                   alt="tasks"
                 />
                 Tasks
@@ -106,7 +136,7 @@ function TasksPage() {
               >
                 <img
                   className="tasks-menu-button-icon"
-                  src={MembersIcon}
+                  src={view === "members" ? MembersIconActive : MembersIcon}
                   alt="members"
                 />
                 Members
