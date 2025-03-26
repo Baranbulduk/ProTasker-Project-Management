@@ -10,9 +10,7 @@ function AdminTasks({ projectId }) {
   const [showEditModal, setShowEditModal] = useState(false);
   const { user } = useAuth();
 
-
-
-
+// Gör så att istället för user id att username visas i tabellen //
   
   useEffect(() => {
     const fetchTasks = async () => {

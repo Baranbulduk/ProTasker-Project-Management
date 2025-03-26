@@ -1,5 +1,3 @@
-// IN PROGRESS //
-
 const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
@@ -37,11 +35,21 @@ router.get('/:id', authenticateToken, findTaskId, (req, res) => {
 
 // Skapa en ny uppgift (endast manager och admin)
 router.post('/', authenticateToken, isManager, async (req, res) => {
+  let assignedTo = null;
+
+  if (req.body.assignedTo) {
+    const user = await User.findOne({ username: req.body.assignedTo });
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+    assignedTo = user._id;
+  }
+
   const task = new Task({
     taskName: req.body.taskName,
     description: req.body.description || "",
     status: req.body.status || "Begin",
-    assignedTo: req.body.assignedTo || null,
+    assignedTo: assignedTo,
     project_id: req.body.project_id,
     notifications: req.body.notifications || []
   });
@@ -54,7 +62,6 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 });
-
 
 // Uppdatera en specifik uppgift (endast manager och admin)
 router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {

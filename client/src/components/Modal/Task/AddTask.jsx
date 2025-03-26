@@ -13,25 +13,20 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
     try {
       const token = localStorage.getItem("token");
 
-      const taskData = {
-        taskName,
-        description,
-        status,
-        assignedTo,
-      };
-
-      // Det ska räcka att skriva username för att tilldela en uppgift till en användare
-      if (assignedTo.match(/^[0-9a-fA-F]{24}$/)) {
-         taskData.assignedTo = assignedTo;
-      } else {
-         taskData.assignedTo = null;
+      if (!assignedTo) {
+        alert("Please enter a username to assign the task.");
+        return;
       }
-
-      console.log("Sending data:", taskData);
 
       const response = await axios.post(
         "http://localhost:3000/tasks",
-        taskData,
+        {
+          taskName,
+          description,
+          status,
+          assignedTo,
+          project_id: projectId,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -41,7 +36,7 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
       onTaskAdded(response.data);
       onClose();
     } catch (error) {
-      console.error("Error creating task:", error);
+      console.error("Error creating task:", error.response || error);
     }
   };
 
