@@ -1,7 +1,7 @@
 import React from "react";
 import "./Members.css";
 
-function Manageremployers() {
+function ManagerMembers() {
   return (
     <>
       <div>
@@ -40,4 +40,4 @@ function Manageremployers() {
   );
 }
 
-export default Manageremployers;
+export default ManagerMembers;

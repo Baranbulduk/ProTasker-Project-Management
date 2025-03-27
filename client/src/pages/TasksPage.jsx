@@ -23,8 +23,9 @@ function TasksPage() {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showMemberModal, setShowMemberModal] = useState(false);
   const [view, setView] = useState("tasks");
-  const [tasks, setTasks] = useState([]);
   const [project, setProject] = useState(null);
+  const [tasks, setTasks] = useState([]);
+  const [members, setMembers] = useState([]);
   const { projectId } = useParams();
   const { user } = useAuth();
 
@@ -79,11 +80,11 @@ function TasksPage() {
   const renderMembersRole = () => {
     switch (user.role) {
       case "admin":
-        return <AdminMembers projectId={projectId} />;
+        return <AdminMembers projectId={projectId} members={members} />;
       case "manager":
-        return <ManagerMembers projectId={projectId} />;
+        return <ManagerMembers projectId={projectId} members={members} />;
       case "employer":
-        return <EmployerMembers projectId={projectId} />;
+        return <EmployerMembers projectId={projectId} members={members} />;
       default:
         return <p>Unauthorized</p>;
     }
@@ -170,6 +171,9 @@ function TasksPage() {
         show={showMemberModal}
         onClose={handleCloseAddMember}
         projectId={projectId}
+        onMemberAdded={(newMember) => {
+          setMembers((prevMember) => [...prevMember, newMember]);
+        }}
       />
     </>
   );

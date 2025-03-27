@@ -8,6 +8,8 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
   const [status, setStatus] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
 
+// Användaren ska kunna skriva members username i samma projekt för att assigna en task till dem. //
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -69,7 +71,6 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
                 name="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required
               ></textarea>
             </div>
             <div>
@@ -94,7 +95,6 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
                 <option value="Completed">Completed</option>
               </select>
             </div>
-
             <button type="submit">Submit</button>
           </form>
         </div>

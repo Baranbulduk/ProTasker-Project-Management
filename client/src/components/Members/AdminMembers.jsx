@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import EditMember from "../Modal/Member/EditMember";
+import { useAuth } from "../../context/AuthContext";
 import "./Members.css";
 
-function Adminemployers() {
+function AdminMembers({ projectId }) {
+  const [members, setMembers] = useState([]);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:3000/members?project_id=${projectId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setMembers(response.data);
+      } catch (error) {
+        console.error("Error fetching members:", error);
+      }
+    };
+
+    fetchMembers();
+  }, [projectId]);
+
   return (
     <>
       <div>
@@ -16,29 +40,28 @@ function Adminemployers() {
             </tr>
           </thead>
           <tbody className="members-table-body">
-            <tr className="members-table-body-title-container">
-              <td>employer 1</td>
-              <td>employer1@example.com</td>
-              <td>Admin</td>
-              <td>
-                <button className="actions-button edit-button">Edit</button>
-                <button className="actions-button remove-button">Remove</button>
-              </td>
-            </tr>
-            <tr className="members-table-body-title-container">
-              <td>employer 2</td>
-              <td>employer2@example.com</td>
-              <td>Admin</td>
-              <td>
-                <button className="actions-button edit-button">Edit</button>
-                <button className="actions-button remove-button">Remove</button>
-              </td>
-            </tr>
+            {members.map((member) => (
+              <tr
+                key={member._id}
+                className="members-table-body-title-container"
+              >
+                <td>{member.memberName}</td>
+                <td>{member.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <button className="actions-button edit-button">Edit</button>
+                  <button className="actions-button remove-button">
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        <EditMember />
       </div>
     </>
   );
 }
 
-export default Adminemployers;
+export default AdminMembers;

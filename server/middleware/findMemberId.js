@@ -1,4 +1,4 @@
-const Member = require('../models/Member'); // Ändra från Task till Member
+const Member = require('../models/Member');
 
 async function findMemberId(req, res, next) {
   let member;
@@ -11,7 +11,7 @@ async function findMemberId(req, res, next) {
     return res.status(500).json({ message: error.message });
   }
 
-  req.member = member; // Lägg till medlemmen i req-objektet
+  req.member = member;
   next();
 }
 

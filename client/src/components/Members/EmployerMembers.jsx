@@ -1,7 +1,7 @@
 import React from "react";
 import "./Members.css";
 
-function Employermembers() {
+function EmployerMembers() {
   return (
     <>
       <div>
@@ -36,4 +36,4 @@ function Employermembers() {
   );
 }
 
-export default Employermembers;
+export default EmployerMembers;
