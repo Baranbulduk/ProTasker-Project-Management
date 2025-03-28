@@ -91,6 +91,34 @@ router.post('/:projectId/assign', authenticateToken, isManager, async (req, res)
   }
 });
 
+// Lägg till en ny användare som medlem (endast admin och manager)
+router.post('/add-member', authenticateToken, isManager, async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    // Kontrollera om användaren redan finns
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User with this email already exists' });
+    }
+
+    // Skapa en ny användare
+    const newUser = new User({
+      username: email.split('@')[0],
+      email,
+      role: 'employer',
+      password: 'temporaryPassword123',
+    });
+
+    await newUser.save();
+
+    res.status(201).json({ message: 'Member added successfully', user: newUser });
+  } catch (error) {
+    console.error('Error adding member:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Uppdatera en specifik uppgift (endast manager och admin)
 router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
   try {

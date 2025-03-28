@@ -2,18 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../Modal.css";
 
-function AddMember({ show, onClose, projectId, onMemberAdded }) {
+function AddMember({ show, onClose, onMemberAdded }) {
     const [email, setEmail] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
-        "http://localhost:3000/members",
+        "http://localhost:3000/members/add-member",
         {
           email,
-          project_id: projectId,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
