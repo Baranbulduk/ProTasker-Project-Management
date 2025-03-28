@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EditMember from "../Modal/Member/EditMember";
-import { useAuth } from "../../context/AuthContext";
 import "./Members.css";
 
 function AdminMembers({ projectId }) {
   const [members, setMembers] = useState([]);
-  const { user } = useAuth();
 
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:3000/members?project_id=${projectId}`,
+          `http://localhost:3000/projects/${projectId}/members`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -45,9 +43,9 @@ function AdminMembers({ projectId }) {
                 key={member._id}
                 className="members-table-body-title-container"
               >
-                <td>{member.memberName}</td>
+                <td>{member.username}</td>
                 <td>{member.email}</td>
-                <td>{user.role}</td>
+                <td>{member.role}</td>
                 <td>
                   <button className="actions-button edit-button">Edit</button>
                   <button className="actions-button remove-button">

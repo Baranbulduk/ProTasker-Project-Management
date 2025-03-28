@@ -83,7 +83,7 @@ function AdminTasks({ projectId }) {
               <tr key={task._id} className="tasks-table-body-title-container">
                 <td>{task.taskName}</td>
                 <td>{user.username}</td>
-                <td>{task.assignedTo ? task.assignedTo : "N/A"}</td>
+                <td>{task.assignedTo ? task.assignedTo.username : "N/A"}</td>
                 <td>
                   {task.createdAt
                     ? new Date(task.createdAt).toLocaleString()

@@ -4,93 +4,122 @@ const Project = require('../models/Project');
 const User = require('../models/User');
 const Task = require('../models/Task');
 const findTaskId = require('../middleware/findTaskId');
-const { isAdmin, isManager, isEmployer } = require('../middleware/role');
+const { isAdmin, isManager } = require('../middleware/role');
 const authenticateToken = require('../middleware/authToken');
 const mongoose = require('mongoose');
 
 // Hämta alla uppgifter för ett specifikt projekt (endast admin och manager)
-router.get('/', authenticateToken, async (req, res) => {
+router.get('/', authenticateToken, isManager, async (req, res) => {
   try {
-    const { project_id } = req.query; // Hämta från query params
+    const { project_id } = req.query;
     if (!mongoose.Types.ObjectId.isValid(project_id)) {
       return res.status(400).json({ message: 'Invalid Project ID' });
     }
 
-    const tasks = await Task.find({ project_id: new mongoose.Types.ObjectId(project_id) });
-
-    if (!tasks.length) {
-      return res.status(404).json({ message: 'No tasks found for this project' });
-    }
-
-    res.json(tasks);
+    const tasks = await Task.find({ project_id }).populate('assignedTo', 'username email role');
+    res.json(tasks.length ? tasks : { message: 'No tasks found for this project' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Hämta en specifik uppgift med hjälp av findTaskId
-router.get('/:id', authenticateToken, findTaskId, (req, res) => {
-  res.json(req.task); // Returnera uppgiften som hittades av findTaskId
-});
-
 // Skapa en ny uppgift (endast manager och admin)
 router.post('/', authenticateToken, isManager, async (req, res) => {
-  let assignedTo = null;
-
-  if (req.body.assignedTo) {
-    const user = await User.findOne({ username: req.body.assignedTo });
-    if (!user) {
-      return res.status(400).json({ message: 'User not found' });
-    }
-    assignedTo = user._id;
-  }
-
-  const task = new Task({
-    taskName: req.body.taskName,
-    description: req.body.description || "",
-    status: req.body.status || "Begin",
-    assignedTo: assignedTo,
-    project_id: req.body.project_id,
-    notifications: req.body.notifications || []
-  });
-
   try {
-    const newTask = await task.save();
-    await Project.findByIdAndUpdate(req.body.project_id, { $push: { tasks: newTask._id } });
+    const { taskName, description, status, assignedTo: username, project_id } = req.body;
+
+    // Kontrollera att projektet finns
+    const project = await Project.findById(project_id);
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    let assignedTo = null;
+    if (username) {
+      const user = await User.findOne({ username });
+      if (!user) return res.status(400).json({ message: 'User not found' });
+
+      assignedTo = user._id;
+
+      // Lägg till användaren i projektet om de inte redan är medlem
+      if (!project.members.includes(user._id)) {
+        project.members.push(user._id);
+        user.projects.push(project._id);
+        await user.save();
+      }
+    }
+
+    const newTask = await Task.create({
+      taskName,
+      description: description || '',
+      status: status || 'Begin',
+      assignedTo,
+      project_id,
+    });
+
+    project.tasks.push(newTask._id);
+    await project.save();
+
+    if (assignedTo) {
+      await User.findByIdAndUpdate(assignedTo, { $push: { tasks: newTask._id } });
+    }
+
     res.status(201).json(newTask);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
 
+// Tilldela en användare till ett projekt (endast manager)
+router.post('/:projectId/assign', authenticateToken, isManager, async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const project = await Project.findById(req.params.projectId);
+    if (!project) return res.status(404).json({ message: 'Project not found' });
+
+    if (!project.members.includes(user._id)) {
+      project.members.push(user._id);
+      user.projects.push(project._id);
+      await user.save();
+      await project.save();
+    }
+
+    res.status(200).json({ message: 'User assigned to project', user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 // Uppdatera en specifik uppgift (endast manager och admin)
 router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
   try {
-    console.log("Incoming data:", req.body);
+    const { task } = req;
+    const { taskName, description, status, assignedTo: newUsername } = req.body;
 
-    if (req.body.taskName != null) {
-      req.task.taskName = req.body.taskName;
-    }
-    if (req.body.description != null) {
-      req.task.description = req.body.description;
-    }
-    if (req.body.status != null) {
-      req.task.status = req.body.status;
-    }
-    
-    // Hantera assignedTo (leta upp användare via username)
-    if (req.body.assignedTo != null) {
-      const user = await User.findOne({ username: req.body.assignedTo });
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
+    if (taskName) task.taskName = taskName;
+    if (description) task.description = description;
+    if (status) task.status = status;
+
+    if (newUsername) {
+      const newUser = await User.findOne({ username: newUsername });
+      if (!newUser) return res.status(400).json({ message: 'User not found' });
+
+      if (task.assignedTo) {
+        await User.findByIdAndUpdate(task.assignedTo, { $pull: { tasks: task._id } });
       }
-      req.task.assignedTo = user._id;
+
+      if (!newUser.tasks.includes(task._id)) {
+        newUser.tasks.push(task._id);
+        await newUser.save();
+      }
+
+      task.assignedTo = newUser._id;
     }
 
-    const updatedTask = await req.task.save();
+    const updatedTask = await task.save();
     res.json(updatedTask);
   } catch (error) {
-    console.error("Error updating task:", error);
     res.status(400).json({ message: error.message });
   }
 });
@@ -98,13 +127,18 @@ router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) 
 // Ta bort en specifik uppgift (endast manager och admin)
 router.delete('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
   try {
-    await req.task.deleteOne();
-    await Project.findByIdAndUpdate(req.task.project_id, { $pull: { tasks: req.task._id } });
+    const { task } = req;
+    if (task.assignedTo) {
+      await User.findByIdAndUpdate(task.assignedTo, { $pull: { tasks: task._id } });
+    }
+
+    await Project.findByIdAndUpdate(task.project_id, { $pull: { tasks: task._id } });
+    await task.deleteOne();
+
     res.json({ message: 'Task removed' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
-
 
 module.exports = router;

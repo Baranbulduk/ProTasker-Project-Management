@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
+const Task = require('../models/Task');
 const findProjectId = require('../middleware/findProjectId');
 const { isAdmin, isManager, isEmployer } = require('../middleware/role');
 const authenticateToken = require('../middleware/authToken');
@@ -34,6 +35,40 @@ router.get('/:id', authenticateToken, findProjectId, isEmployer, async (req, res
     return res.status(403).json({ message: 'Access denied. Employers can only access projects assigned to them.' });
   }
   res.json(res.project);
+});
+
+router.get('/:projectId/members', authenticateToken, async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.projectId).populate(
+      'members', // Populera medlemmar
+      'username email role' // Välj vilka fält som ska inkluderas
+    );
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    // Hämta alla tasks för projektet och inkludera assignedTo
+    const tasks = await Task.find({ project_id: req.params.projectId }).populate('assignedTo', 'username email role');
+
+    // Extrahera användare från tasks
+    const taskAssignedUsers = tasks
+      .map((task) => task.assignedTo)
+      .filter((user) => user !== null);
+
+    // Kombinera medlemmar från projektet och användare från tasks
+    const allMembers = [...project.members, ...taskAssignedUsers];
+
+    // Ta bort dubbletter baserat på användarens _id
+    const uniqueMembers = Array.from(
+      new Map(allMembers.map((member) => [member._id.toString(), member])).values()
+    );
+
+    res.json(uniqueMembers);
+  } catch (error) {
+    console.error("Error fetching project members:", error);
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // Skapa ett nytt projekt (endast manager och admin)
