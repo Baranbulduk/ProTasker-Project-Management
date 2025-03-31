@@ -31,16 +31,29 @@ function AdminTasks({ projectId }) {
 
   const handleStatusChange = async (task, newStatus) => {
     try {
+      // Kontrollera om den inloggade användaren är tilldelad tasken
+      if (task.assignedTo && task.assignedTo._id !== user._id) {
+        alert("You are not authorized to update the status of this task.");
+        return;
+      }
+
       const token = localStorage.getItem("token");
       const updatedTask = { ...task, status: newStatus };
 
-      await axios.put(`http://localhost:3000/tasks/${task._id}`, { status: newStatus }, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.put(
+        `http://localhost:3000/tasks/${task._id}`,
+        { status: newStatus },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
+      // Uppdatera taskens status i state
       setTasks(tasks.map((t) => (t._id === task._id ? updatedTask : t)));
+      alert("Task status updated successfully!");
     } catch (error) {
       console.error("Error updating task status:", error);
+      alert("Failed to update task status.");
     }
   };
 
@@ -83,21 +96,27 @@ function AdminTasks({ projectId }) {
               <tr key={task._id} className="tasks-table-body-title-container">
                 <td>{task.taskName}</td>
                 <td>{user.username}</td>
-                <td>{task.assignedTo ? task.assignedTo.username : "N/A"}</td>
                 <td>
-                  {task.createdAt
-                    ? new Date(task.createdAt).toLocaleString()
-                    : "N/A"}
+                  {task.assignedTo
+                    ? task.assignedTo.username
+                    : "No Assigned Member!"}
                 </td>
                 <td>
-                  <select
-                    value={task.status}
-                    onChange={(e) => handleStatusChange(task, e.target.value)}
-                  >
-                    <option value="pending">Begin</option>
-                    <option value="in-progress">Ongoing</option>
-                    <option value="completed">Completed</option>
-                  </select>
+                  {task.createdAt && new Date(task.createdAt).toLocaleString()}
+                </td>
+                <td>
+                  {task.assignedTo && task.assignedTo._id === user._id ? (
+                    <select
+                      value={task.status}
+                      onChange={(e) => handleStatusChange(task, e.target.value)}
+                    >
+                      <option value="begin">Begin</option>
+                      <option value="ongoing">Ongoing</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  ) : (
+                    <span>{task.status}</span> // Visa status som text om användaren inte är tilldelad
+                  )}
                 </td>
                 <td>
                   <button

@@ -30,7 +30,9 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
 
     // Kontrollera att projektet finns
     const project = await Project.findById(project_id);
-    if (!project) return res.status(404).json({ message: 'Project not found' });
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
 
     let assignedTo = null;
     if (username) {
@@ -42,7 +44,12 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
       // Lägg till användaren i projektet om de inte redan är medlem
       if (!project.members.includes(user._id)) {
         project.members.push(user._id);
-        user.projects.push(project._id);
+        await project.save();
+      }
+
+      // Lägg till projektet i användarens `projects`-lista om det inte redan finns
+      if (!user.projects.includes(project_id)) {
+        user.projects.push(project_id);
         await user.save();
       }
     }
@@ -73,10 +80,14 @@ router.post('/:projectId/assign', authenticateToken, isManager, async (req, res)
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     const project = await Project.findById(req.params.projectId);
-    if (!project) return res.status(404).json({ message: 'Project not found' });
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
 
     if (!project.members.includes(user._id)) {
       project.members.push(user._id);
@@ -91,54 +102,40 @@ router.post('/:projectId/assign', authenticateToken, isManager, async (req, res)
   }
 });
 
-// Lägg till en ny användare som medlem (endast admin och manager)
-router.post('/add-member', authenticateToken, isManager, async (req, res) => {
-  try {
-    const { email } = req.body;
-
-    // Kontrollera om användaren redan finns
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'User with this email already exists' });
-    }
-
-    // Skapa en ny användare
-    const newUser = new User({
-      username: email.split('@')[0],
-      email,
-      role: 'employer',
-      password: 'temporaryPassword123',
-    });
-
-    await newUser.save();
-
-    res.status(201).json({ message: 'Member added successfully', user: newUser });
-  } catch (error) {
-    console.error('Error adding member:', error);
-    res.status(500).json({ message: error.message });
-  }
-});
-
 // Uppdatera en specifik uppgift (endast manager och admin)
 router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
   try {
     const { task } = req;
     const { taskName, description, status, assignedTo: newUsername } = req.body;
 
-    if (taskName) task.taskName = taskName;
-    if (description) task.description = description;
-    if (status) task.status = status;
+    if (taskName) {
+      task.taskName = taskName;
+    }
+    if (description) {
+      task.description = description;
+    }
+    if (status) {
+      task.status = status;
+    }
 
     if (newUsername) {
       const newUser = await User.findOne({ username: newUsername });
       if (!newUser) return res.status(400).json({ message: 'User not found' });
 
+      // Ta bort tasken från den tidigare användarens `tasks`-lista
       if (task.assignedTo) {
         await User.findByIdAndUpdate(task.assignedTo, { $pull: { tasks: task._id } });
       }
 
+      // Lägg till tasken i den nya användarens `tasks`-lista
       if (!newUser.tasks.includes(task._id)) {
         newUser.tasks.push(task._id);
+        await newUser.save();
+      }
+
+      // Lägg till projektet i den nya användarens `projects`-lista om det inte redan finns
+      if (!newUser.projects.includes(task.project_id)) {
+        newUser.projects.push(task.project_id);
         await newUser.save();
       }
 
@@ -149,6 +146,33 @@ router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) 
     res.json(updatedTask);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+// Employer uppdaterar sin egen status
+router.patch('/:taskId', authenticateToken, async (req, res) => {
+  try {
+    const { taskId } = req.params;
+    const { status } = req.body;
+
+    const task = await Task.findById(taskId);
+    if (!task) {
+      return res.status(404).json({ message: 'Task not found' });
+    }
+
+    // Kontrollera om den inloggade användaren är tilldelad tasken
+    if (task.assignedTo.toString() !== req.user._id) {
+      return res.status(403).json({ message: 'You are not authorized to update this task' });
+    }
+
+    // Uppdatera statusen
+    task.status = status;
+    await task.save();
+
+    res.status(200).json({ message: 'Task status updated successfully', task });
+  } catch (error) {
+    console.error('Error updating task status:', error);
+    res.status(500).json({ message: error.message });
   }
 });
 

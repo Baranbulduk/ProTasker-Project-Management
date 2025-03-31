@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EditMember from "../Modal/Member/EditMember";
+import { useAuth } from "../../context/AuthContext";
 import "./Members.css";
 
 function AdminMembers({ projectId }) {
   const [members, setMembers] = useState([]);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchMembers = async () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:3000/projects/${projectId}/members`,
+          `http://localhost:3000/members/${projectId}/members`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -24,6 +28,46 @@ function AdminMembers({ projectId }) {
 
     fetchMembers();
   }, [projectId]);
+
+  const handleEditMember = (member) => {
+    setSelectedMember(member);
+    setShowEditModal(true);
+  };
+
+  const handleMemberUpdated = (updatedMember) => {
+    setMembers((prevMembers) =>
+      prevMembers.map((member) =>
+        member._id === updatedMember._id ? updatedMember : member
+      )
+    );
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setSelectedMember(null);
+  };
+
+  const handleRemoveMember = async (memberId) => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(
+        `http://localhost:3000/members/${projectId}/members/${memberId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setMembers((prevMembers) =>
+        prevMembers.filter((member) => member._id !== memberId)
+      );
+      alert("Member removed successfully!");
+    } catch (error) {
+      console.error(
+        "Error removing member:",
+        error.response?.data || error.message
+      );
+      alert(error.response?.data?.message || "Failed to remove member");
+    }
+  };
 
   return (
     <>
@@ -47,8 +91,18 @@ function AdminMembers({ projectId }) {
                 <td>{member.email}</td>
                 <td>{member.role}</td>
                 <td>
-                  <button className="actions-button edit-button">Edit</button>
-                  <button className="actions-button remove-button">
+                  {user && user._id === member._id && (
+                    <button
+                      className="actions-button edit-button"
+                      onClick={() => handleEditMember(member)}
+                    >
+                      Edit
+                    </button>
+                  )}
+                  <button
+                    className="actions-button remove-button"
+                    onClick={() => handleRemoveMember(member._id)}
+                  >
                     Remove
                   </button>
                 </td>
@@ -56,7 +110,12 @@ function AdminMembers({ projectId }) {
             ))}
           </tbody>
         </table>
-        <EditMember />
+        <EditMember
+        show={showEditModal}
+        onClose={handleCloseEditModal}
+        member={selectedMember}
+        onMemberUpdated={handleMemberUpdated} 
+        />
       </div>
     </>
   );

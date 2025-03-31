@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../Modal.css";
 
-function AddMember({ show, onClose, onMemberAdded }) {
+function AddMember({ show, onClose, onMemberAdded, projectId }) {
     const [email, setEmail] = useState("");
 
   const handleSubmit = async (e) => {
@@ -13,18 +13,18 @@ function AddMember({ show, onClose, onMemberAdded }) {
         "http://localhost:3000/members/add-member",
         {
           email,
+          projectId,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
       onMemberAdded(response.data.user);
-  
+      alert("Member added successfully!");
+      setEmail(""); // Rensa fältet
+      onClose(); // Stäng modalen
     } catch (error) {
-      console.error(
-        "Error adding member:",
-        error.response?.data || error.message
-      );
+      console.error("Error adding member:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Failed to add member");
     }
   };

@@ -106,6 +106,10 @@ function TasksPage() {
     setShowMemberModal(false);
   };
 
+  const handleMemberAdded = (newMember) => {
+    setMembers((prevMembers) => [...prevMembers, newMember]);
+  };
+
   return (
     <>
       <HeaderDashboard />
@@ -170,10 +174,8 @@ function TasksPage() {
       <AddMember
         show={showMemberModal}
         onClose={handleCloseAddMember}
+        onMemberAdded={handleMemberAdded}
         projectId={projectId}
-        onMemberAdded={(newMember) => {
-          setMembers((prevMember) => [...prevMember, newMember]);
-        }}
       />
     </>
   );
