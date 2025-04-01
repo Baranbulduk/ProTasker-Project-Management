@@ -24,6 +24,11 @@ const taskSchema = new mongoose.Schema({
         ref: "Project",
         required: true
     },
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
     notifications: [{
         status: {
             type: String,

@@ -30,7 +30,6 @@ function TasksPage() {
   const { user } = useAuth();
 
   useEffect(() => {
-    // Hämta projektdata från backend
     const fetchProject = async () => {
       try {
         const token = localStorage.getItem("token");

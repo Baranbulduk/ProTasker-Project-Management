@@ -6,7 +6,6 @@ function isAdmin(req, res, next) {
   }
   
   function isManager(req, res, next) {
-  
     if (req.user.role !== 'manager' && req.user.role !== 'admin') {
       return res.status(403).json({ message: 'Access denied. Managers only.' });
     }
@@ -20,4 +19,4 @@ function isAdmin(req, res, next) {
     next();
   }
   
-  module.exports = { isAdmin, isManager, isEmployer };
+module.exports = { isAdmin, isManager, isEmployer };

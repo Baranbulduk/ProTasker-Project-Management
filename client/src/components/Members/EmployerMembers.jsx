@@ -1,7 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import EditMember from "../Modal/Member/EditMember";
+import { useAuth } from "../../context/AuthContext";
 import "./Members.css";
 
-function EmployerMembers() {
+function EmployerMembers({ projectId }) {
+  const [members, setMembers] = useState([]);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:3000/members/${projectId}/members`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setMembers(response.data);
+      } catch (error) {
+        console.error("Error fetching members:", error);
+      }
+    };
+
+    fetchMembers();
+  }, [projectId]);
+
+  const handleEditMember = (member) => {
+    setSelectedMember(member);
+    setShowEditModal(true);
+  };
+
+  const handleMemberUpdated = (updatedMember) => {
+    setMembers((prevMembers) =>
+      prevMembers.map((member) =>
+        member._id === updatedMember._id ? updatedMember : member
+      )
+    );
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+    setSelectedMember(null);
+  };
+
   return (
     <>
       <div>
@@ -11,26 +56,38 @@ function EmployerMembers() {
               <th className="members-table-header-title">Name</th>
               <th className="members-table-header-title">Email</th>
               <th className="members-table-header-title">Role</th>
-              <th></th>
+              <th className="members-table-header-title">Actions</th>
             </tr>
           </thead>
           <tbody className="members-table-body">
-            <tr className="members-table-body-title-container">
-              <td>employer 1</td>
-              <td>employer1@example.com</td>
-              <td>Employer</td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr className="members-table-body-title-container">
-              <td>employer 2</td>
-              <td>employer2@example.com</td>
-              <td>Employer</td>
-              <td></td>
-              <td></td>
-            </tr>
+            {members.map((member) => (
+              <tr
+                key={member._id}
+                className="members-table-body-title-container"
+              >
+                <td>{member.username}</td>
+                <td>{member.email}</td>
+                <td>{member.role}</td>
+                <td>
+                  {user && user._id === member._id && (
+                    <button
+                      className="actions-button edit-button"
+                      onClick={() => handleEditMember(member)}
+                    >
+                      Edit
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+        <EditMember
+        show={showEditModal}
+        onClose={handleCloseEditModal}
+        member={selectedMember}
+        onMemberUpdated={handleMemberUpdated} 
+        />
       </div>
     </>
   );

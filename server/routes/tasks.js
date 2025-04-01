@@ -9,16 +9,46 @@ const authenticateToken = require('../middleware/authToken');
 const mongoose = require('mongoose');
 
 // Hämta alla uppgifter för ett specifikt projekt (endast admin och manager)
-router.get('/', authenticateToken, isManager, async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
   try {
     const { project_id } = req.query;
-    if (!mongoose.Types.ObjectId.isValid(project_id)) {
+
+    // Kontrollera om project_id är giltigt
+    if (project_id && !mongoose.Types.ObjectId.isValid(project_id)) {
       return res.status(400).json({ message: 'Invalid Project ID' });
     }
+    let tasks;
 
-    const tasks = await Task.find({ project_id }).populate('assignedTo', 'username email role');
-    res.json(tasks.length ? tasks : { message: 'No tasks found for this project' });
+    if (req.user.role === 'admin') {
+      tasks = await Task.find(project_id ? { project_id } : {})
+        .populate('assignedTo', 'username email role') 
+        .populate('creator', 'username email'); 
+
+    } else if (req.user.role === 'manager') {
+      const projects = await Project.find({ creator: req.user.id });
+      const projectIds = projects.map((project) => project._id.toString());
+      tasks = await Task.find({ project_id: { $in: projectIds } })
+        .populate('assignedTo', 'username email role')
+        .populate('creator', 'username email');
+
+    } else if (req.user.role === 'employer') {
+      const user = await User.findById(req.user.id).populate('projects');
+      const projectIds = user.projects.map((project) => project._id.toString());
+
+      tasks = await Task.find({
+        $or: [
+          { assignedTo: req.user.id },
+          { project_id: { $in: projectIds } },
+        ],
+      }).populate('assignedTo', 'username email role')
+        .populate('creator', 'username email');
+    } else {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+
+    res.json(tasks.length ? tasks : { message: 'No tasks found' });
   } catch (error) {
+    console.error('Error fetching tasks:', error);
     res.status(500).json({ message: error.message });
   }
 });
@@ -60,6 +90,7 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
       status: status || 'Begin',
       assignedTo,
       project_id,
+      creator: req.user.id,
     });
 
     project.tasks.push(newTask._id);
@@ -103,11 +134,21 @@ router.post('/:projectId/assign', authenticateToken, isManager, async (req, res)
 });
 
 // Uppdatera en specifik uppgift (endast manager och admin)
-router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
+router.patch('/:id', authenticateToken, findTaskId, async (req, res) => {
   try {
     const { task } = req;
     const { taskName, description, status, assignedTo: newUsername } = req.body;
 
+    // Kontrollera åtkomst baserat på roll
+    if (req.user.role === 'manager' && task.project_id.creator.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Access denied. Managers can only update tasks in their own projects.' });
+    }
+
+    if (req.user.role === 'employer' && task.assignedTo.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Access denied. Employers can only update tasks assigned to them.' });
+    }
+
+    // Uppdatera taskens fält
     if (taskName) {
       task.taskName = taskName;
     }
@@ -133,19 +174,14 @@ router.patch('/:id', authenticateToken, isManager, findTaskId, async (req, res) 
         await newUser.save();
       }
 
-      // Lägg till projektet i den nya användarens `projects`-lista om det inte redan finns
-      if (!newUser.projects.includes(task.project_id)) {
-        newUser.projects.push(task.project_id);
-        await newUser.save();
-      }
-
       task.assignedTo = newUser._id;
     }
 
     const updatedTask = await task.save();
     res.json(updatedTask);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error('Error updating task:', error);
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -177,9 +213,20 @@ router.patch('/:taskId', authenticateToken, async (req, res) => {
 });
 
 // Ta bort en specifik uppgift (endast manager och admin)
-router.delete('/:id', authenticateToken, isManager, findTaskId, async (req, res) => {
+router.delete('/:id', authenticateToken, findTaskId, async (req, res) => {
   try {
     const { task } = req;
+
+    // Kontrollera åtkomst baserat på roll
+    if (req.user.role === 'manager' && task.project_id.creator.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Access denied. Managers can only delete tasks in their own projects.' });
+    }
+
+    if (req.user.role === 'employer') {
+      return res.status(403).json({ message: 'Access denied. Employers cannot delete tasks.' });
+    }
+
+    // Ta bort tasken från användarens och projektets listor
     if (task.assignedTo) {
       await User.findByIdAndUpdate(task.assignedTo, { $pull: { tasks: task._id } });
     }
@@ -189,6 +236,7 @@ router.delete('/:id', authenticateToken, isManager, findTaskId, async (req, res)
 
     res.json({ message: 'Task removed' });
   } catch (error) {
+    console.error('Error deleting task:', error);
     res.status(500).json({ message: error.message });
   }
 });

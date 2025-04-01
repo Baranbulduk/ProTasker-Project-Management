@@ -92,10 +92,11 @@ function AdminTasks({ projectId }) {
             </tr>
           </thead>
           <tbody className="tasks-table-body">
-            {tasks.map((task) => (
+          {Array.isArray(tasks) && tasks.length > 0 ? (
+            tasks.map((task) => (
               <tr key={task._id} className="tasks-table-body-title-container">
                 <td>{task.taskName}</td>
-                <td>{user.username}</td>
+                <td>{task.creator ? task.creator.username : "Unknown"}</td>
                 <td>
                   {task.assignedTo
                     ? task.assignedTo.username
@@ -105,18 +106,7 @@ function AdminTasks({ projectId }) {
                   {task.createdAt && new Date(task.createdAt).toLocaleString()}
                 </td>
                 <td>
-                  {task.assignedTo && task.assignedTo._id === user._id ? (
-                    <select
-                      value={task.status}
-                      onChange={(e) => handleStatusChange(task, e.target.value)}
-                    >
-                      <option value="begin">Begin</option>
-                      <option value="ongoing">Ongoing</option>
-                      <option value="completed">Completed</option>
-                    </select>
-                  ) : (
-                    <span>{task.status}</span> // Visa status som text om användaren inte är tilldelad
-                  )}
+                    <span>{task.status}</span>
                 </td>
                 <td>
                   <button
@@ -133,7 +123,12 @@ function AdminTasks({ projectId }) {
                   </button>
                 </td>
               </tr>
-            ))}
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">No tasks found</td>
+            </tr>
+          )}
           </tbody>
         </table>
         <EditTask

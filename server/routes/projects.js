@@ -17,7 +17,7 @@ router.get('/', authenticateToken, isAdmin, async (req, res) => {
   }
 });
 
-// Hämtar alla projekt som är tilldelade till den inloggade arbetsgivaren
+// Hämtar projekt som är tilldelade till den inloggade användaren (Användarbaserat: manager och employer)
 router.get('/assigned', authenticateToken, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).populate('projects');
@@ -31,7 +31,7 @@ router.get('/assigned', authenticateToken, async (req, res) => {
   }
 });
 
-// Hämtar specifika projekt som användaren (rollen) har tillgång till
+// Hämtar projekt som rollen har tillgång till (Rollbaserat: manager och employer)
 router.get('/:id', authenticateToken, findProjectId, isEmployer, async (req, res) => {
   if (req.user.role === 'manager' && req.project.creator.toString() !== req.user.id) {
     return res.status(403).json({ message: 'Access denied. Managers can only access their own projects.' });

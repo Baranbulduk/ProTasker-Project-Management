@@ -7,37 +7,37 @@ const User = require('../models/User');
 const { isAdmin, isManager } = require('../middleware/role');
 
 router.get('/:projectId/members', authenticateToken, async (req, res) => {
-  try {
-    const project = await Project.findById(req.params.projectId).populate(
-      'members', // Populera medlemmar
-      'username email role' // Välj vilka fält som ska inkluderas
-    );
+    try {
+        const project = await Project.findById(req.params.projectId).populate(
+            'members', // Populera medlemmar
+            'username email role' // Välj vilka fält som ska inkluderas
+        );
 
-    if (!project) {
-      return res.status(404).json({ message: 'Project not found' });
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        // Hämta alla tasks för projektet och inkludera assignedTo
+        const tasks = await Task.find({ project_id: req.params.projectId }).populate('assignedTo', 'username email role');
+
+        // Extrahera användare från tasks
+        const taskAssignedUsers = tasks
+            .map((task) => task.assignedTo)
+            .filter((user) => user !== null);
+
+        // Kombinera medlemmar från projektet och användare från tasks
+        const allMembers = [...project.members, ...taskAssignedUsers];
+
+        // Ta bort dubbletter baserat på användarens _id
+        const uniqueMembers = Array.from(
+            new Map(allMembers.map((member) => [member._id.toString(), member])).values()
+        );
+
+        res.json(uniqueMembers);
+    } catch (error) {
+        console.error("Error fetching project members:", error);
+        res.status(500).json({ message: error.message });
     }
-
-    // Hämta alla tasks för projektet och inkludera assignedTo
-    const tasks = await Task.find({ project_id: req.params.projectId }).populate('assignedTo', 'username email role');
-
-    // Extrahera användare från tasks
-    const taskAssignedUsers = tasks
-      .map((task) => task.assignedTo)
-      .filter((user) => user !== null);
-
-    // Kombinera medlemmar från projektet och användare från tasks
-    const allMembers = [...project.members, ...taskAssignedUsers];
-
-    // Ta bort dubbletter baserat på användarens _id
-    const uniqueMembers = Array.from(
-      new Map(allMembers.map((member) => [member._id.toString(), member])).values()
-    );
-
-    res.json(uniqueMembers);
-  } catch (error) {
-    console.error("Error fetching project members:", error);
-    res.status(500).json({ message: error.message });
-  }
 });
 
 // Lägg till en ny användare som medlem (endast admin och manager)
