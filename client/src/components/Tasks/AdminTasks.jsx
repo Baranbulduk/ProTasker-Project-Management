@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../../context/AuthContext";
 import EditTask from "../Modal/Task/EditTask";
 import "./Tasks.css";
 
@@ -8,7 +7,6 @@ function AdminTasks({ projectId }) {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const { user } = useAuth();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -28,34 +26,6 @@ function AdminTasks({ projectId }) {
 
     fetchTasks();
   }, [projectId]);
-
-  const handleStatusChange = async (task, newStatus) => {
-    try {
-      // Kontrollera om den inloggade användaren är tilldelad tasken
-      if (task.assignedTo && task.assignedTo._id !== user._id) {
-        alert("You are not authorized to update the status of this task.");
-        return;
-      }
-
-      const token = localStorage.getItem("token");
-      const updatedTask = { ...task, status: newStatus };
-
-      await axios.put(
-        `http://localhost:3000/tasks/${task._id}`,
-        { status: newStatus },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      // Uppdatera taskens status i state
-      setTasks(tasks.map((t) => (t._id === task._id ? updatedTask : t)));
-      alert("Task status updated successfully!");
-    } catch (error) {
-      console.error("Error updating task status:", error);
-      alert("Failed to update task status.");
-    }
-  };
 
   const handleEditClick = (task) => {
     setSelectedTask(task);

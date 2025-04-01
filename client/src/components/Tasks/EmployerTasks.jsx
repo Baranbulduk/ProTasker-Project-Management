@@ -17,7 +17,7 @@ function EmployerTasks({ projectId }) {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log("Current projectId:", projectId.projectTitle); // HÄR
+        console.log("Employer's projects:", user.projects);
         setTasks(response.data);
       } catch (error) {
         console.error("Error fetching tasks:", error);

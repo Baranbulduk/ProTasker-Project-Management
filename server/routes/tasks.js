@@ -22,14 +22,16 @@ router.get('/', authenticateToken, async (req, res) => {
     if (req.user.role === 'admin') {
       tasks = await Task.find(project_id ? { project_id } : {})
         .populate('assignedTo', 'username email role') 
-        .populate('creator', 'username email'); 
+        .populate('creator', 'username email') 
+        .populate('project_id', 'projectTitle');
 
     } else if (req.user.role === 'manager') {
       const projects = await Project.find({ creator: req.user.id });
       const projectIds = projects.map((project) => project._id.toString());
       tasks = await Task.find({ project_id: { $in: projectIds } })
         .populate('assignedTo', 'username email role')
-        .populate('creator', 'username email');
+        .populate('creator', 'username email')
+        .populate('project_id', 'projectTitle');
 
     } else if (req.user.role === 'employer') {
       const user = await User.findById(req.user.id).populate('projects');
@@ -41,7 +43,8 @@ router.get('/', authenticateToken, async (req, res) => {
           { project_id: { $in: projectIds } },
         ],
       }).populate('assignedTo', 'username email role')
-        .populate('creator', 'username email');
+        .populate('creator', 'username email')
+        .populate('project_id', 'projectTitle');
     } else {
       return res.status(403).json({ message: 'Access denied' });
     }

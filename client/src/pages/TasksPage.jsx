@@ -39,8 +39,6 @@ function TasksPage() {
           },
         });
 
-        console.log("Fetched project data:", response.data);
-
         const matchedProject = response.data.find(
           (proj) => proj._id === projectId
         );
