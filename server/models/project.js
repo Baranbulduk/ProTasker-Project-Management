@@ -6,7 +6,8 @@ const projectSchema = new mongoose.Schema({
         required: true
     },
     description: {
-        type: String
+        type: String,
+        default: ""
     },
     startDate: {
         type: Date
@@ -16,7 +17,8 @@ const projectSchema = new mongoose.Schema({
     },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
+        required: true
     },
     tasks: [{
         type: mongoose.Schema.Types.ObjectId,

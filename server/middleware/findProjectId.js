@@ -10,7 +10,7 @@ async function findProjectId(req, res, next) {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-
+  
   req.project = project;
   next();
 }

@@ -33,22 +33,16 @@ function TasksPage() {
     const fetchProject = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:3000/projects`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const matchedProject = response.data.find(
-          (proj) => proj._id === projectId
+        const response = await axios.get(
+          `http://localhost:3000/projects/${projectId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
-        if (matchedProject) {
-          setProject(matchedProject);
-        } else {
-          console.error("Project not found");
-        }
-
+        setProject(response.data);
       } catch (error) {
         console.error("Error fetching project:", error);
       }
