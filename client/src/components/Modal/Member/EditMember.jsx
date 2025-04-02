@@ -37,31 +37,38 @@ if (!show || !member) {
       alert(error.response?.data?.message || "Failed to update member");
     }
   };
+  
+  const handleCloseOverlay = (e) => {
+    if (e.target.classList.contains("modal-overlay")) {
+      onClose();
+    }
+  };
 
   if (!show) {
     return null;
   }
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={handleCloseOverlay}>
       <div className="modal">
-        <button className="modal-close" onClick={onClose}>
+          <div className="modal-content">
+            <button className="modal-close" onClick={onClose}>
           &times;
         </button>
-        <div className="modal-content">
           <h2>Edit Member</h2>
           <form onSubmit={handleSubmit}>
-            <div>
-              <label>Username:</label>
+            <div className="modal-section">
+              <label>Username</label>
               <input
+              className="modal-input"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>
-            <div>
-              <label>Email:</label>
+            <div className="modal-section">
+              <label>Email</label>
               <input
                 type="email"
                 value={email}
@@ -69,7 +76,9 @@ if (!show || !member) {
                 required
               />
             </div>
-            <button type="submit">Save Changes</button>
+            <div className="modal-button-container">
+            <button className="modal-button" type="submit">Save Changes</button>
+            </div>
           </form>
         </div>
       </div>

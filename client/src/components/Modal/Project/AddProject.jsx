@@ -32,23 +32,30 @@ function AddProject({ show, onClose }) {
       console.error("Error adding project:", error);
     }
   };
+  
+  const handleCloseOverlay = (e) => {
+    if (e.target.classList.contains("modal-overlay")) {
+      onClose();
+    }
+  };
 
   if (!show) {
     return null;
   }
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={handleCloseOverlay}>
       <div className="modal">
-        <button className="modal-close" onClick={onClose}>
+        <div className="modal-content">
+          <button className="modal-close" onClick={onClose}>
           &times;
         </button>
-        <div className="modal-content">
           <h2>Add Project</h2>
           <form onSubmit={handleSubmit}>
-            <div>
-              <label>Project Name:</label>
+            <div className="modal-section">
+              <label>Project Name</label>
               <input
+              className="modal-input"
                 type="text"
                 name="projectTitle"
                 value={projectTitle}
@@ -56,8 +63,8 @@ function AddProject({ show, onClose }) {
                 required
               />
             </div>
-            <div>
-              <label>Description:</label>
+            <div className="modal-section">
+              <label>Description</label>
               <textarea
                 name="description"
                 value={description}
@@ -65,8 +72,8 @@ function AddProject({ show, onClose }) {
                 required
               ></textarea>
             </div>
-            <div>
-              <label>Start Date:</label>
+            <div className="modal-section">
+              <label>Start Date</label>
               <input
                 type="date"
                 name="startDate"
@@ -75,8 +82,8 @@ function AddProject({ show, onClose }) {
                 required
               />
             </div>
-            <div>
-              <label>End Date:</label>
+            <div className="modal-section">
+              <label>End Date</label>
               <input
                 type="date"
                 name="endDate"
@@ -85,7 +92,9 @@ function AddProject({ show, onClose }) {
                 required
               />
             </div>
-            <button type="submit">Submit</button>
+            <div className="modal-button-container">
+            <button className="modal-button" type="submit">Submit</button>
+            </div>
           </form>
         </div>
       </div>

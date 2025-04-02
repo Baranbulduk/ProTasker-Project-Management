@@ -17,7 +17,9 @@ function ManagerDashboard() {
         const response = await axios.get("http://localhost:3000/projects/assigned", {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setProjects(response.data);
+       
+        setProjects(response.data); 
+        console.log("Fetched projects:", response.data);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }

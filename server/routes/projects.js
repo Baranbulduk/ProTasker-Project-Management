@@ -32,13 +32,13 @@ router.get('/assigned', authenticateToken, async (req, res) => {
 });
 
 // Hämtar projekt som rollen har tillgång till (Rollbaserat: manager och employer)
-router.get('/:id', authenticateToken, findProjectId, isEmployer, async (req, res) => {
+router.get('/:id', authenticateToken, findProjectId, async (req, res) => {
 
   if (req.user.role === 'manager' && req.project.creator.toString() !== req.user.id) {
     return res.status(403).json({ message: 'Access denied. Managers can only access their own projects.' });
   }
 
-  if (req.user.role === 'employer' && !req.project.members.some(member => member.toString() === req.user.id)) {
+  if (req.user.role === 'employer' && !req.project.members.includes(req.user.id)) {
     return res.status(403).json({ message: 'Access denied. Employers can only access projects assigned to them.' });
   }
 
@@ -53,10 +53,15 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
     startDate: req.body.startDate,
     endDate: req.body.endDate,
     creator: req.user.id,
+    members: [req.user.id]
   });
 
   try {
     const newProject = await project.save();
+
+    // Lägg till projektet i användarens `projects`-lista
+    await User.findByIdAndUpdate(req.user.id, { $push: { projects: newProject._id } });
+
     res.status(201).json(newProject);
   } catch (error) {
     res.status(400).json({ message: error.message });

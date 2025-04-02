@@ -17,7 +17,7 @@ function Register() {
     try {
       const newUser = { username, email, password, role };
       await axios.post("http://localhost:3000/auth/register", newUser);
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log(error);
     }

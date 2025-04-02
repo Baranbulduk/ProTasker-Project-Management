@@ -138,12 +138,12 @@ function TasksPage() {
                 Members
               </button>
             </div>
-            {view === "tasks" && (
+            {(user.role === "admin" || user.role === "manager") && view === "tasks" && (
               <button className="tasks-button" onClick={handleAddTask}>
                 Add Task
               </button>
             )}
-            {view === "members" && (
+            {(user.role === "admin" || user.role === "manager") && view === "members" && (
               <button className="tasks-button" onClick={handleAddMember}>
                 Add Member
               </button>

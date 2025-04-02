@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../../context/AuthContext";
 import EditTask from "../Modal/Task/EditTask";
 import "./Tasks.css";
 
@@ -8,7 +7,6 @@ function ManagerTasks({ projectId }) {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const { user } = useAuth();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -64,7 +62,8 @@ function ManagerTasks({ projectId }) {
             </tr>
           </thead>
           <tbody className="tasks-table-body">
-            {tasks.map((task) => (
+            {Array.isArray(tasks) && 
+            tasks.map((task) => (
               <tr key={task._id} className="tasks-table-body-title-container">
                 <td>{task.taskName}</td>
                 <td>{task.creator ? task.creator.username : "Unknown"}</td>

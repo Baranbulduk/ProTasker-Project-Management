@@ -29,22 +29,29 @@ function AddMember({ show, onClose, onMemberAdded, projectId }) {
     }
   };
 
+  const handleCloseOverlay = (e) => {
+    if (e.target.classList.contains("modal-overlay")) {
+      onClose();
+    }
+  };
+
     if (!show) {
         return null;
     }
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={handleCloseOverlay}>
     <div className="modal">
+      <div className="modal-content"> 
       <button className="modal-close" onClick={onClose}>
         &times;
       </button>
-      <div className="modal-content">
         <h2>Add Member</h2>
         <form onSubmit={handleSubmit}>
-          <div>
-            <label>Email:</label>
+          <div className="modal-section">
+            <label>Email</label>
             <input
+            className="modal-input"
               type="email"
               placeholder="Enter user's email"
               value={email}
@@ -52,7 +59,9 @@ function AddMember({ show, onClose, onMemberAdded, projectId }) {
               required
             />
           </div>
-          <button type="submit">Add Member</button>
+          <div className="modal-button-container">
+          <button className="modal-button" type="submit">Add Member</button>
+          </div>
         </form>
       </div>
     </div>

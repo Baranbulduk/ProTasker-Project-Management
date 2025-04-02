@@ -8,8 +8,6 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
   const [status, setStatus] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
 
-// Användaren ska kunna skriva members username i samma projekt för att assigna en task till dem. //
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -42,22 +40,29 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
     }
   };
 
+  const handleCloseOverlay = (e) => {
+    if (e.target.classList.contains("modal-overlay")) {
+      onClose();
+    }
+  };
+
   if (!show) {
     return null;
   }
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={handleCloseOverlay}>
       <div className="modal">
-        <button className="modal-close" onClick={onClose}>
-          &times;
-        </button>
         <div className="modal-content">
+          <button className="modal-close" onClick={onClose}>
+            &times;
+          </button>
           <h2>Add Task</h2>
           <form onSubmit={handleSubmit}>
-            <div>
-              <label>Task Name:</label>
+            <div className="modal-section">
+              <label>Task Name</label>
               <input
+                className="modal-input"
                 type="text"
                 name="taskName"
                 value={taskName}
@@ -65,16 +70,16 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
                 required
               />
             </div>
-            <div>
-              <label>Description:</label>
+            <div className="modal-section">
+              <label>Description</label>
               <textarea
                 name="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
-            <div>
-              <label>Assigned To:</label>
+            <div className="modal-section">
+              <label>Assigned To</label>
               <input
                 type="text"
                 name="assignedTo"
@@ -83,8 +88,8 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
                 required
               />
             </div>
-            <div>
-              <label>Status:</label>
+            <div className="modal-section">
+              <label>Status</label>
               <select
                 name="status"
                 value={status}
@@ -95,7 +100,11 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
                 <option value="Completed">Completed</option>
               </select>
             </div>
-            <button type="submit">Submit</button>
+            <div className="modal-button-container">
+              <button className="modal-button" type="submit">
+                Submit
+              </button>
+            </div>
           </form>
         </div>
       </div>
