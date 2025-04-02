@@ -43,10 +43,6 @@ function EmployerDashboard() {
                 <strong>Description:</strong> {project.description}
               </p>
               <p>
-                <strong>Tasks:</strong>{" "}
-                {/* Lägg till logik för att visa uppgifter */}
-              </p>
-              <p>
                 <strong>Employers:</strong>{" "}
                 {/* Lägg till logik för att visa arbetsgivare */}
               </p>

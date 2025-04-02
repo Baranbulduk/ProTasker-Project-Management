@@ -55,7 +55,7 @@ if (!show || !member) {
             <button className="modal-close" onClick={onClose}>
           &times;
         </button>
-          <h2>Edit Member</h2>
+          <h2 className="modal-title">Edit Member</h2>
           <form onSubmit={handleSubmit}>
             <div className="modal-section">
               <label>Username</label>
@@ -63,6 +63,7 @@ if (!show || !member) {
               className="modal-input"
                 type="text"
                 value={username}
+                placeholder="Enter user's username"
                 onChange={(e) => setUsername(e.target.value)}
                 required
               />
@@ -72,6 +73,7 @@ if (!show || !member) {
               <input
                 type="email"
                 value={email}
+                placeholder="Enter user's email"
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />

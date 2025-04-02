@@ -60,7 +60,7 @@ function EditProject({ show, onClose, project, onUpdate }) {
           <button className="modal-close" onClick={onClose}>
           &times;
         </button>
-          <h2>Edit Project</h2>
+          <h2 className="modal-title">Edit Project</h2>
           <form onSubmit={handleSubmit}>
             <div className="modal-section">
               <label>Project Name</label>
@@ -69,6 +69,7 @@ function EditProject({ show, onClose, project, onUpdate }) {
                 type="text"
                 name="name"
                 value={name}
+                placeholder="Enter project name"
                 onChange={(e) => setName(e.target.value)}
                 required
               />
@@ -77,9 +78,9 @@ function EditProject({ show, onClose, project, onUpdate }) {
               <label>Description</label>
               <textarea
                 name="description"
+                placeholder="Enter project description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required
               ></textarea>
             </div>
             <div className="modal-section">

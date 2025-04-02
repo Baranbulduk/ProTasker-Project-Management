@@ -46,7 +46,7 @@ function AddMember({ show, onClose, onMemberAdded, projectId }) {
       <button className="modal-close" onClick={onClose}>
         &times;
       </button>
-        <h2>Add Member</h2>
+        <h2 className="modal-title">Add Member</h2>
         <form onSubmit={handleSubmit}>
           <div className="modal-section">
             <label>Email</label>

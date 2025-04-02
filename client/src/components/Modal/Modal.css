@@ -20,12 +20,13 @@
 
 .modal-close {
   position: absolute;
-  right: 440px;
+  top: 20px;
+  right: 40px;
   background: none;
   border: none;
-  font-size: 36px;
+  font-size: 50px;
   cursor: pointer;
-  color: #c40000;
+  color: #ffffff;
 }
 
 .modal-content {
@@ -34,8 +35,18 @@
   align-items: center;
 }
 
+.modal-title {
+  font-size: 32px;
+  font-weight: 600;
+}
+
 .modal-input {
   width: 400px;
+}
+
+textarea {
+  height: 80px;
+  resize: none;
 }
 
 .modal-section {

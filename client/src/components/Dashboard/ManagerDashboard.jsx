@@ -86,23 +86,19 @@ function ManagerDashboard() {
                 Edit
               </button>
               <button
-                className="dashboard-card-button delete"
+                className="dashboard-card-button remove"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleDeleteClick(project._id);
                 }}
               >
-                Delete
+                Remove
               </button>
               </div>
             </div>
             <div className="dashboard-card-body">
               <p>
                 <strong>Description:</strong> {project.description}
-              </p>
-              <p>
-                <strong>Tasks:</strong>{" "}
-                {/* Lägg till logik för att visa uppgifter */}
               </p>
               <p>
                 <strong>Employers:</strong>{" "}

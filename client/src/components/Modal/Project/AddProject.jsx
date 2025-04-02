@@ -50,7 +50,7 @@ function AddProject({ show, onClose }) {
           <button className="modal-close" onClick={onClose}>
           &times;
         </button>
-          <h2>Add Project</h2>
+          <h2 className="modal-title">Add Project</h2>
           <form onSubmit={handleSubmit}>
             <div className="modal-section">
               <label>Project Name</label>
@@ -58,6 +58,7 @@ function AddProject({ show, onClose }) {
               className="modal-input"
                 type="text"
                 name="projectTitle"
+                placeholder="Enter project name"
                 value={projectTitle}
                 onChange={(e) => setProjectTitle(e.target.value)}
                 required
@@ -67,9 +68,9 @@ function AddProject({ show, onClose }) {
               <label>Description</label>
               <textarea
                 name="description"
+                placeholder="Enter project description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                required
               ></textarea>
             </div>
             <div className="modal-section">

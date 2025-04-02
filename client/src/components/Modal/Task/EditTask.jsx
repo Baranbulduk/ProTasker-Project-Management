@@ -61,7 +61,7 @@ function EditTask({ show, onClose, task, onUpdate }) {
           <button className="modal-close" onClick={onClose}>
           &times;
         </button>
-          <h2>Edit Task</h2>
+          <h2 className="modal-title">Edit Task</h2>
           <form onSubmit={handleSubmit}>
             <div className="modal-section">
               <label>Task Name</label>
@@ -69,6 +69,7 @@ function EditTask({ show, onClose, task, onUpdate }) {
               className="modal-input"
                 type="text"
                 name="taskName"
+                placeholder="Enter task name"
                 value={taskName}
                 onChange={(e) => setTaskName(e.target.value)}
                 required
@@ -78,6 +79,7 @@ function EditTask({ show, onClose, task, onUpdate }) {
               <label>Description</label>
               <textarea
                 name="description"
+                placeholder="Enter task description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
@@ -87,6 +89,7 @@ function EditTask({ show, onClose, task, onUpdate }) {
               <input
                 type="text"
                 name="assignedTo"
+                placeholder="Enter username"
                 value={assignedTo}
                 onChange={(e) => setAssignedTo(e.target.value)}
               />
