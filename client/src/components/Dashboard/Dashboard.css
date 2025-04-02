@@ -7,18 +7,48 @@
 
 .dashboard-card {
     height: 250px;
-    width: 280px;
+    width: 500px;
     border-radius: 20px;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     border: solid 1px #ececec;
     cursor: pointer;
 }
 
 .dashboard-card-header {
-    background-color: black;
-    color: white;
+    background-color: #f4f4f4;
+    background: linear-gradient(90deg, #014ae6, #040e4f);
+    color: rgb(255, 255, 255);
     padding: 10px;
     border-radius: 10px 10px 0 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-card-button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.dashboard-card-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.edit {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+}
+
+.delete {
+    background-color: #c40000;
+    color: white;
 }
 
 .dashboard-card-body {

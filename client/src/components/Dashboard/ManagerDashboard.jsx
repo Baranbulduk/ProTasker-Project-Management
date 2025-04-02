@@ -14,11 +14,14 @@ function ManagerDashboard() {
     const fetchProjects = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:3000/projects/assigned", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-       
-        setProjects(response.data); 
+        const response = await axios.get(
+          "http://localhost:3000/projects/assigned",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        setProjects(response.data);
         console.log("Fetched projects:", response.data);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -63,16 +66,35 @@ function ManagerDashboard() {
     <div>
       <main className="dashboard-container">
         {projects.map((project) => (
-          <div key={project._id} className="dashboard-card">
+          <div
+            key={project._id}
+            className="dashboard-card"
+            onClick={() => handleViewTasks(project._id)}
+          >
             <div className="dashboard-card-header">
+              <div>
               <h2>{project.projectTitle}</h2>
-              <button onClick={() => handleEditClick(project)}>Edit</button>
-              <button onClick={() => handleDeleteClick(project._id)}>
+              </div>
+              <div className="dashboard-card-button-container">
+              <button
+                className="dashboard-card-button edit"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEditClick(project);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                className="dashboard-card-button delete"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteClick(project._id);
+                }}
+              >
                 Delete
               </button>
-              <button onClick={() => handleViewTasks(project._id)}>
-                View
-              </button>
+              </div>
             </div>
             <div className="dashboard-card-body">
               <p>

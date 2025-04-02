@@ -61,16 +61,35 @@ function AdminDashboard() {
     <div>
       <main className="dashboard-container">
         {projects.map((project) => (
-          <div key={project._id} className="dashboard-card">
+          <div
+            key={project._id}
+            className="dashboard-card"
+            onClick={() => handleViewTasks(project._id)}
+          >
             <div className="dashboard-card-header">
-              <h2>{project.projectTitle}</h2>
-              <button onClick={() => handleEditClick(project)}>Edit</button>
-              <button onClick={() => handleDeleteClick(project._id)}>
-                Delete
-              </button>
-              <button onClick={() => handleViewTasks(project._id)}>
-                View
-              </button>
+              <div>
+                <h2>{project.projectTitle}</h2>
+              </div>
+              <div className="dashboard-card-button-container">
+                <button
+                  className="dashboard-card-button edit"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEditClick(project);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="dashboard-card-button delete"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(project._id);
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
             </div>
             <div className="dashboard-card-body">
               <p>

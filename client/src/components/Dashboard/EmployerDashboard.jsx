@@ -34,10 +34,9 @@ function EmployerDashboard() {
     <div>
       <main className="dashboard-container">
         {projects.map((project) => (
-          <div key={project._id} className="dashboard-card">
+          <div key={project._id} className="dashboard-card" onClick={() => handleViewTasks(project._id)}>
             <div className="dashboard-card-header">
               <h2>{project.projectTitle}</h2>
-              <button onClick={() => handleViewTasks(project._id)}>View</button>
             </div>
             <div className="dashboard-card-body">
               <p>
