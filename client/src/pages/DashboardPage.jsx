@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminDashboard from "../components/Dashboard/AdminDashboard";
 import ManagerDashboard from "../components/Dashboard/ManagerDashboard";
 import EmployerDashboard from "../components/Dashboard/EmployerDashboard";
@@ -9,12 +10,21 @@ import { useAuth } from "../context/AuthContext";
 import "../styles/DashboardPage.css";
 
 function DashboardPage() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    if (logout) {
+      logout();
+    }
+    navigate("/");
+  };
 
   if (!user) {
-    return <div>Please log in to access your profile</div>;
+    return <div>Loading...</div>;
   }
+
 
   console.log("User in DashboardPage:", user);
 
@@ -43,12 +53,26 @@ function DashboardPage() {
     <>
       <HeaderDashboard />
       <div className="dashboard-header">
-        <h2>Hi, {user.username}!</h2>
+        <div>
+          <h1 className="dashboard-header-title">
+            <span
+              style={{ color: "#969696", fontWeight: "400", fontSize: "28px" }}
+            >
+              Hi,{" "}
+            </span>
+            {user.username}!
+          </h1>
+        </div>
+        <div>
+          <button onClick={handleLogout} className="dashboard-button">
+            Log Out
+          </button>
+        </div>
       </div>
       <div className="app-wrapper">
         <div className="dashboard-body">
           <div className="dashboard-menu-container">
-            <h1>Projects</h1>
+            <h1 className="dashboard-title">Projects</h1>
             {(user.role === "admin" || user.role === "manager") && (
               <button className="dashboard-button" onClick={handleAddProject}>
                 Add Project

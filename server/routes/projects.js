@@ -50,8 +50,8 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
   const project = new Project({
     projectTitle: req.body.projectTitle,
     description: req.body.description,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate,
+    startDate: req.body.startDate, // TA BORT
+    endDate: req.body.endDate, // TA BORT
     creator: req.user.id,
     members: [req.user.id]
   });

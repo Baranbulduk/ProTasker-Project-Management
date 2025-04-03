@@ -68,7 +68,7 @@ function AdminDashboard() {
           >
             <div className="dashboard-card-header">
               <div>
-                <h2>{project.projectTitle}</h2>
+                <h2 className="dashboard-card-title">{project.projectTitle}</h2>
               </div>
               <div className="dashboard-card-button-container">
                 <button

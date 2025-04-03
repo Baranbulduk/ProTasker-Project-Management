@@ -14,3 +14,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+button:hover {
+  scale: 0.95;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}

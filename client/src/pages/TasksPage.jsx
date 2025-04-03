@@ -12,6 +12,7 @@ import FooterDashboard from "../components/Footer/FooterDashboard/FooterDashboar
 import AddTask from "../components/Modal/Task/AddTask";
 import AddMember from "../components/Modal/Member/AddMember";
 import { useAuth } from "../context/AuthContext";
+import backIcon from "../assets/back.png";
 import "../styles/TasksPage.css";
 
 import TasksIcon from "../assets/tasks.png";
@@ -105,49 +106,64 @@ function TasksPage() {
     <>
       <HeaderDashboard />
       <div className="tasks-header">
-        <h2>{project ? project.projectTitle : "Loading..."}</h2>
+        <h1 className="tasks-header-title">
+          <span
+            style={{ color: "#969696", fontWeight: "400", fontSize: "28px" }}
+          >
+            Project Title:
+          </span>{" "}
+          {project ? project.projectTitle : "Loading..."}
+        </h1>
       </div>
       <div className="app-wrapper">
         <div className="tasks-body">
           <div className="tasks-menu-container">
-            <div className="tasks-menu-button-container">
-              <button
-                className={`tasks-menu-button ${
-                  view === "tasks" ? "active" : ""
-                }`}
-                onClick={() => setView("tasks")}
-              >
-                <img
-                  className="tasks-menu-button-icon"
-                  src={view === "tasks" ? TasksIconActive : TasksIcon}
-                  alt="tasks"
-                />
-                Tasks
-              </button>
-              <button
-                className={`tasks-menu-button ${
-                  view === "members" ? "active" : ""
-                }`}
-                onClick={() => setView("members")}
-              >
-                <img
-                  className="tasks-menu-button-icon"
-                  src={view === "members" ? MembersIconActive : MembersIcon}
-                  alt="members"
-                />
-                Members
-              </button>
+            <div>
+              <button className="tasks-menu-button" onClick={() => window.history.back()}><img className="back-icon" src={backIcon} alt="back" /></button>
             </div>
-            {(user.role === "admin" || user.role === "manager") && view === "tasks" && (
-              <button className="tasks-button" onClick={handleAddTask}>
-                Add Task
-              </button>
-            )}
-            {(user.role === "admin" || user.role === "manager") && view === "members" && (
-              <button className="tasks-button" onClick={handleAddMember}>
-                Add Member
-              </button>
-            )}
+
+            <div>
+              {(user.role === "admin" || user.role === "manager") &&
+                view === "tasks" && (
+                  <button className="tasks-button" onClick={handleAddTask}>
+                    Add Task
+                  </button>
+                )}
+              {(user.role === "admin" || user.role === "manager") &&
+                view === "members" && (
+                  <button className="tasks-button" onClick={handleAddMember}>
+                    Add Member
+                  </button>
+                )}{" "}
+            </div>
+          </div>
+          <div className="tasks-menu-button-container">
+            <button
+              className={`tasks-menu-button ${
+                view === "tasks" ? "active" : ""
+              }`}
+              onClick={() => setView("tasks")}
+            >
+              <img
+                className="tasks-menu-button-icon"
+                src={view === "tasks" ? TasksIconActive : TasksIcon}
+                alt="tasks"
+              />
+              Tasks
+            </button>
+            <button
+              className={`tasks-menu-button ${
+                view === "members" ? "active" : ""
+              }`}
+              onClick={() => setView("members")}
+            >
+              <img
+                className="tasks-menu-button-icon"
+                src={view === "members" ? MembersIconActive : MembersIcon}
+                alt="members"
+              />
+              Members
+            </button>
           </div>
         </div>
         {view === "tasks" && renderTasksRole()}

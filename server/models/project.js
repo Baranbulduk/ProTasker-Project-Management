@@ -9,10 +9,10 @@ const projectSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    startDate: {
+    startDate: { // TA BORT
         type: Date
     },
-    endDate: {
+    endDate: { // TA BORT
         type: Date
     },
     creator: {

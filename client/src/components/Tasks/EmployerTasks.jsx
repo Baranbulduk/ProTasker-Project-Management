@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context/AuthContext";
 import "./Tasks.css";
 
@@ -49,10 +51,10 @@ function EmployerTasks({ projectId }) {
 
       // Uppdatera taskens status i state
       setTasks(tasks.map((t) => (t._id === task._id ? updatedTask : t)));
-      alert("Task status updated successfully!");
+      toast.success("Task status updated successfully!");
     } catch (error) {
       console.error("Error updating task status:", error);
-      alert("Failed to update task status.");
+      toast.error("Failed to update task status.");
     }
   };
 
@@ -65,7 +67,7 @@ function EmployerTasks({ projectId }) {
               <th className="tasks-table-header-title">Title</th>
               <th className="tasks-table-header-title">Created By</th>
               <th className="tasks-table-header-title">Assigned To</th>
-              <th className="tasks-table-header-title">Date Created</th>
+              <th className="tasks-table-header-title">Latest Change</th>
               <th className="tasks-table-header-title">Status</th>
               <th className="tasks-table-header-title">Actions</th>
               <th></th>
@@ -82,7 +84,7 @@ function EmployerTasks({ projectId }) {
                     : "No Assigned Member!"}
                 </td>
                 <td>
-                  {task.createdAt && new Date(task.createdAt).toLocaleString()}
+                  {task.updatedAt && new Date(task.updatedAt).toLocaleString()}
                 </td>
                 <td>
                   {task.assignedTo && task.assignedTo._id === user._id ? (
@@ -90,9 +92,9 @@ function EmployerTasks({ projectId }) {
                       value={task.status}
                       onChange={(e) => handleStatusChange(task, e.target.value)}
                     >
-                      <option value="begin">Begin</option>
-                      <option value="ongoing">Ongoing</option>
-                      <option value="completed">Completed</option>
+                      <option value="Begin">Begin</option>
+                      <option value="Ongoing">Ongoing</option>
+                      <option value="Completed">Completed</option>
                     </select>
                   ) : (
                     <span>{task.status}</span>
@@ -105,6 +107,7 @@ function EmployerTasks({ projectId }) {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </>
   );
 }

@@ -3,17 +3,17 @@ import axios from "axios";
 import "../Modal.css";
 
 function EditProject({ show, onClose, project, onUpdate }) {
-  const [name, setName] = useState("");
+  const [projectTitle, setProjectTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
   useEffect(() => {
     if (project) {
-      setName(project.name || "");
+      setProjectTitle(project.name || "");
       setDescription(project.description || "");
-      setStartDate(project.startDate || "");
-      setEndDate(project.endDate || "");
+      setStartDate(project.startDate ? project.startDate.split("T")[0] : "");
+      setEndDate(project.endDate ? project.endDate.split("T")[0] : "");
     }
   }, [project]);
 
@@ -24,7 +24,7 @@ function EditProject({ show, onClose, project, onUpdate }) {
       const response = await axios.patch(
         `http://localhost:3000/projects/${project._id}`,
         {
-          name,
+          projectTitle,
           description,
           startDate,
           endDate,
@@ -68,9 +68,9 @@ function EditProject({ show, onClose, project, onUpdate }) {
               className="modal-input"
                 type="text"
                 name="name"
-                value={name}
+                value={projectTitle}
                 placeholder="Enter project name"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setProjectTitle(e.target.value)}
                 required
               />
             </div>

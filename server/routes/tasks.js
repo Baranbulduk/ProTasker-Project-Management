@@ -194,13 +194,19 @@ router.patch('/:taskId', authenticateToken, async (req, res) => {
     const { taskId } = req.params;
     const { status } = req.body;
 
+    console.log("User in request:", req.user); // Logga användaren
+
+    if (!mongoose.Types.ObjectId.isValid(taskId)) {
+      return res.status(400).json({ message: 'Invalid task ID' });
+    }
+
     const task = await Task.findById(taskId);
     if (!task) {
       return res.status(404).json({ message: 'Task not found' });
     }
 
-    // Kontrollera om den inloggade användaren är tilldelad tasken
-    if (task.assignedTo.toString() !== req.user._id) {
+    // Kontrollera att task.assignedTo existerar och matchar den inloggade användaren
+    if (!task.assignedTo || task.assignedTo.toString() !== req.user._id) {
       return res.status(403).json({ message: 'You are not authorized to update this task' });
     }
 
@@ -211,7 +217,7 @@ router.patch('/:taskId', authenticateToken, async (req, res) => {
     res.status(200).json({ message: 'Task status updated successfully', task });
   } catch (error) {
     console.error('Error updating task status:', error);
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Internal Server Error', error: error.message });
   }
 });
 

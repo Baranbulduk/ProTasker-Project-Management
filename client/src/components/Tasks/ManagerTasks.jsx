@@ -55,7 +55,7 @@ function ManagerTasks({ projectId }) {
               <th className="tasks-table-header-title">Title</th>
               <th className="tasks-table-header-title">Created By</th>
               <th className="tasks-table-header-title">Assigned To</th>
-              <th className="tasks-table-header-title">Date Created</th>
+              <th className="tasks-table-header-title">Latest Change</th>
               <th className="tasks-table-header-title">Status</th>
               <th className="tasks-table-header-title">Actions</th>
               <th></th>
@@ -73,7 +73,7 @@ function ManagerTasks({ projectId }) {
                     : "No Assigned Member!"}
                 </td>
                 <td>
-                  {task.createdAt && new Date(task.createdAt).toLocaleString()}
+                  {task.updatedAt && new Date(task.updatedAt).toLocaleString()}
                 </td>
                 <td>
                     <span>{task.status}</span>
