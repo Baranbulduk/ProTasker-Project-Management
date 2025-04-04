@@ -5,5 +5,8 @@
   padding: 20px;
   display: flex;
   justify-content: space-between;
-  color: white;
+}
+
+.header-title {
+  font-weight: 500;
 }

@@ -47,14 +47,14 @@ function Login() {
         <div className="login-container">
           <h1 className="login-title">Login</h1>
           <form className="login-form" onSubmit={handleLogin}>
-            <label>Email:</label>
+            <label>Email</label>
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <label>Password:</label>
+            <label>Password</label>
             <input
               type="password"
               placeholder="Password"

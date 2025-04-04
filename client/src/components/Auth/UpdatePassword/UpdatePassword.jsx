@@ -54,14 +54,14 @@ function UpdatePassword() {
             className="update-password-form"
             onSubmit={handleUpdatePassword}
           >
-            <label>New Password:</label>
+            <label>New Password</label>
             <input
               type="password"
               placeholder="New Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <label>Confirm Password:</label>
+            <label>Confirm Password</label>
             <input
               type="password"
               placeholder="Confirm Password"

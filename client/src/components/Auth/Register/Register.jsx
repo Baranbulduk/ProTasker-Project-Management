@@ -30,28 +30,28 @@ function Register() {
         <div className="register-container">
           <h1 className="register-title">Register</h1>
           <form className="register-form" onSubmit={handleRegister}>
-            <label>Username:</label>
+            <label>Username</label>
             <input
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <label>Email:</label>
+            <label>Email</label>
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <label>Password:</label>
+            <label>Password</label>
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <label>Role:</label>
+            <label>Role</label>
             <select
               className="register-select"
               value={role}

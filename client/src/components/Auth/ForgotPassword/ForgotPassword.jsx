@@ -33,7 +33,7 @@ function ForgotPassword() {
             className="forgot-password-form"
             onSubmit={handleForgotPassword}
           >
-            <label>Email:</label>
+            <label>Email</label>
             <input
               type="email"
               placeholder="Email"
