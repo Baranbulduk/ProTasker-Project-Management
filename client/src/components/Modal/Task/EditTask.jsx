@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Modal.css";
 
@@ -61,16 +61,16 @@ function EditTask({ show, onClose, task, onUpdate }) {
   return (
     <div className="modal-overlay" onClick={handleCloseOverlay}>
       <div className="modal">
-         <div className="modal-content">
+        <div className="modal-content">
           <button className="modal-close" onClick={onClose}>
-          &times;
-        </button>
+            &times;
+          </button>
           <h2 className="modal-title">Edit Task</h2>
           <form onSubmit={handleSubmit}>
             <div className="modal-section">
               <label>Task Name</label>
               <input
-              className="modal-input"
+                className="modal-input"
                 type="text"
                 name="taskName"
                 placeholder="Enter task name"
@@ -112,12 +112,13 @@ function EditTask({ show, onClose, task, onUpdate }) {
               </select>
             </div>
             <div className="modal-button-container">
-            <button className="modal-button" type="submit">Submit</button>
+              <button className="modal-button" type="submit">
+                Submit
+              </button>
             </div>
           </form>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

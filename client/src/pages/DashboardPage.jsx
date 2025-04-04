@@ -10,7 +10,7 @@ import { useAuth } from "../context/AuthContext";
 import "../styles/DashboardPage.css";
 
 function DashboardPage() {
-  const { user, logout, loading } = useAuth();
+  const { user, loading } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   
@@ -19,11 +19,6 @@ function DashboardPage() {
       navigate("/");
     }
   }, [loading, user, navigate]);
-
-  const handleLogout = () => {
-      logout();
-      navigate("/");
-  };
 
   if (!user) {
     return null;
@@ -59,17 +54,12 @@ function DashboardPage() {
         <div>
           <h1 className="dashboard-header-title">
             <span
-              style={{ color: "#969696", fontWeight: "400", fontSize: "28px" }}
+              style={{ color: "#969696", fontWeight: "400" }}
             >
               Hi,{" "}
             </span>
             {user.username}!
           </h1>
-        </div>
-        <div>
-          <button onClick={handleLogout} className="dashboard-button">
-            Log Out
-          </button>
         </div>
       </div>
       <div className="app-wrapper">

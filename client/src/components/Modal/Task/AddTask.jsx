@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Modal.css";
 
@@ -115,7 +115,6 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
           </form>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 }

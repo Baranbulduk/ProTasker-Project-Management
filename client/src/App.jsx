@@ -15,7 +15,6 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <ToastContainer />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -24,6 +23,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/update-password" element={<UpdatePassword />} />
         </Routes>
+        <ToastContainer />
       </BrowserRouter>
     </AuthProvider>
   );

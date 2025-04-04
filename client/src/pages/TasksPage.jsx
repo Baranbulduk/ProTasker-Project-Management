@@ -108,9 +108,9 @@ function TasksPage() {
       <div className="tasks-header">
         <h1 className="tasks-header-title">
           <span
-            style={{ color: "#969696", fontWeight: "400", fontSize: "28px" }}
+            style={{ color: "#969696", fontWeight: "400" }}
           >
-            Project Title:
+            Project Name:
           </span>{" "}
           {project ? project.projectTitle : "Loading..."}
         </h1>
