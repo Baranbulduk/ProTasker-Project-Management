@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../Modal.css";
 
 function AddProject({ show, onClose }) {
@@ -28,8 +30,10 @@ function AddProject({ show, onClose }) {
       );
       console.log("Project added:", response.data);
       onClose();
+      toast.success("Project added successfully!");
     } catch (error) {
       console.error("Error adding project:", error);
+      toast.error("Failed to add project.");
     }
   };
   
@@ -99,6 +103,7 @@ function AddProject({ show, onClose }) {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -4,16 +4,19 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../Header/Header";
 import Footer from "../../Footer/Footer";
+import Loading from "../../Loading/Loading";
 import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       const user = { email, password };
       const response = await axios.post(
@@ -22,14 +25,20 @@ function Login() {
       );
 
       const { token, user: userData } = response.data;
-      localStorage.setItem("token", token);
-      setUser(userData);
+      login(token, userData);
 
-      navigate("/dashboard");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000); 
     } catch (error) {
-      console.log(error);
+      console.error("Login error:", error);
+      setIsSubmitting(false);
     }
   };
+
+  if (isSubmitting) {
+    return <Loading />;
+  }
 
   return (
     <div>

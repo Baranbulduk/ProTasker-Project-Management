@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import EditMember from "../Modal/Member/EditMember";
 import { useAuth } from "../../context/AuthContext";
 import "./Members.css";
@@ -23,6 +25,7 @@ function AdminMembers({ projectId }) {
         setMembers(response.data);
       } catch (error) {
         console.error("Error fetching members:", error);
+        toast.error("Failed to fetch members.");
       }
     };
 
@@ -40,6 +43,7 @@ function AdminMembers({ projectId }) {
         member._id === updatedMember._id ? updatedMember : member
       )
     );
+    toast.success("Member information updated!");
   };
 
   const handleCloseEditModal = () => {
@@ -59,13 +63,13 @@ function AdminMembers({ projectId }) {
       setMembers((prevMembers) =>
         prevMembers.filter((member) => member._id !== memberId)
       );
-      alert("Member removed successfully!");
+      toast.success("Member removed successfully!");
     } catch (error) {
       console.error(
         "Error removing member:",
         error.response?.data || error.message
       );
-      alert(error.response?.data?.message || "Failed to remove member");
+      toast.error(error.response?.data?.message || "Failed to remove member.");
     }
   };
 
@@ -111,12 +115,13 @@ function AdminMembers({ projectId }) {
           </tbody>
         </table>
         <EditMember
-        show={showEditModal}
-        onClose={handleCloseEditModal}
-        member={selectedMember}
-        onMemberUpdated={handleMemberUpdated} 
+          show={showEditModal}
+          onClose={handleCloseEditModal}
+          member={selectedMember}
+          onMemberUpdated={handleMemberUpdated}
         />
       </div>
+      <ToastContainer />
     </>
   );
 }

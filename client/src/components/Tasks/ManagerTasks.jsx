@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import EditTask from "../Modal/Task/EditTask";
 import "./Tasks.css";
 
@@ -21,6 +23,7 @@ function ManagerTasks({ projectId }) {
         setTasks(response.data);
       } catch (error) {
         console.error("Error fetching tasks:", error);
+        toast.error("Failed to fetch tasks. Please try again later.");
       }
     };
 
@@ -40,9 +43,9 @@ function ManagerTasks({ projectId }) {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(tasks.filter((task) => task._id !== taskId));
-      console.log(`Task with ID: ${taskId} deleted successfully`);
+      toast.success("Task deleted successfully!");
     } catch (error) {
-      console.error("Error deleting task:", error);
+      toast.error("Failed to delete task.");
     }
   };
 
@@ -106,9 +109,11 @@ function ManagerTasks({ projectId }) {
                 t._id === updatedTask._id ? updatedTask : t
               )
             );
+            toast.success("Task updated successfully!");
           }}
         />
       </div>
+      <ToastContainer />
     </>
   );
 }

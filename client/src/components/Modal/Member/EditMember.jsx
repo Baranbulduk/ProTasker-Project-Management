@@ -1,5 +1,7 @@
 import React, { useState , useEffect } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../Modal.css";
 
 function EditMember({ show, onClose, member, onMemberUpdated }) {
@@ -30,11 +32,11 @@ if (!show || !member) {
         }
       );
       onMemberUpdated(response.data.user);
-      alert("Member updated successfully!");
+      toast.success("Member updated successfully!");
       onClose();
     } catch (error) {
       console.error("Error updating member:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Failed to update member");
+      toast.error(error.response?.data?.message || "Failed to update member");
     }
   };
   
@@ -84,6 +86,7 @@ if (!show || !member) {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

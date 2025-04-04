@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../Modal.css";
 
 function EditProject({ show, onClose, project, onUpdate }) {
@@ -38,8 +40,10 @@ function EditProject({ show, onClose, project, onUpdate }) {
       console.log("Project updated:", response.data);
       onUpdate(response.data);
       onClose();
+      toast.success("Project updated successfully!");
     } catch (error) {
       console.error("Error updating project:", error);
+      toast.error("Failed to update project.");
     }
   };
 
@@ -109,6 +113,7 @@ function EditProject({ show, onClose, project, onUpdate }) {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -8,11 +8,14 @@ import TasksPage from "./pages/TasksPage.jsx";
 import ForgotPassword from "./components/Auth/ForgotPassword/ForgotPassword.jsx";
 import UpdatePassword from "./components/Auth/UpdatePassword/UpdatePassword.jsx";
 import { AuthProvider } from "./context/AuthContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />

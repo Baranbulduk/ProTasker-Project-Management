@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../Modal.css";
 
 function EditTask({ show, onClose, task, onUpdate }) {
@@ -39,8 +41,10 @@ function EditTask({ show, onClose, task, onUpdate }) {
       );
       onUpdate(response.data);
       onClose();
+      toast.success("Task updated successfully!");
     } catch (error) {
       console.error("Error updating task:", error);
+      toast.error("Failed to update task.");
     }
   };
 
@@ -113,6 +117,7 @@ function EditTask({ show, onClose, task, onUpdate }) {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

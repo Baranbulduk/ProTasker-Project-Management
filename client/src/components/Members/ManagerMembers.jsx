@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Members.css";
 
 function ManagerMembers({ projectId }) {
@@ -17,7 +19,7 @@ function ManagerMembers({ projectId }) {
         );
         setMembers(response.data);
       } catch (error) {
-        console.error("Error fetching members:", error);
+        toast.error("Failed to fetch members.");
       }
     };
 
@@ -36,13 +38,13 @@ function ManagerMembers({ projectId }) {
       setMembers((prevMembers) =>
         prevMembers.filter((member) => member._id !== memberId)
       );
-      alert("Member removed successfully!");
+      toast.success("Member removed successfully!");
     } catch (error) {
       console.error(
         "Error removing member:",
         error.response?.data || error.message
       );
-      alert(error.response?.data?.message || "Failed to remove member");
+      toast.error(error.response?.data?.message || "Failed to remove member");
     }
   };
 
@@ -80,6 +82,7 @@ function ManagerMembers({ projectId }) {
           </tbody>
         </table>
       </div>
+      <ToastContainer />
     </>
   );
 }

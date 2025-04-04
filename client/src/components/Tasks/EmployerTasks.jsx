@@ -23,6 +23,7 @@ function EmployerTasks({ projectId }) {
         setTasks(response.data);
       } catch (error) {
         console.error("Error fetching tasks:", error);
+        toast.error("Failed to fetch tasks.");
       }
     };
 

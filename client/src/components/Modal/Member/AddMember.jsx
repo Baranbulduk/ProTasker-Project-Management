@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../Modal.css";
 
 function AddMember({ show, onClose, onMemberAdded, projectId }) {
@@ -20,12 +22,12 @@ function AddMember({ show, onClose, onMemberAdded, projectId }) {
         }
       );
       onMemberAdded(response.data.user);
-      alert("Member added successfully!");
-      setEmail(""); // Rensa fältet
-      onClose(); // Stäng modalen
+      toast.success("Member added successfully!");
+      setEmail("");
+      onClose();
     } catch (error) {
       console.error("Error adding member:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Failed to add member");
+      toast.error(error.response?.data?.message || "Failed to add member");
     }
   };
 
@@ -65,6 +67,7 @@ function AddMember({ show, onClose, onMemberAdded, projectId }) {
         </form>
       </div>
     </div>
+    <ToastContainer />
   </div>
   );
 }

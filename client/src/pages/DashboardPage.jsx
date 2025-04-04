@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminDashboard from "../components/Dashboard/AdminDashboard";
 import ManagerDashboard from "../components/Dashboard/ManagerDashboard";
@@ -10,21 +10,24 @@ import { useAuth } from "../context/AuthContext";
 import "../styles/DashboardPage.css";
 
 function DashboardPage() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   
-  const handleLogout = () => {
-    if (logout) {
-      logout();
+ useEffect(() => {
+    if (!loading && !user) {
+      navigate("/");
     }
-    navigate("/");
+  }, [loading, user, navigate]);
+
+  const handleLogout = () => {
+      logout();
+      navigate("/");
   };
 
   if (!user) {
-    return <div>Loading...</div>;
+    return null;
   }
-
 
   console.log("User in DashboardPage:", user);
 

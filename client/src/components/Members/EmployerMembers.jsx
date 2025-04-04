@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import EditMember from "../Modal/Member/EditMember";
 import { useAuth } from "../../context/AuthContext";
 import "./Members.css";
@@ -23,6 +25,7 @@ function EmployerMembers({ projectId }) {
         setMembers(response.data);
       } catch (error) {
         console.error("Error fetching members:", error);
+        toast.error("Failed to fetch members.");
       }
     };
 
@@ -40,6 +43,7 @@ function EmployerMembers({ projectId }) {
         member._id === updatedMember._id ? updatedMember : member
       )
     );
+    toast.success("Member information updated successfully!");
   };
 
   const handleCloseEditModal = () => {
@@ -83,12 +87,13 @@ function EmployerMembers({ projectId }) {
           </tbody>
         </table>
         <EditMember
-        show={showEditModal}
-        onClose={handleCloseEditModal}
-        member={selectedMember}
-        onMemberUpdated={handleMemberUpdated} 
+          show={showEditModal}
+          onClose={handleCloseEditModal}
+          member={selectedMember}
+          onMemberUpdated={handleMemberUpdated}
         />
       </div>
+      <ToastContainer />
     </>
   );
 }

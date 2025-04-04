@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../Modal.css";
 
 function AddTask({ show, onClose, projectId, onTaskAdded }) {
@@ -35,8 +37,10 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
       );
       onTaskAdded(response.data);
       onClose();
+      toast.success("Task added successfully!");
     } catch (error) {
       console.error("Error creating task:", error.response || error);
+      toast.error("Failed to add task. Please try again.");
     }
   };
 
@@ -111,6 +115,7 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import EditProject from "../Modal/Project/EditProject";
 import "./Dashboard.css";
 
@@ -25,6 +27,7 @@ function ManagerDashboard() {
         console.log("Fetched projects:", response.data);
       } catch (error) {
         console.error("Error fetching projects:", error);
+        toast.error("Failed to fetch projects.");
       }
     };
 
@@ -44,9 +47,10 @@ function ManagerDashboard() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects(projects.filter((project) => project._id !== projectId));
-      console.log(`Project with ID: ${projectId} deleted successfully`);
+      toast.success("Project deleted successfully!");
     } catch (error) {
       console.error("Error deleting project:", error);
+      toast.error(error.response?.data?.message || "Failed to delete project");
     }
   };
 
@@ -114,6 +118,7 @@ function ManagerDashboard() {
         project={selectedProject}
         onUpdate={handleUpdateProject}
       />
+      <ToastContainer />
     </div>
   );
 }

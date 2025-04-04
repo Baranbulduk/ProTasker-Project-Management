@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
@@ -20,6 +22,7 @@ function EmployerDashboard() {
         setProjects(response.data);
       } catch (error) {
         console.error("Error fetching projects:", error);
+        toast.error("Failed to fetch projects.");
       }
     };
 
@@ -50,6 +53,7 @@ function EmployerDashboard() {
           </div>
         ))}
       </main>
+      <ToastContainer />
     </div>
   );
 }
