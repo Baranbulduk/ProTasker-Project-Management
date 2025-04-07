@@ -54,7 +54,8 @@ function AdminMembers({ projectId }) {
             </tr>
           </thead>
           <tbody className="members-table-body">
-            {members.map((member) => (
+            {Array.isArray(members) && members.length > 0 ? (
+            members.map((member) => (
               <tr
                 key={member._id}
                 className="members-table-body-title-container"
@@ -71,7 +72,14 @@ function AdminMembers({ projectId }) {
                   </button>
                 </td>
               </tr>
-            ))}
+            ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="no-members-message">
+                  No members found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         <DeleteMember

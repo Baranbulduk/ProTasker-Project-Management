@@ -36,26 +36,32 @@ function EmployerDashboard() {
   return (
     <div>
       <main className="dashboard-container">
-      {Array.isArray(projects) && projects.length > 0 ? (
-        projects.map((project) => (
-          <div key={project._id} className="dashboard-card" onClick={() => handleViewTasks(project._id)}>
-            <div className="dashboard-card-header">
-              <h2 className="dashboard-card-title">{project.projectTitle}</h2>
+        {Array.isArray(projects) && projects.length > 0 ? (
+          projects.map((project) => (
+            <div
+              key={project._id}
+              className="dashboard-card"
+              onClick={() => handleViewTasks(project._id)}
+            >
+              <div className="dashboard-card-header">
+                <h2 className="dashboard-card-title">{project.projectTitle}</h2>
+              </div>
+              <div className="dashboard-card-body">
+                <p>
+                  <strong>Description:</strong> {project.description}
+                </p>
+                <p>
+                  <strong>Employers:</strong>{" "}
+                  {/* Lägg till logik för att visa arbetsgivare */}
+                </p>
+              </div>
             </div>
-            <div className="dashboard-card-body">
-              <p>
-                <strong>Description:</strong> {project.description}
-              </p>
-              <p>
-                <strong>Employers:</strong>{" "}
-                {/* Lägg till logik för att visa arbetsgivare */}
-              </p>
-            </div>
+          ))
+        ) : (
+          <div className="no-projects-message">
+            No projects assigned to you.
           </div>
-        ))
-      ) : (
-        <div className="no-projects-message">No projects assigned to you.</div>
-      )}
+        )}
       </main>
       <ToastContainer />
     </div>

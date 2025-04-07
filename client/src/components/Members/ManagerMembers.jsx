@@ -53,24 +53,32 @@ function ManagerMembers({ projectId }) {
             </tr>
           </thead>
           <tbody className="members-table-body">
-            {members.map((member) => (
-              <tr
-                key={member._id}
-                className="members-table-body-title-container"
-              >
-                <td>{member.username}</td>
-                <td>{member.email}</td>
-                <td>{member.role}</td>
-                <td>
-                  <button
-                    className="actions-button remove-button"
-                    onClick={() => handleDeleteClick(member)}
-                  >
-                    Remove
-                  </button>
+            {Array.isArray(members) && members.length > 0 ? (
+              members.map((member) => (
+                <tr
+                  key={member._id}
+                  className="members-table-body-title-container"
+                >
+                  <td>{member.username}</td>
+                  <td>{member.email}</td>
+                  <td>{member.role}</td>
+                  <td>
+                    <button
+                      className="actions-button remove-button"
+                      onClick={() => handleDeleteClick(member)}
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4" className="no-members-message">
+                  No members found.
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
         <DeleteMember
