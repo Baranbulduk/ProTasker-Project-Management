@@ -3,12 +3,15 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditTask from "../Modal/Task/EditTask";
+import DeleteTask from "../Modal/Task/DeleteTask";
 import "./Tasks.css";
 
 function AdminTasks({ projectId }) {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -35,19 +38,13 @@ function AdminTasks({ projectId }) {
     setShowEditModal(true);
   };
 
-  const handleDeleteClick = async (taskId) => {
-    try {
-      const token = localStorage.getItem("token");
-      console.log(`Deleting task with ID: ${taskId}`);
-      await axios.delete(`http://localhost:3000/tasks/${taskId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setTasks(tasks.filter((task) => task._id !== taskId));
-      toast.success("Task deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting task:", error);
-      toast.error("Failed to delete task.");
-    }
+  const handleDeleteClick = (task) => {
+    setTaskToDelete(task);
+    setShowDeleteModal(true);
+  };
+
+  const handleTaskDeleted = (deletedId) => {
+    setTasks(tasks.filter((task) => task._id !== deletedId));
   };
 
   return (
@@ -66,43 +63,44 @@ function AdminTasks({ projectId }) {
             </tr>
           </thead>
           <tbody className="tasks-table-body">
-          {Array.isArray(tasks) && tasks.length > 0 ? (
-            tasks.map((task) => (
-              <tr key={task._id} className="tasks-table-body-title-container">
-                <td>{task.taskName}</td>
-                <td>{task.creator ? task.creator.username : "Unknown"}</td>
-                <td>
-                  {task.assignedTo
-                    ? task.assignedTo.username
-                    : "No Assigned Member!"}
-                </td>
-                <td>
-                  {task.updatedAt && new Date(task.updatedAt).toLocaleString()}
-                </td>
-                <td>
+            {Array.isArray(tasks) && tasks.length > 0 ? (
+              tasks.map((task) => (
+                <tr key={task._id} className="tasks-table-body-title-container">
+                  <td>{task.taskName}</td>
+                  <td>{task.creator ? task.creator.username : "Unknown"}</td>
+                  <td>
+                    {task.assignedTo
+                      ? task.assignedTo.username
+                      : "No Assigned Member!"}
+                  </td>
+                  <td>
+                    {task.updatedAt &&
+                      new Date(task.updatedAt).toLocaleString()}
+                  </td>
+                  <td>
                     <span>{task.status}</span>
-                </td>
-                <td>
-                  <button
-                    className="actions-button edit-button"
-                    onClick={() => handleEditClick(task)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="actions-button remove-button"
-                    onClick={() => handleDeleteClick(task._id)}
-                  >
-                    Remove
-                  </button>
-                </td>
+                  </td>
+                  <td>
+                    <button
+                      className="actions-button edit-button"
+                      onClick={() => handleEditClick(task)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="actions-button remove-button"
+                      onClick={() => handleDeleteClick(task)}
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6">No tasks found</td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="6">No tasks found</td>
-            </tr>
-          )}
+            )}
           </tbody>
         </table>
         <EditTask
@@ -117,6 +115,12 @@ function AdminTasks({ projectId }) {
             );
             toast.success("Task updated successfully!");
           }}
+        />
+        <DeleteTask
+          show={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          task={taskToDelete}
+          onDeleted={handleTaskDeleted}
         />
       </div>
       <ToastContainer />

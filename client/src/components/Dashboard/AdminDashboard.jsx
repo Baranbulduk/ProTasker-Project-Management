@@ -4,12 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProject from "../Modal/Project/EditProject";
+import DeleteProject from "../Modal/Project/DeleteProject";
 import "./Dashboard.css";
 
 function AdminDashboard() {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,27 +37,21 @@ function AdminDashboard() {
     setShowEditModal(true);
   };
 
-  const handleDeleteClick = async (projectId) => {
-    try {
-      const token = localStorage.getItem("token");
-      console.log(`Deleting project with ID: ${projectId}`);
-      await axios.delete(`http://localhost:3000/projects/${projectId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setProjects(projects.filter((project) => project._id !== projectId));
-      toast.success("Project deleted successfully!");
-    } catch (error) {
-      console.error("Error deleting project:", error);      
-      toast.error(error.response?.data?.message || "Failed to delete project");
-    }
-  };
-
   const handleUpdateProject = (updatedProject) => {
     setProjects(
       projects.map((project) =>
         project._id === updatedProject._id ? updatedProject : project
       )
     );
+  };
+
+  const handleDeleteClick = (project) => {
+    setProjectToDelete(project);
+    setShowDeleteModal(true);
+  };
+
+  const handleProjectDeleted = (deletedId) => {
+    setProjects(projects.filter((project) => project._id !== deletedId));
   };
 
   const handleViewTasks = (projectId) => {
@@ -64,7 +61,8 @@ function AdminDashboard() {
   return (
     <div>
       <main className="dashboard-container">
-        {projects.map((project) => (
+        {Array.isArray(projects) && projects.length > 0 ? (
+        projects.map((project) => (
           <div
             key={project._id}
             className="dashboard-card"
@@ -88,7 +86,7 @@ function AdminDashboard() {
                   className="dashboard-card-button remove"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDeleteClick(project._id);
+                    handleDeleteClick(project);
                   }}
                 >
                   Remove
@@ -105,13 +103,22 @@ function AdminDashboard() {
               </p>
             </div>
           </div>
-        ))}
+        ))
+        ) : (
+          <p className="no-projects-message">No projects available</p>
+        )}
       </main>
       <EditProject
         show={showEditModal}
         onClose={() => setShowEditModal(false)}
         project={selectedProject}
         onUpdate={handleUpdateProject}
+      />
+      <DeleteProject
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        project={projectToDelete}
+        onDeleted={handleProjectDeleted}
       />
       <ToastContainer />
     </div>

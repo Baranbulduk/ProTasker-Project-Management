@@ -2,15 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import EditMember from "../Modal/Member/EditMember";
-import { useAuth } from "../../context/AuthContext";
+import DeleteMember from "../Modal/Member/DeleteMember";
 import "./Members.css";
 
 function AdminMembers({ projectId }) {
   const [members, setMembers] = useState([]);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
-  const { user } = useAuth();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -32,45 +30,15 @@ function AdminMembers({ projectId }) {
     fetchMembers();
   }, [projectId]);
 
-  const handleEditMember = (member) => {
+  const handleDeleteClick = (member) => {
     setSelectedMember(member);
-    setShowEditModal(true);
+    setShowDeleteModal(true);
   };
 
-  const handleMemberUpdated = (updatedMember) => {
+  const handleMemberDeleted = (memberId) => {
     setMembers((prevMembers) =>
-      prevMembers.map((member) =>
-        member._id === updatedMember._id ? updatedMember : member
-      )
+      prevMembers.filter((member) => member._id !== memberId)
     );
-    toast.success("Member information updated!");
-  };
-
-  const handleCloseEditModal = () => {
-    setShowEditModal(false);
-    setSelectedMember(null);
-  };
-
-  const handleRemoveMember = async (memberId) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(
-        `http://localhost:3000/members/${projectId}/members/${memberId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setMembers((prevMembers) =>
-        prevMembers.filter((member) => member._id !== memberId)
-      );
-      toast.success("Member removed successfully!");
-    } catch (error) {
-      console.error(
-        "Error removing member:",
-        error.response?.data || error.message
-      );
-      toast.error(error.response?.data?.message || "Failed to remove member.");
-    }
   };
 
   return (
@@ -95,17 +63,9 @@ function AdminMembers({ projectId }) {
                 <td>{member.email}</td>
                 <td>{member.role}</td>
                 <td>
-                  {user && user._id === member._id && (
-                    <button
-                      className="actions-button edit-button"
-                      onClick={() => handleEditMember(member)}
-                    >
-                      Edit
-                    </button>
-                  )}
                   <button
                     className="actions-button remove-button"
-                    onClick={() => handleRemoveMember(member._id)}
+                    onClick={() => handleDeleteClick(member)}
                   >
                     Remove
                   </button>
@@ -114,11 +74,12 @@ function AdminMembers({ projectId }) {
             ))}
           </tbody>
         </table>
-        <EditMember
-          show={showEditModal}
-          onClose={handleCloseEditModal}
+        <DeleteMember
+          show={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
           member={selectedMember}
-          onMemberUpdated={handleMemberUpdated}
+          projectId={projectId}         
+          onDeleted={handleMemberDeleted}
         />
       </div>
       <ToastContainer />

@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DeleteMember from "../Modal/Member/DeleteMember";
 import "./Members.css";
 
 function ManagerMembers({ projectId }) {
   const [members, setMembers] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedMember, setSelectedMember] = useState(null);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -26,26 +29,15 @@ function ManagerMembers({ projectId }) {
     fetchMembers();
   }, [projectId]);
 
-  const handleRemoveMember = async (memberId) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.delete(
-        `http://localhost:3000/members/${projectId}/members/${memberId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setMembers((prevMembers) =>
-        prevMembers.filter((member) => member._id !== memberId)
-      );
-      toast.success("Member removed successfully!");
-    } catch (error) {
-      console.error(
-        "Error removing member:",
-        error.response?.data || error.message
-      );
-      toast.error(error.response?.data?.message || "Failed to remove member");
-    }
+  const handleDeleteClick = (member) => {
+    setSelectedMember(member);
+    setShowDeleteModal(true);
+  };
+
+  const handleMemberDeleted = (memberId) => {
+    setMembers((prevMembers) =>
+      prevMembers.filter((member) => member._id !== memberId)
+    );
   };
 
   return (
@@ -72,7 +64,7 @@ function ManagerMembers({ projectId }) {
                 <td>
                   <button
                     className="actions-button remove-button"
-                    onClick={() => handleRemoveMember(member._id)}
+                    onClick={() => handleDeleteClick(member)}
                   >
                     Remove
                   </button>
@@ -81,6 +73,13 @@ function ManagerMembers({ projectId }) {
             ))}
           </tbody>
         </table>
+        <DeleteMember
+          show={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          member={selectedMember}
+          projectId={projectId}
+          onDeleted={handleMemberDeleted}
+        />
       </div>
       <ToastContainer />
     </>

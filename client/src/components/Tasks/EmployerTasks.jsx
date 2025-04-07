@@ -75,36 +75,44 @@ function EmployerTasks({ projectId }) {
             </tr>
           </thead>
           <tbody className="tasks-table-body">
-            {tasks.map((task) => (
-              <tr key={task._id} className="tasks-table-body-title-container">
-                <td>{task.taskName}</td>
-                <td>{task.creator ? task.creator.username : "Unknown"}</td>
-                <td>
-                  {task.assignedTo
-                    ? task.assignedTo.username
-                    : "No Assigned Member!"}
-                </td>
-                <td>
-                  {task.updatedAt && new Date(task.updatedAt).toLocaleString()}
-                </td>
-                <td>
-                  {task.assignedTo && task.assignedTo._id === user._id ? (
-                    <select
-                      value={task.status}
-                      onChange={(e) => handleStatusChange(task, e.target.value)}
-                    >
-                      <option value="Begin">Begin</option>
-                      <option value="Ongoing">Ongoing</option>
-                      <option value="Completed">Completed</option>
-                    </select>
-                  ) : (
-                    <span>{task.status}</span>
-                  )}
-                </td>
-                <td>
-                </td>
+            {Array.isArray(tasks) && tasks.length > 0 ? (
+              tasks.map((task) => (
+                <tr key={task._id} className="tasks-table-body-title-container">
+                  <td>{task.taskName}</td>
+                  <td>{task.creator ? task.creator.username : "Unknown"}</td>
+                  <td>
+                    {task.assignedTo
+                      ? task.assignedTo.username
+                      : "No Assigned Member!"}
+                  </td>
+                  <td>
+                    {task.updatedAt &&
+                      new Date(task.updatedAt).toLocaleString()}
+                  </td>
+                  <td>
+                    {task.assignedTo && task.assignedTo._id === user._id ? (
+                      <select
+                        value={task.status}
+                        onChange={(e) =>
+                          handleStatusChange(task, e.target.value)
+                        }
+                      >
+                        <option value="Begin">Begin</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Completed">Completed</option>
+                      </select>
+                    ) : (
+                      <span>{task.status}</span>
+                    )}
+                  </td>
+                  <td></td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6">No tasks found</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

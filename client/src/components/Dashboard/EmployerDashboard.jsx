@@ -36,7 +36,8 @@ function EmployerDashboard() {
   return (
     <div>
       <main className="dashboard-container">
-        {projects.map((project) => (
+      {Array.isArray(projects) && projects.length > 0 ? (
+        projects.map((project) => (
           <div key={project._id} className="dashboard-card" onClick={() => handleViewTasks(project._id)}>
             <div className="dashboard-card-header">
               <h2 className="dashboard-card-title">{project.projectTitle}</h2>
@@ -51,7 +52,10 @@ function EmployerDashboard() {
               </p>
             </div>
           </div>
-        ))}
+        ))
+      ) : (
+        <div className="no-projects-message">No projects assigned to you.</div>
+      )}
       </main>
       <ToastContainer />
     </div>
