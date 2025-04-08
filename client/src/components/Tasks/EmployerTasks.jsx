@@ -5,8 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context/AuthContext";
 import "./Tasks.css";
 
-function EmployerTasks({ projectId }) {
-  const [tasks, setTasks] = useState([]);
+function EmployerTasks({ projectId, tasks, setTasks }) {
   const { user } = useAuth();
 
   useEffect(() => {

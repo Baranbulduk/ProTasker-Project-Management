@@ -10,7 +10,10 @@ const authenticateToken = require('../middleware/authToken');
 // Hämta alla projekt (endast admin)
 router.get('/', authenticateToken, isAdmin, async (req, res) => {
   try {
-    const projects = await Project.find();
+    const projects = await Project.find().populate({
+      path: 'members',
+      select: 'username email role', // Hämta endast relevanta fält
+    });
     res.json(projects);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -20,7 +23,13 @@ router.get('/', authenticateToken, isAdmin, async (req, res) => {
 // Hämtar projekt som är tilldelade till den inloggade användaren (Användarbaserat: manager och employer)
 router.get('/assigned', authenticateToken, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).populate('projects');
+    const user = await User.findById(req.user.id).populate({
+      path: 'projects',
+      populate: {
+        path: 'members',
+        select: 'username email role', // Hämta endast relevanta fält
+      },
+    });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }

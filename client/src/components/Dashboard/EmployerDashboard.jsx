@@ -47,11 +47,18 @@ function EmployerDashboard({ projects, setProjects }) {
               </div>
               <div className="dashboard-card-body">
                 <p>
-                  <strong>Description:</strong> {project.description}
+                  <strong>Description</strong> {project.description}
                 </p>
                 <p>
-                  <strong>Employers:</strong>{" "}
-                  {/* Lägg till logik för att visa arbetsgivare */}
+                  <strong>Members</strong>{" "}
+                  {Array.isArray(project.members) && project.members.length > 0
+                    ? project.members.map((member, index) => (
+                        <span key={member._id || index}>
+                          {member.username}
+                          {index < project.members.length - 1 && ", "}
+                        </span>
+                      ))
+                    : "No members assigned"}
                 </p>
               </div>
             </div>

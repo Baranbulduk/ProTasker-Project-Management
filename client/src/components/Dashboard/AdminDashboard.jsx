@@ -61,48 +61,57 @@ function AdminDashboard({ projects, setProjects }) {
     <div>
       <main className="dashboard-container">
         {Array.isArray(projects) && projects.length > 0 ? (
-        projects.map((project) => (
-          <div
-            key={project._id}
-            className="dashboard-card"
-            onClick={() => handleViewTasks(project._id)}
-          >
-            <div className="dashboard-card-header">
-              <div>
-                <h2 className="dashboard-card-title">{project.projectTitle}</h2>
+          projects.map((project) => (
+            <div
+              key={project._id}
+              className="dashboard-card"
+              onClick={() => handleViewTasks(project._id)}
+            >
+              <div className="dashboard-card-header">
+                <div>
+                  <h2 className="dashboard-card-title">
+                    {project.projectTitle}
+                  </h2>
+                </div>
+                <div className="dashboard-card-button-container">
+                  <button
+                    className="dashboard-card-button edit"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditClick(project);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="dashboard-card-button remove"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClick(project);
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
-              <div className="dashboard-card-button-container">
-                <button
-                  className="dashboard-card-button edit"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEditClick(project);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="dashboard-card-button remove"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteClick(project);
-                  }}
-                >
-                  Remove
-                </button>
+              <div className="dashboard-card-body">
+                <p>
+                  <strong>Description</strong> {project.description}
+                </p>
+                <p>
+                  <strong>Members</strong>{" "}
+                  {Array.isArray(project.members) && project.members.length > 0
+                    ? project.members.map((member, index) => (
+                        <span key={member._id || index}>
+                          {member.username}
+                          {index < project.members.length - 1 && ", "}
+                        </span>
+                      ))
+                    : "No members assigned"}
+                </p>
               </div>
             </div>
-            <div className="dashboard-card-body">
-              <p>
-                <strong>Description:</strong> {project.description}
-              </p>
-              <p>
-                <strong>Employers:</strong>{" "}
-                {/* Lägg till logik för att visa arbetsgivare */}
-              </p>
-            </div>
-          </div>
-        ))
+          ))
         ) : (
           <p className="no-projects-message">No projects available</p>
         )}
