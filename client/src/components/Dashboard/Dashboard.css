@@ -1,64 +1,103 @@
 .dashboard-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 30px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 30px;
 }
 
 .dashboard-card {
-    height: 250px;
-    width: 500px;
-    border-radius: 20px;
-    background-color: #ffffff;
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
+  height: 250px;
+  width: 500px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .dashboard-card:hover {
-    scale: 0.98;
-    transition: scale 0.1s ease-in-out;
+  scale: 0.98;
+  transition: scale 0.1s ease-in-out;
 }
 
 .dashboard-card-header {
-    background: linear-gradient(90deg, #014ae6, #040e4f);
-    color: rgb(255, 255, 255);
-    padding: 20px;
-    border-radius: 10px 10px 0 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  background: linear-gradient(90deg, #014ae6, #040e4f);
+  color: rgb(255, 255, 255);
+  padding: 20px;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .dashboard-card-title {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .dashboard-card-button-container {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .dashboard-card-button {
-    padding: 7px 20px;
-    border: none;
-    border-radius: 5px;
-    font-weight: 500;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: transparent;
-    color: white;
+  padding: 7px 20px;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: transparent;
+  color: white;
 }
 
 .dashboard-card-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .dashboard-card-body {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    padding: 10px 20px;
-    font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.dashboard-card-description {
+  height: 90px;
+  border-bottom: solid 1px #f4f4f4;
+  margin-bottom: 10px;
+}
+
+.dashboard-card-members {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.dashboard-card-member {
+  color: white;
+  font-weight: 500;
+  font-size: 16x;
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: -8px;
+  padding: 5px;
+}
+
+.dashboard-card-member.extra-members {
+  background-color: gray;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 5px;
 }

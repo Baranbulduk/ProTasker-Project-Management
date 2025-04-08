@@ -32,6 +32,20 @@ function EmployerDashboard({ projects, setProjects }) {
     navigate(`/tasks/${projectId}`);
   };
 
+  const getColorFromId = (id) => {
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+      hash = id.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const color = `#${((hash >> 24) & 0xff).toString(16).padStart(2, "0")}${(
+      (hash >> 16) &
+      0xff
+    )
+      .toString(16)
+      .padStart(2, "0")}${((hash >> 8) & 0xff).toString(16).padStart(2, "0")}`;
+    return color;
+  };
+
   return (
     <div>
       <main className="dashboard-container">
@@ -46,20 +60,36 @@ function EmployerDashboard({ projects, setProjects }) {
                 <h2 className="dashboard-card-title">{project.projectTitle}</h2>
               </div>
               <div className="dashboard-card-body">
-                <p>
-                  <strong>Description</strong> {project.description}
-                </p>
-                <p>
-                  <strong>Members</strong>{" "}
-                  {Array.isArray(project.members) && project.members.length > 0
-                    ? project.members.map((member, index) => (
-                        <span key={member._id || index}>
-                          {member.username}
-                          {index < project.members.length - 1 && ", "}
+                <div>
+                  <p className="dashboard-card-description">
+                    {project.description || "No description available"}
+                  </p>
+                </div>
+                <div className="dashboard-card-members">
+                  {Array.isArray(project.members) &&
+                  project.members.length > 0 ? (
+                    <>
+                      {project.members.slice(0, 10).map((member, index) => (
+                        <span
+                          className="dashboard-card-member"
+                          key={member._id || index}
+                          style={{
+                            backgroundColor: getColorFromId(member._id),
+                          }}
+                        >
+                          {member.username.charAt(0).toUpperCase()}
                         </span>
-                      ))
-                    : "No members assigned"}
-                </p>
+                      ))}
+                      {project.members.length > 10 && (
+                        <span className="dashboard-card-member extra-members">
+                          +{project.members.length - 10}
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    "No members assigned"
+                  )}
+                </div>
               </div>
             </div>
           ))
