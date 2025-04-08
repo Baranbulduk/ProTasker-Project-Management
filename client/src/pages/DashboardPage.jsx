@@ -12,9 +12,10 @@ import "../styles/DashboardPage.css";
 function DashboardPage() {
   const { user, loading } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const [projects, setProjects] = useState([]);
   const navigate = useNavigate();
-  
- useEffect(() => {
+
+  useEffect(() => {
     if (!loading && !user) {
       navigate("/");
     }
@@ -29,11 +30,15 @@ function DashboardPage() {
   const renderDashboardRole = () => {
     switch (user.role) {
       case "admin":
-        return <AdminDashboard />;
+        return <AdminDashboard projects={projects} setProjects={setProjects} />;
       case "manager":
-        return <ManagerDashboard />;
+        return (
+          <ManagerDashboard projects={projects} setProjects={setProjects} />
+        );
       case "employer":
-        return <EmployerDashboard />;
+        return (
+          <EmployerDashboard projects={projects} setProjects={setProjects} />
+        );
       default:
         return <p>Unauthorized</p>;
     }
@@ -47,17 +52,18 @@ function DashboardPage() {
     setShowModal(false);
   };
 
+  // Refresh the page when a new project is added
+  const handleProjectAdded = (newProject) => {
+    setProjects((prevProjects) => [...prevProjects, newProject]);
+  };
+
   return (
     <>
       <HeaderDashboard />
       <div className="dashboard-header">
         <div>
           <h1 className="dashboard-header-title">
-            <span
-              style={{ color: "#969696", fontWeight: "400" }}
-            >
-              Hi,{" "}
-            </span>
+            <span style={{ color: "#969696", fontWeight: "400" }}>Hi, </span>
             {user.username}!
           </h1>
         </div>
@@ -76,7 +82,11 @@ function DashboardPage() {
         {renderDashboardRole()}
       </div>
       <FooterDashboard />
-      <AddProject show={showModal} onClose={handleCloseAddProject} />
+      <AddProject
+        show={showModal}
+        onClose={handleCloseAddProject}
+        onProjectAdded={handleProjectAdded}
+      />
     </>
   );
 }

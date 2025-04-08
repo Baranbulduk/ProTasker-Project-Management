@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Modal.css";
 
-function AddProject({ show, onClose }) {
+function AddProject({ show, onClose, onProjectAdded }) {
   const [projectTitle, setProjectTitle] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -29,6 +29,7 @@ function AddProject({ show, onClose }) {
         }
       );
       console.log("Project added:", response.data);
+      onProjectAdded(response.data);
       onClose();
       toast.success("Project added successfully!");
     } catch (error) {

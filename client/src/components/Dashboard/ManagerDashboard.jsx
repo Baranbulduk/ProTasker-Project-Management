@@ -7,8 +7,7 @@ import EditProject from "../Modal/Project/EditProject";
 import DeleteProject from "../Modal/Project/DeleteProject";
 import "./Dashboard.css";
 
-function ManagerDashboard() {
-  const [projects, setProjects] = useState([]);
+function ManagerDashboard({ projects, setProjects }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);

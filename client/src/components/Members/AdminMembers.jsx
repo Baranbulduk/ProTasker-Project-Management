@@ -5,8 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import DeleteMember from "../Modal/Member/DeleteMember";
 import "./Members.css";
 
-function AdminMembers({ projectId }) {
-  const [members, setMembers] = useState([]);
+function AdminMembers({ projectId, members, setMembers }) {
   const [selectedMember, setSelectedMember] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 

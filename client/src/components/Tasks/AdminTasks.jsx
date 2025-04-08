@@ -6,8 +6,7 @@ import EditTask from "../Modal/Task/EditTask";
 import DeleteTask from "../Modal/Task/DeleteTask";
 import "./Tasks.css";
 
-function AdminTasks({ projectId }) {
-  const [tasks, setTasks] = useState([]);
+function AdminTasks({ projectId, tasks, setTasks }) {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);

@@ -59,11 +59,25 @@ function TasksPage() {
   const renderTasksRole = () => {
     switch (user.role) {
       case "admin":
-        return <AdminTasks projectId={projectId} tasks={tasks} />;
+        return (
+          <AdminTasks projectId={projectId} tasks={tasks} setTasks={setTasks} />
+        );
       case "manager":
-        return <ManagerTasks projectId={projectId} tasks={tasks} />;
+        return (
+          <ManagerTasks
+            projectId={projectId}
+            tasks={tasks}
+            setTasks={setTasks}
+          />
+        );
       case "employer":
-        return <EmployerTasks projectId={projectId} tasks={tasks} />;
+        return (
+          <EmployerTasks
+            projectId={projectId}
+            tasks={tasks}
+            setTasks={setTasks}
+          />
+        );
       default:
         return <p>Unauthorized</p>;
     }
@@ -72,11 +86,29 @@ function TasksPage() {
   const renderMembersRole = () => {
     switch (user.role) {
       case "admin":
-        return <AdminMembers projectId={projectId} members={members} />;
+        return (
+          <AdminMembers
+            projectId={projectId}
+            members={members}
+            setMembers={setMembers}
+          />
+        );
       case "manager":
-        return <ManagerMembers projectId={projectId} members={members} />;
+        return (
+          <ManagerMembers
+            projectId={projectId}
+            members={members}
+            setMembers={setMembers}
+          />
+        );
       case "employer":
-        return <EmployerMembers projectId={projectId} members={members} />;
+        return (
+          <EmployerMembers
+            projectId={projectId}
+            members={members}
+            setMembers={setMembers}
+          />
+        );
       default:
         return <p>Unauthorized</p>;
     }
@@ -98,6 +130,12 @@ function TasksPage() {
     setShowMemberModal(false);
   };
 
+  // Refresh the page when a new task is added
+  const handleTaskAdded = (newTask) => {
+    setTasks((prevTasks) => [...prevTasks, newTask]);
+  };
+
+  // Refresh the page when a new member is added
   const handleMemberAdded = (newMember) => {
     setMembers((prevMembers) => [...prevMembers, newMember]);
   };
@@ -107,9 +145,7 @@ function TasksPage() {
       <HeaderDashboard />
       <div className="tasks-header">
         <h1 className="tasks-header-title">
-          <span
-            style={{ color: "#969696", fontWeight: "400" }}
-          >
+          <span style={{ color: "#969696", fontWeight: "400" }}>
             Project Name:
           </span>{" "}
           {project ? project.projectTitle : "Loading..."}
@@ -119,7 +155,12 @@ function TasksPage() {
         <div className="tasks-body">
           <div className="tasks-menu-container">
             <div>
-              <button className="tasks-menu-button" onClick={() => window.history.back()}><img className="back-icon" src={backIcon} alt="back" /></button>
+              <button
+                className="tasks-menu-button"
+                onClick={() => window.history.back()}
+              >
+                <img className="back-icon" src={backIcon} alt="back" />
+              </button>
             </div>
 
             <div>
@@ -174,9 +215,7 @@ function TasksPage() {
         show={showTaskModal}
         onClose={handleCloseAddTask}
         projectId={projectId}
-        onTaskAdded={(newTask) => {
-          setTasks((prevTasks) => [...prevTasks, newTask]);
-        }}
+        onTaskAdded={handleTaskAdded}
       />
       <AddMember
         show={showMemberModal}

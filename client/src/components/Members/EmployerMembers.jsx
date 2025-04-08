@@ -6,8 +6,7 @@ import EditMember from "../Modal/Member/EditMember";
 import { useAuth } from "../../context/AuthContext";
 import "./Members.css";
 
-function EmployerMembers({ projectId }) {
-  const [members, setMembers] = useState([]);
+function EmployerMembers({ projectId, members, setMembers }) {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedMember, setSelectedMember] = useState(null);
   const { user } = useAuth();

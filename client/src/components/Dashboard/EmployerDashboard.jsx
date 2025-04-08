@@ -5,8 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
-function EmployerDashboard() {
-  const [projects, setProjects] = useState([]);
+function EmployerDashboard({ projects, setProjects }) {
   const navigate = useNavigate();
 
   useEffect(() => {
