@@ -73,7 +73,7 @@ function AdminTasks({ projectId, tasks, setTasks }) {
                       : "No Assigned Member!"}
                   </td>
                   <td className="tasks-table-body-title">
-                    {task.updatedAt &&
+                    {task.updatedAt && 
                       new Date(task.updatedAt).toLocaleString()}
                   </td>
                   <td className="tasks-table-body-title">
