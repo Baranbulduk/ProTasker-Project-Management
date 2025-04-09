@@ -102,6 +102,7 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
     if (assignedTo) {
       await User.findByIdAndUpdate(assignedTo, { $push: { tasks: newTask._id } });
     }
+
     // Populera creator och assignedTo innan du returnerar tasken
     const populatedTask = await Task.findById(newTask._id)
       .populate('creator', 'username email')
@@ -185,7 +186,13 @@ router.patch('/:id', authenticateToken, findTaskId, async (req, res) => {
     }
 
     const updatedTask = await task.save();
-    res.json(updatedTask);
+
+    // Populera creator och assignedTo innan du returnerar tasken
+    const populatedTask = await Task.findById(updatedTask._id)
+      .populate('creator', 'username email')
+      .populate('assignedTo', 'username email');
+
+    res.json(populatedTask);
   } catch (error) {
     console.error('Error updating task:', error);
     res.status(500).json({ message: error.message });
