@@ -8,14 +8,12 @@ function EditTask({ show, onClose, task, onUpdate }) {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
-  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (task) {
       setTaskName(task.taskName || "");
       setDescription(task.description || "");
       setAssignedTo(task.assignedTo || "");
-      setStatus(task.status || "");
     }
   }, [task]);
 
@@ -27,7 +25,6 @@ function EditTask({ show, onClose, task, onUpdate }) {
         taskName,
         description,
         assignedTo,
-        status,
       };
 
       const response = await axios.patch(
@@ -91,25 +88,12 @@ function EditTask({ show, onClose, task, onUpdate }) {
             <div className="modal-section">
               <label>Assigned To</label>
               <input
-                type="text"
+                type="email"
                 name="assignedTo"
-                placeholder="Enter username"
+                placeholder="Enter email"
                 value={assignedTo}
                 onChange={(e) => setAssignedTo(e.target.value)}
               />
-            </div>
-            <div>
-              <label className="modal-section">Status</label>
-              <select
-                name="status"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                required
-              >
-                <option value="pending">Begin</option>
-                <option value="in-progress">Ongoing</option>
-                <option value="completed">Completed</option>
-              </select>
             </div>
             <div className="modal-button-container">
               <button className="modal-button" type="submit">

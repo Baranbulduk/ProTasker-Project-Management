@@ -7,7 +7,6 @@ import "../Modal.css";
 function AddTask({ show, onClose, projectId, onTaskAdded }) {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("");
   const [assignedTo, setAssignedTo] = useState("");
 
   const handleSubmit = async (e) => {
@@ -25,7 +24,6 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
         {
           taskName,
           description,
-          status,
           assignedTo,
           project_id: projectId,
         },
@@ -87,25 +85,13 @@ function AddTask({ show, onClose, projectId, onTaskAdded }) {
             <div className="modal-section">
               <label>Assigned To</label>
               <input
-                type="text"
+                type="email"
                 name="assignedTo"
-                placeholder="Enter username"
+                placeholder="Enter email"
                 value={assignedTo}
                 onChange={(e) => setAssignedTo(e.target.value)}
                 required
               />
-            </div>
-            <div className="modal-section">
-              <label>Status</label>
-              <select
-                name="status"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-              >
-                <option value="Begin">Begin</option>
-                <option value="Ongoing">Ongoing</option>
-                <option value="Completed">Completed</option>
-              </select>
             </div>
             <div className="modal-button-container">
               <button className="modal-button" type="submit">

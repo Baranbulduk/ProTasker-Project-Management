@@ -59,7 +59,7 @@ router.get('/', authenticateToken, async (req, res) => {
 // Skapa en ny uppgift (endast manager och admin)
 router.post('/', authenticateToken, isManager, async (req, res) => {
   try {
-    const { taskName, description, status, assignedTo: username, project_id } = req.body;
+    const { taskName, description, status, assignedTo: email, project_id } = req.body;
 
     // Kontrollera att projektet finns
     const project = await Project.findById(project_id);
@@ -68,8 +68,8 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
     }
 
     let assignedTo = null;
-    if (username) {
-      const user = await User.findOne({ username });
+    if (email) {
+      const user = await User.findOne({ email });
       if (!user) return res.status(400).json({ message: 'User not found' });
 
       assignedTo = user._id;
@@ -145,7 +145,7 @@ router.post('/:projectId/assign', authenticateToken, isManager, async (req, res)
 router.patch('/:id', authenticateToken, findTaskId, async (req, res) => {
   try {
     const { task } = req;
-    const { taskName, description, status, assignedTo: newUsername } = req.body;
+    const { taskName, description, status, assignedTo: newEmail } = req.body;
 
     // Kontrollera åtkomst baserat på roll
     if (req.user.role === 'manager' && task.project_id.creator.toString() !== req.user.id) {
@@ -167,8 +167,8 @@ router.patch('/:id', authenticateToken, findTaskId, async (req, res) => {
       task.status = status;
     }
 
-    if (newUsername) {
-      const newUser = await User.findOne({ username: newUsername });
+    if (newEmail) {
+      const newUser = await User.findOne({ email: newEmail });
       if (!newUser) return res.status(400).json({ message: 'User not found' });
 
       // Ta bort tasken från den tidigare användarens `tasks`-lista

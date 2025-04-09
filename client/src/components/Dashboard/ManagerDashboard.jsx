@@ -118,30 +118,40 @@ function ManagerDashboard({ projects, setProjects }) {
                     {project.description || "No description available"}
                   </p>
                 </div>
-                <div className="dashboard-card-members">
-                  {Array.isArray(project.members) &&
-                  project.members.length > 0 ? (
-                    <>
-                      {project.members.slice(0, 10).map((member, index) => (
-                        <span
-                          className="dashboard-card-member"
-                          key={member._id || index}
-                          style={{
-                            backgroundColor: getColorFromId(member._id),
-                          }}
-                        >
-                          {member.username.charAt(0).toUpperCase()}
-                        </span>
-                      ))}
-                      {project.members.length > 10 && (
-                        <span className="dashboard-card-member extra-members">
-                          +{project.members.length - 10}
-                        </span>
-                      )}
-                    </>
-                  ) : (
-                    "No members assigned"
-                  )}
+                <div className="dashboard-card-members-container">
+                  <div className="dashboard-card-members">
+                    {Array.isArray(project.members) &&
+                    project.members.length > 0 ? (
+                      <>
+                        {project.members.slice(0, 5).map((member, index) => (
+                          <span
+                            className="dashboard-card-member"
+                            key={member._id || index}
+                            style={{
+                              backgroundColor: getColorFromId(member._id),
+                            }}
+                          >
+                            {member.username.charAt(0).toUpperCase()}
+                          </span>
+                        ))}
+                        {project.members.length > 5 && (
+                          <span className="dashboard-card-member extra-members">
+                            +{project.members.length - 5}
+                          </span>
+                        )}
+                      </>
+                    ) : (
+                      "No members assigned"
+                    )}
+                  </div>
+                  <div>
+                    {project.startDate && project.endDate && (
+                      <p className="dashboard-card-dates">
+                        {new Date(project.startDate).toLocaleDateString()} -{" "}
+                        {new Date(project.endDate).toLocaleDateString()}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
