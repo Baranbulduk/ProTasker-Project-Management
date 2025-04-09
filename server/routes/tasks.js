@@ -102,8 +102,12 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
     if (assignedTo) {
       await User.findByIdAndUpdate(assignedTo, { $push: { tasks: newTask._id } });
     }
+    // Populera creator och assignedTo innan du returnerar tasken
+    const populatedTask = await Task.findById(newTask._id)
+      .populate('creator', 'username email')
+      .populate('assignedTo', 'username email');
 
-    res.status(201).json(newTask);
+    res.status(201).json(populatedTask);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

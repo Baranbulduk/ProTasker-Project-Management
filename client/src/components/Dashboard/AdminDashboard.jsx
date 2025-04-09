@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import EditProject from "../Modal/Project/EditProject";
 import DeleteProject from "../Modal/Project/DeleteProject";
 import "./Dashboard.css";
-import { get } from "mongoose";
 
 function AdminDashboard({ projects, setProjects }) {
   const [selectedProject, setSelectedProject] = useState(null);
