@@ -159,7 +159,7 @@ function TasksPage() {
                 className="tasks-menu-button"
                 onClick={() => window.history.back()}
               >
-                <img className="back-icon" src={backIcon} alt="back" />
+                <img className="back-icon" src={backIcon} alt="back" /> Back
               </button>
             </div>
 

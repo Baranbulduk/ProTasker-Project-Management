@@ -37,7 +37,7 @@ function AddProject({ show, onClose, onProjectAdded }) {
       toast.error("Failed to add project.");
     }
   };
-  
+
   const handleCloseOverlay = (e) => {
     if (e.target.classList.contains("modal-overlay")) {
       onClose();
@@ -53,14 +53,14 @@ function AddProject({ show, onClose, onProjectAdded }) {
       <div className="modal">
         <div className="modal-content">
           <button className="modal-close" onClick={onClose}>
-          &times;
-        </button>
+            &times;
+          </button>
           <h2 className="modal-title">Add Project</h2>
           <form onSubmit={handleSubmit}>
             <div className="modal-section">
               <label>Project Name</label>
               <input
-              className="modal-input"
+                className="modal-input"
                 type="text"
                 name="projectTitle"
                 placeholder="Enter project name"
@@ -78,28 +78,32 @@ function AddProject({ show, onClose, onProjectAdded }) {
                 onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
-            <div className="modal-section">
-              <label>Start Date</label>
-              <input
-                type="date"
-                name="startDate"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                required
-              />
-            </div>
-            <div className="modal-section">
-              <label>End Date</label>
-              <input
-                type="date"
-                name="endDate"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                required
-              />
+            <div className="modal-section-date-container">
+              <div className="modal-section-date">
+                <label>Start Date</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="modal-section-date">
+                <label>End Date</label>
+                <input
+                  type="date"
+                  name="endDate"
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  required
+                />
+              </div>
             </div>
             <div className="modal-button-container">
-            <button className="modal-button" type="submit">Submit</button>
+              <button className="modal-button" type="submit">
+                Submit
+              </button>
             </div>
           </form>
         </div>

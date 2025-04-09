@@ -48,6 +48,11 @@
 textarea {
   height: 80px;
   resize: none;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
 .modal-section {
@@ -56,10 +61,23 @@ textarea {
   margin-top: 10px;
 }
 
+.modal-section-date-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.modal-section-date {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+
 .modal-button-container {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .modal-button {
