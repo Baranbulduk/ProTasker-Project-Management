@@ -1,11 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600&display=swap");
+
 * {
   margin: 0;
   padding: 0;
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  letter-spacing: 0.5px;
+  font-family: "Urbanist", Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+  letter-spacing: 1px;
   line-height: 1.4;
   font-weight: 400;
 
@@ -13,6 +16,11 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  font-family: inherit;
+  letter-spacing: inherit;
 }
 
 button:hover {
