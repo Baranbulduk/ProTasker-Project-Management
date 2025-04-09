@@ -65,18 +65,18 @@ function AdminTasks({ projectId, tasks, setTasks }) {
             {Array.isArray(tasks) && tasks.length > 0 ? (
               tasks.map((task) => (
                 <tr key={task._id} className="tasks-table-body-title-container">
-                  <td>{task.taskName}</td>
-                  <td>{task.creator ? task.creator.username : "Unknown"}</td>
-                  <td>
+                  <td className="tasks-table-body-title">{task.taskName}</td>
+                  <td className="tasks-table-body-title">{task.creator ? task.creator.username : "Unknown"}</td>
+                  <td  className="tasks-table-body-title">
                     {task.assignedTo
                       ? task.assignedTo.username
                       : "No Assigned Member!"}
                   </td>
-                  <td>
+                  <td className="tasks-table-body-title">
                     {task.updatedAt &&
                       new Date(task.updatedAt).toLocaleString()}
                   </td>
-                  <td>
+                  <td className="tasks-table-body-title">
                     <span>{task.status}</span>
                   </td>
                   <td>
