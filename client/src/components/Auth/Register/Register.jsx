@@ -63,9 +63,6 @@ function Register() {
               <option className="register-option" value="manager">
                 Manager
               </option>
-              <option className="register-option" value="admin">
-                Admin
-              </option>
             </select>
             <button className="register-button" type="submit">
               Register
