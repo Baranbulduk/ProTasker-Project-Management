@@ -37,7 +37,6 @@
 .dashboard-card-button-container {
   display: flex;
   flex-direction: row;
-
 }
 
 .dashboard-card-button {
@@ -110,4 +109,10 @@
 
 .dashboard-card-dates {
   color: gray;
+}
+
+@media screen and (max-width: 1300px) {
+  .dashboard-card {
+    width: 592px;
+  }
 }
