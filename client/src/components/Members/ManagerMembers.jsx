@@ -42,44 +42,44 @@ function ManagerMembers({ projectId, members, setMembers }) {
   return (
     <>
       <div>
-        <table className="members-table-container">
-          <thead className="members-table-header">
-            <tr className="members-table-header-title-container">
-              <th className="members-table-header-title">Name</th>
-              <th className="members-table-header-title">Email</th>
-              <th className="members-table-header-title">Role</th>
-              <th className="members-table-header-title">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="members-table-body">
-            {Array.isArray(members) && members.length > 0 ? (
-              members.map((member) => (
-                <tr
-                  key={member._id}
-                  className="members-table-body-title-container"
-                >
-                  <td>{member.username}</td>
-                  <td>{member.email}</td>
-                  <td>{member.role}</td>
-                  <td>
+      <main className="members-container">
+          {Array.isArray(members) && members.length > 0 ? (
+            members.map((member) => (
+              <div key={member._id} className="members-card">
+                <div className="members-card-header">
+                  <h2 className="members-card-title">{member.username}</h2>
+                  <div className="members-card-button-container">
                     <button
-                      className="actions-button remove-button"
-                      onClick={() => handleDeleteClick(member)}
+                      className="members-card-button remove"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteClick(member);
+                      }}
                     >
                       Remove
                     </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="no-members-message">
-                  No members found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+                  </div>
+                </div>
+                <div className="members-card-body">
+                  <div>
+                    <p className="members-card-subheading">
+                      <strong>Email</strong>
+                    </p>
+                    <p className="members-card-dates">{member.email}</p>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <p className="members-card-subheading">
+                      <strong>Role</strong>
+                    </p>
+                    <p className="members-card-dates">{member.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="no-members-message">No members found.</p>
+          )}
+        </main>
         <DeleteMember
           show={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}

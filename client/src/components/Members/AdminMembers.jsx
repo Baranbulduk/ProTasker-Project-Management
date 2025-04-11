@@ -40,6 +40,7 @@ function AdminMembers({ projectId, members, setMembers }) {
     );
   };
 
+  /*
   return (
     <>
       <div>
@@ -92,6 +93,59 @@ function AdminMembers({ projectId, members, setMembers }) {
       <ToastContainer />
     </>
   );
-}
+}*/
 
+  return (
+    <>
+      <div>
+        <main className="members-container">
+          {Array.isArray(members) && members.length > 0 ? (
+            members.map((member) => (
+              <div key={member._id} className="members-card">
+                <div className="members-card-header">
+                  <h2 className="members-card-title">{member.username}</h2>
+                  <div className="members-card-button-container">
+                    <button
+                      className="members-card-button remove"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteClick(member);
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <div className="members-card-body">
+                  <div>
+                    <p className="members-card-subheading">
+                      <strong>Email</strong>
+                    </p>
+                    <p className="members-card-dates">{member.email}</p>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <p className="members-card-subheading">
+                      <strong>Role</strong>
+                    </p>
+                    <p className="members-card-dates">{member.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="no-members-message">No members found.</p>
+          )}
+        </main>
+        <DeleteMember
+          show={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          member={selectedMember}
+          projectId={projectId}
+          onDeleted={handleMemberDeleted}
+        />
+        <ToastContainer />
+      </div>
+    </>
+  );
+}
 export default AdminMembers;
