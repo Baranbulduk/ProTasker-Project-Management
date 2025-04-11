@@ -14,12 +14,11 @@ function EmployerTasks({ projectId, tasks, setTasks }) {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:3000/tasks?project_id=${projectId}`,
+          `http://localhost:3000/tasks?project_id=${projectId}&all=true`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log("Employer's projects:", user.projects);
         setTasks(response.data);
       } catch (error) {
         console.error("Error fetching tasks:", error);

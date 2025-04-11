@@ -21,18 +21,30 @@ router.get('/', authenticateToken, async (req, res) => {
 
     if (req.user.role === 'admin') {
       tasks = await Task.find(project_id ? { project_id } : {})
-        .populate('assignedTo', 'username email role') 
-        .populate('creator', 'username email') 
-        .populate('project_id', 'projectTitle');
-
-    } else if (req.user.role === 'manager') {
-      const projects = await Project.find({ creator: req.user.id });
-      const projectIds = projects.map((project) => project._id.toString());
-      tasks = await Task.find({ project_id: { $in: projectIds } })
         .populate('assignedTo', 'username email role')
         .populate('creator', 'username email')
         .populate('project_id', 'projectTitle');
 
+    } else if (req.user.role === 'manager') {
+      if (!project_id) {
+        return res.status(400).json({ message: 'Missing project_id in query' });
+      }
+
+      const project = await Project.findOne({ _id: project_id, creator: req.user.id });
+
+      if (!project) {
+        return res.status(403).json({ message: 'Access denied. You are not the manager of this project.' });
+      }
+
+      tasks = await Task.find({ project_id })
+        .populate('assignedTo', 'username email role')
+        .populate('creator', 'username email')
+        .populate('project_id', 'projectTitle');
+
+
+
+
+/*
     } else if (req.user.role === 'employer') {
       const user = await User.findById(req.user.id).populate('projects');
       const projectIds = user.projects.map((project) => project._id.toString());
@@ -44,7 +56,38 @@ router.get('/', authenticateToken, async (req, res) => {
         ],
       }).populate('assignedTo', 'username email role')
         .populate('creator', 'username email')
-        .populate('project_id', 'projectTitle');
+        .populate('project_id', 'projectTitle');*/
+
+
+
+
+
+
+
+
+      } else if (req.user.role === 'employer') {
+        if (!project_id) {
+          return res.status(400).json({ message: 'Missing project_id in query' });
+        }
+
+        const user = await User.findById(req.user.id).populate('projects');
+        const projectIds = user.projects.map((project) => project._id.toString());
+
+        if (!projectIds.includes(project_id)) {
+          return res.status(403).json({ message: 'Access denied. You are not a member of this project.' });
+        }
+
+        const showAll = req.query.all === 'true';
+
+        const taskQuery = showAll
+        ? { project_id }
+        : { project_id, assignedTo: req.user.id };
+  
+        tasks = await Task.find(taskQuery)
+        .populate('assignedTo', 'username email role')
+          .populate('creator', 'username email')
+          .populate('project_id', 'projectTitle');
+
     } else {
       return res.status(403).json({ message: 'Access denied' });
     }

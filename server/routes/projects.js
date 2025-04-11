@@ -42,12 +42,17 @@ router.get('/assigned', authenticateToken, async (req, res) => {
 
 // Hämtar projekt som rollen har tillgång till (Rollbaserat: manager och employer)
 router.get('/:id', authenticateToken, findProjectId, async (req, res) => {
+  console.log("User ID:", req.user.id); // Logga användarens ID
+  console.log("Project Members:", req.project.members);
 
   if (req.user.role === 'manager' && req.project.creator.toString() !== req.user.id) {
     return res.status(403).json({ message: 'Access denied. Managers can only access their own projects.' });
   }
 
   if (req.user.role === 'employer' && !req.project.members.includes(req.user.id)) {
+    console.log("Is user a member:", req.project.members.includes(req.user.id));
+
+    
     return res.status(403).json({ message: 'Access denied. Employers can only access projects assigned to them.' });
   }
 
