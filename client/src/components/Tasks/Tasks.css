@@ -81,16 +81,6 @@ option {
   margin-left: 10px;
 }*/
 
-
-
-
-
-
-
-
-
-
-
 .tasks-container {
   display: flex;
   flex-direction: row;
@@ -191,13 +181,29 @@ option {
 
 .tasks-card-status {
   background-color: #f4f4f4;
-  border: 1px solid #ececec;
   padding: 20px;
   border-radius: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.status-begin {
+  background-color: darkred;
+  color: white;
+  font-weight: 600;
+}
+
+.status-ongoing {
+  background-color: orange;
+  font-weight: 600;
+}
+
+.status-completed {
+  background-color: darkgreen;
+  color: white;
+  font-weight: 600;
 }
 
 .tasks-card-status-select {
@@ -213,7 +219,6 @@ option {
   cursor: pointer;
   margin: 0 auto;
   font-size: 18px;
-
 }
 
 @media screen and (max-width: 1300px) {

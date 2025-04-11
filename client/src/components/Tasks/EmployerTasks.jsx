@@ -203,12 +203,12 @@ return (
                           handleStatusChange(task, e.target.value)
                         }
                       >
-                        <option value="Begin">Begin</option>
+                        <option  value="Begin">Begin</option>
                         <option value="Ongoing">Ongoing</option>
                         <option value="Completed">Completed</option>
                       </select>
                     ) : (
-                      <span className="tasks-card-status">{task.status}</span>
+                      <span className={`tasks-card-status status-${task.status.toLowerCase()}`}>{task.status}</span>
                     )}
                   </div>
             </div>

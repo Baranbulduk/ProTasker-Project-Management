@@ -132,7 +132,9 @@ function TasksPage() {
 
   // Refresh the page when a new task is added
   const handleTaskAdded = (newTask) => {
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+    setTasks((prevTasks) => {
+     return Array.isArray(prevTasks) ? [...prevTasks, newTask] : [newTask];
+    });
   };
 
   // Refresh the page when a new member is added

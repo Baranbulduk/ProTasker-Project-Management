@@ -59,8 +59,8 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
   const project = new Project({
     projectTitle: req.body.projectTitle,
     description: req.body.description,
-    startDate: req.body.startDate, // TA BORT
-    endDate: req.body.endDate, // TA BORT
+    startDate: req.body.startDate,
+    endDate: req.body.endDate, 
     creator: req.user.id,
     members: [req.user.id]
   });
@@ -71,7 +71,16 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
     // Lägg till projektet i användarens `projects`-lista
     await User.findByIdAndUpdate(req.user.id, { $push: { projects: newProject._id } });
 
-    res.status(201).json(newProject);
+    // Populera creator och members direkt innan du skickar tillbaka
+    const populatedProject = await Project.findById(newProject._id).populate({
+      path: 'creator',
+      select: 'username email role',
+    }).populate({
+      path: 'members',
+      select: 'username email role',
+    });
+
+    res.status(201).json(populatedProject);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
