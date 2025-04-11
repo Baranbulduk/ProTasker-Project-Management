@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProject from "../Modal/Project/EditProject";
 import DeleteProject from "../Modal/Project/DeleteProject";
+import { getColorFromId } from "../../utils/color";
 import "./Dashboard.css";
 
 function ManagerDashboard({ projects, setProjects }) {
@@ -59,20 +60,6 @@ function ManagerDashboard({ projects, setProjects }) {
 
   const handleViewTasks = (projectId) => {
     navigate(`/tasks/${projectId}`);
-  };
-
-  const getColorFromId = (id) => {
-    let hash = 0;
-    for (let i = 0; i < id.length; i++) {
-      hash = id.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const color = `#${((hash >> 24) & 0xff).toString(16).padStart(2, "0")}${(
-      (hash >> 16) &
-      0xff
-    )
-      .toString(16)
-      .padStart(2, "0")}${((hash >> 8) & 0xff).toString(16).padStart(2, "0")}`;
-    return color;
   };
 
   return (

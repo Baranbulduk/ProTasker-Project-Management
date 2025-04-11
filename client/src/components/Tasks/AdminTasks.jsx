@@ -189,7 +189,6 @@ function AdminTasks({ projectId, tasks, setTasks }) {
               <div
                 key={task._id}
                 className="tasks-card"
-                onClick={() => handleViewTaskDetails(task._id)}
               >
                 <div className="tasks-card-header">
                   <h2 className="tasks-card-title">{task.taskName}</h2>
