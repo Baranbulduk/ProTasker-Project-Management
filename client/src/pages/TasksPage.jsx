@@ -139,7 +139,9 @@ function TasksPage() {
 
   // Refresh the page when a new member is added
   const handleMemberAdded = (newMember) => {
-    setMembers((prevMembers) => [...prevMembers, newMember]);
+    setMembers((prevMembers) => {
+      return Array.isArray(prevMembers) ? [...prevMembers, newMember] : [newMember];
+    });
   };
 
   return (
