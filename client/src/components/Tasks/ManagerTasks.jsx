@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EditTask from "../Modal/Task/EditTask";
 import DeleteTask from "../Modal/Task/DeleteTask";
 import "./Tasks.css";
+import { getColorFromId } from "../../utils/color";
 
 function ManagerTasks({ projectId, tasks, setTasks }) {
   const [selectedTask, setSelectedTask] = useState(null);
@@ -46,6 +47,7 @@ function ManagerTasks({ projectId, tasks, setTasks }) {
     setTasks(tasks.filter((task) => task._id !== deletedId));
   };
 
+  /*
   return (
     <>
       <div>
@@ -125,6 +127,135 @@ function ManagerTasks({ projectId, tasks, setTasks }) {
       <ToastContainer />
     </>
   );
+}*/
+
+
+
+
+return (
+  <>
+    <div>
+      <main className="tasks-container">
+        {Array.isArray(tasks) && tasks.length > 0 ? (
+          tasks.map((task) => (
+            <div
+              key={task._id}
+              className="tasks-card"
+              onClick={() => handleViewTaskDetails(task._id)}
+            >
+              <div className="tasks-card-header">
+                <h2 className="tasks-card-title">{task.taskName}</h2>
+                <div className="tasks-card-button-container">
+                  <button
+                    className="tasks-card-button edit"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditClick(task);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="tasks-card-button remove"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteClick(task);
+                    }}
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+              <div className="tasks-body-header">
+                <strong>Created by</strong>{" "}
+                {task.creator ? (
+                  <span
+                    className="tasks-color-member"
+                    style={{
+                      backgroundColor: getColorFromId(task.creator._id),
+                    }}
+                  >
+                    {task.creator.username.toUpperCase()}
+                  </span>
+                ) : (
+                  <p>
+                    <strong>Created by</strong> Unknown
+                  </p>
+                )}
+              </div>
+              <div className="tasks-card-body">
+                <div className="tasks-card-description">
+                  <p>{task.description || "No description available"}</p>
+                </div>
+                <div className="tasks-card-members-container">
+                  <div>
+                    <p className="tasks-card-subheading">
+                      <strong>Assigned to</strong>
+                    </p>
+                    {task.assignedTo ? (
+                      <span
+                        className="tasks-color-member"
+                        style={{
+                          backgroundColor: getColorFromId(
+                            task.assignedTo._id
+                          ),
+                        }}
+                      >
+                        {task.assignedTo.username.toUpperCase()}
+                      </span>
+                    ) : (
+                      "No Assigned Member!"
+                    )}
+                  </div>
+
+                  <div style={{ textAlign: "right" }}>
+                    <p className="tasks-card-subheading">
+                      <strong>Latest change</strong>
+                    </p>
+                    <p className="tasks-card-dates">
+                      {task.updatedAt
+                        ? new Date(task.updatedAt).toLocaleString()
+                        : "N/A"}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <p className="tasks-card-subheading">
+                    <strong>Status</strong>
+                  </p>
+                  <p className="tasks-card-status"> {task.status}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="no-projects-message">No tasks found</p>
+        )}
+      </main>
+      <EditTask
+        show={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        task={selectedTask}
+        onUpdate={(updatedTask) => {
+          setTasks((prevTasks) =>
+            prevTasks.map((t) =>
+              t._id === updatedTask._id ? updatedTask : t
+            )
+          );
+          toast.success("Task updated successfully!");
+        }}
+      />
+      <DeleteTask
+        show={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        task={taskToDelete}
+        onDeleted={handleTaskDeleted}
+      />
+      <ToastContainer />
+    </div>
+  </>
+);
 }
+
 
 export default ManagerTasks;

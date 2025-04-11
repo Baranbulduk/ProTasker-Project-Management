@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context/AuthContext";
 import "./Tasks.css";
+import { getColorFromId } from "../../utils/color";
 
 function EmployerTasks({ projectId, tasks, setTasks }) {
   const { user } = useAuth();
@@ -58,6 +59,7 @@ function EmployerTasks({ projectId, tasks, setTasks }) {
     }
   };
 
+  /*
   return (
     <>
       <div>
@@ -119,5 +121,157 @@ function EmployerTasks({ projectId, tasks, setTasks }) {
     </>
   );
 }
+*/
+
+
+return (
+  <>
+  <div>
+    <main className="tasks-container">
+      {Array.isArray(tasks) && tasks.length > 0 ? (
+        tasks.map((task) => (
+          <div
+            key={task._id}
+            className="tasks-card"
+            onClick={() => handleViewTaskDetails(task._id)}
+          >
+            <div className="tasks-card-header">
+              <h2 className="tasks-card-title">{task.taskName}</h2>
+            </div>
+            <div className="tasks-body-header">
+              <strong>Created by</strong>{" "}
+              {task.creator ? (
+                <span
+                  className="tasks-color-member"
+                  style={{
+                    backgroundColor: getColorFromId(task.creator._id),
+                  }}
+                >
+                  {task.creator.username.toUpperCase()}
+                </span>
+              ) : (
+                <p>
+                  <strong>Created by</strong> Unknown
+                </p>
+              )}
+            </div>
+            <div className="tasks-card-body">
+              <div className="tasks-card-description">
+                <p>{task.description || "No description available"}</p>
+              </div>
+              <div className="tasks-card-members-container">
+                <div>
+                  <p className="tasks-card-subheading">
+                    <strong>Assigned to</strong>
+                  </p>
+                  {task.assignedTo ? (
+                    <span
+                      className="tasks-color-member"
+                      style={{
+                        backgroundColor: getColorFromId(
+                          task.assignedTo._id
+                        ),
+                      }}
+                    >
+                      {task.assignedTo.username.toUpperCase()}
+                    </span>
+                  ) : (
+                    "No Assigned Member!"
+                  )}
+                </div>
+
+                <div style={{ textAlign: "right" }}>
+                  <p className="tasks-card-subheading">
+                    <strong>Latest change</strong>
+                  </p>
+                  <p className="tasks-card-dates">
+                    {task.updatedAt
+                      ? new Date(task.updatedAt).toLocaleString()
+                      : "N/A"}
+                  </p>
+                </div>
+              </div>
+
+                <p className="tasks-card-subheading">
+                  <strong>Status</strong>
+                </p>
+
+              <div>
+                    {task.assignedTo && task.assignedTo._id === user._id ? (
+                      <select className="tasks-card-status-select"
+                        value={task.status}
+                        onChange={(e) =>
+                          handleStatusChange(task, e.target.value)
+                        }
+                      >
+                        <option value="Begin">Begin</option>
+                        <option value="Ongoing">Ongoing</option>
+                        <option value="Completed">Completed</option>
+                      </select>
+                    ) : (
+                      <span className="tasks-card-status">{task.status}</span>
+                    )}
+                  </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <p className="no-projects-message">No tasks found</p>
+      )}
+    </main>
+    <ToastContainer />
+  </div>
+</>
+);
+}
 
 export default EmployerTasks;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
