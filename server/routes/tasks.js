@@ -41,60 +41,26 @@ router.get('/', authenticateToken, async (req, res) => {
         .populate('creator', 'username email')
         .populate('project_id', 'projectTitle');
 
-
-
-
-/*
     } else if (req.user.role === 'employer') {
       const user = await User.findById(req.user.id).populate('projects');
       const projectIds = user.projects.map((project) => project._id.toString());
 
-      tasks = await Task.find({
-        $or: [
-          { assignedTo: req.user.id },
-          { project_id: { $in: projectIds } },
-        ],
-      }).populate('assignedTo', 'username email role')
-        .populate('creator', 'username email')
-        .populate('project_id', 'projectTitle');*/
-
-
-
-
-
-
-
-
-      } else if (req.user.role === 'employer') {
-        if (!project_id) {
-          return res.status(400).json({ message: 'Missing project_id in query' });
-        }
-
-        const user = await User.findById(req.user.id).populate('projects');
-        const projectIds = user.projects.map((project) => project._id.toString());
-
+      if (project_id) {
         if (!projectIds.includes(project_id)) {
-          return res.status(403).json({ message: 'Access denied. You are not a member of this project.' });
+          return res.status(403).json({ message: 'Access denied. You are not part of this project.' });
         }
 
-        const showAll = req.query.all === 'true';
-
-        const taskQuery = showAll
-        ? { project_id }
-        : { project_id, assignedTo: req.user.id };
-  
-        tasks = await Task.find(taskQuery)
-        .populate('assignedTo', 'username email role')
+        tasks = await Task.find({ project_id: project_id })
+          .populate('assignedTo', 'username email role')
           .populate('creator', 'username email')
           .populate('project_id', 'projectTitle');
-
-    } else {
-      return res.status(403).json({ message: 'Access denied' });
+      } else {
+        return res.status(400).json({ message: 'Missing project_id in query' });
+      }
     }
 
-    res.json(tasks.length ? tasks : { message: 'No tasks found' });
+    res.status(200).json(tasks);
   } catch (error) {
-    console.error('Error fetching tasks:', error);
     res.status(500).json({ message: error.message });
   }
 });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,7 +14,7 @@ function EmployerTasks({ projectId, tasks, setTasks }) {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:3000/tasks?project_id=${projectId}&all=true`,
+          `http://localhost:3000/tasks?project_id=${projectId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
