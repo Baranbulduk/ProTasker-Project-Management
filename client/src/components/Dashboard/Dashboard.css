@@ -53,6 +53,27 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.dashboard-body-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #ececec;
+  padding: 15px 20px;
+}
+
+.dashboard-color-member {
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 20px;
+}
+
 .dashboard-card-body {
   display: flex;
   flex-direction: column;

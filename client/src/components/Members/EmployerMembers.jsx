@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditMember from "../Modal/Member/EditMember";
 import { useAuth } from "../../context/AuthContext";
+import { getColorFromId } from "../../utils/color";
 import "./Members.css";
 
 function EmployerMembers({ projectId, members, setMembers }) {
@@ -52,24 +53,24 @@ function EmployerMembers({ projectId, members, setMembers }) {
 
   return (
     <>
-    <div>
-      <main className="members-container">
+      <div>
+        <main className="members-container">
           {Array.isArray(members) && members.length > 0 ? (
             members.map((member) => (
               <div key={member._id} className="members-card">
-                <div className="members-card-header">
+                <div className="members-card-header" style={{ backgroundColor: getColorFromId(member._id) }}>
                   <h2 className="members-card-title">{member.username}</h2>
                   <div className="members-card-button-container">
                     {user && user._id === member._id && (
-                    <button
-                      className="members-card-button edit"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEditMember(member);
-                      }}
-                    >
-                      Edit
-                    </button>
+                      <button
+                        className="members-card-button edit"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditMember(member);
+                        }}
+                      >
+                        Edit
+                      </button>
                     )}
                   </div>
                 </div>

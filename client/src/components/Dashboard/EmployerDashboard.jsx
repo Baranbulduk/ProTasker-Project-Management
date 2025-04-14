@@ -46,6 +46,23 @@ function EmployerDashboard({ projects, setProjects }) {
               <div className="dashboard-card-header">
                 <h2 className="dashboard-card-title">{project.projectTitle}</h2>
               </div>
+              <div className="dashboard-body-header">
+                <strong>Created by</strong>{" "}
+                {project.creator ? (
+                  <span
+                    className="dashboard-color-member"
+                    style={{
+                      backgroundColor: getColorFromId(project.creator._id),
+                    }}
+                  >
+                    {project.creator.username.toUpperCase()}
+                  </span>
+                ) : (
+                  <p>
+                    <strong>Created by</strong> Unknown
+                  </p>
+                )}
+              </div>
               <div className="dashboard-card-body">
                 <div>
                   <p className="dashboard-card-description">
@@ -54,28 +71,26 @@ function EmployerDashboard({ projects, setProjects }) {
                 </div>
                 <div className="dashboard-card-members-container">
                   <div className="dashboard-card-members">
-                    {Array.isArray(project.members) &&
-                    project.members.length > 0 ? (
-                      <>
-                        {project.members.slice(0, 5).map((member, index) => (
-                          <span
-                            className="dashboard-card-member"
-                            key={member._id || index}
-                            style={{
-                              backgroundColor: getColorFromId(member._id),
-                            }}
-                          >
-                            {member.username.charAt(0).toUpperCase()}
-                          </span>
-                        ))}
-                        {project.members.length > 5 && (
-                          <span className="dashboard-card-member extra-members">
-                            +{project.members.length - 5}
-                          </span>
-                        )}
-                      </>
-                    ) : (
-                      "No members assigned"
+                    {project.members
+                      .filter((member) => member._id !== project.creator?._id)
+                      .slice(0, 5)
+                      .map((member, index) => (
+                        <span
+                          className="dashboard-card-member"
+                          key={member._id || index}
+                          style={{
+                            backgroundColor: getColorFromId(member._id),
+                          }}
+                        >
+                          {member.username.charAt(0).toUpperCase()}
+                        </span>
+                      ))}
+                    {project.members.filter(
+                      (member) => member._id !== project.creator?._id
+                    ).length > 5 && (
+                      <span className="dashboard-card-member extra-members">
+                        +{project.members.length - 5}
+                      </span>
                     )}
                   </div>
                   <div>

@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DeleteMember from "../Modal/Member/DeleteMember";
+import { getColorFromId } from "../../utils/color";
 import "./Members.css";
 
 function ManagerMembers({ projectId, members, setMembers }) {
@@ -46,7 +47,7 @@ function ManagerMembers({ projectId, members, setMembers }) {
           {Array.isArray(members) && members.length > 0 ? (
             members.map((member) => (
               <div key={member._id} className="members-card">
-                <div className="members-card-header">
+                <div className="members-card-header" style={{ backgroundColor: getColorFromId(member._id) }}>
                   <h2 className="members-card-title">{member.username}</h2>
                   <div className="members-card-button-container">
                     <button

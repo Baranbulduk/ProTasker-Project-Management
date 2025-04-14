@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DeleteMember from "../Modal/Member/DeleteMember";
+import { getColorFromId } from "../../utils/color";
 import "./Members.css";
 
 function AdminMembers({ projectId, members, setMembers }) {
@@ -40,61 +41,6 @@ function AdminMembers({ projectId, members, setMembers }) {
     );
   };
 
-  /*
-  return (
-    <>
-      <div>
-        <table className="members-table-container">
-          <thead className="members-table-header">
-            <tr className="members-table-header-title-container">
-              <th className="members-table-header-title">Name</th>
-              <th className="members-table-header-title">Email</th>
-              <th className="members-table-header-title">Role</th>
-              <th className="members-table-header-title">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="members-table-body">
-            {Array.isArray(members) && members.length > 0 ? (
-            members.map((member) => (
-              <tr
-                key={member._id}
-                className="members-table-body-title-container"
-              >
-                <td>{member.username}</td>
-                <td>{member.email}</td>
-                <td>{member.role}</td>
-                <td>
-                  <button
-                    className="actions-button remove-button"
-                    onClick={() => handleDeleteClick(member)}
-                  >
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            ))
-            ) : (
-              <tr>
-                <td colSpan="4" className="no-members-message">
-                  No members found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-        <DeleteMember
-          show={showDeleteModal}
-          onClose={() => setShowDeleteModal(false)}
-          member={selectedMember}
-          projectId={projectId}         
-          onDeleted={handleMemberDeleted}
-        />
-      </div>
-      <ToastContainer />
-    </>
-  );
-}*/
-
   return (
     <>
       <div>
@@ -102,7 +48,7 @@ function AdminMembers({ projectId, members, setMembers }) {
           {Array.isArray(members) && members.length > 0 ? (
             members.map((member) => (
               <div key={member._id} className="members-card">
-                <div className="members-card-header">
+                <div className="members-card-header" style={{ backgroundColor: getColorFromId(member._id) }}>
                   <h2 className="members-card-title">{member.username}</h2>
                   <div className="members-card-button-container">
                     <button
