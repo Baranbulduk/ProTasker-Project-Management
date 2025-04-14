@@ -91,7 +91,7 @@ function EmployerMembers({ projectId, members, setMembers }) {
               </div>
             ))
           ) : (
-            <p className="no-members-message">No members found.</p>
+            <h3 className="no-members-message">No members found.</h3>
           )}
         </main>
         <EditMember

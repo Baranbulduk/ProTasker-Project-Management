@@ -155,7 +155,7 @@ function AdminDashboard({ projects, setProjects }) {
             </div>
           ))
         ) : (
-          <p className="no-projects-message">No projects available</p>
+          <h3 className="no-projects-message">No projects available</h3>
         )}
       </main>
       <EditProject

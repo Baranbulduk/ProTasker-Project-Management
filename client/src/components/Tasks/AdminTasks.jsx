@@ -143,7 +143,7 @@ function AdminTasks({ projectId, tasks, setTasks }) {
               </div>
             ))
           ) : (
-            <p className="no-projects-message">No tasks found</p>
+            <h3 className="no-projects-message">No tasks found</h3>
           )}
         </main>
         <EditTask
