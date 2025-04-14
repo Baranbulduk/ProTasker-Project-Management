@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { getColorFromId } from "../../utils/color";
 import "./Dashboard.css";
+import TodoList from "./Todo-list/Todo-list";
 
 function EmployerDashboard({ projects, setProjects }) {
   const navigate = useNavigate();
@@ -107,7 +108,7 @@ function EmployerDashboard({ projects, setProjects }) {
           ))
         ) : (
           <div className="no-projects-message">
-            No projects assigned to you.
+            <TodoList />
           </div>
         )}
       </main>
