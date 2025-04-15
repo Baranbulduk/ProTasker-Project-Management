@@ -2,33 +2,34 @@ import React, { useState } from "react";
 import "./Todo-list.css";
 
 function TodoList() {
-    const [todos, setTodos] = useState([]);
-    const [newTodo, setNewTodo] = useState("");
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState("");
 
-    const handleAddTodo = (e) => {
-        e.preventDefault();
-        if (newTodo.trim()) {
-          setTodos([...todos, { text: newTodo, completed: false }]);
-          setNewTodo("");
-        }
-      };
-    
-      const toggleTodo = (index) => {
-        const updated = [...todos];
-        updated[index].completed = !updated[index].completed;
-        setTodos(updated);
-      };
-    
-      const handleDeleteTodo = (index) => {
-        const updated = [...todos];
-        updated.splice(index, 1);
-        setTodos(updated);
-      };
+  const handleAddTodo = (e) => {
+    e.preventDefault();
+    if (newTodo.trim()) {
+      setTodos([...todos, { text: newTodo, completed: false }]);
+      setNewTodo("");
+    }
+  };
 
-    return (
-        <div>
-        <h3>You are not assigned to any projects.</h3>
-        <p>You can still keep track of your tasks:</p>
+  const toggleTodo = (index) => {
+    const updated = [...todos];
+    updated[index].completed = !updated[index].completed;
+    setTodos(updated);
+  };
+
+  const handleDeleteTodo = (index) => {
+    const updated = [...todos];
+    updated.splice(index, 1);
+    setTodos(updated);
+  };
+
+  return (
+    <div>
+      <h3>You are not assigned to any projects.</h3>
+      <p>You can still keep track of your tasks:</p>
+      <div className="todo-container">
         <form onSubmit={handleAddTodo} className="todo-form">
           <input
             type="text"
@@ -38,7 +39,7 @@ function TodoList() {
             className="todo-input"
           />
           <button type="submit" className="todo-add-button">
-            Add
+            Add task
           </button>
         </form>
         <ul className="todo-list">
@@ -48,12 +49,18 @@ function TodoList() {
               className={`todo-item ${todo.completed ? "completed" : ""}`}
             >
               <span onClick={() => toggleTodo(index)}>{todo.text}</span>
-              <button onClick={() => handleDeleteTodo(index)}>Remove</button>
+              <button
+                className="todo-remove-button"
+                onClick={() => handleDeleteTodo(index)}
+              >
+                Remove
+              </button>
             </li>
           ))}
         </ul>
       </div>
-    );
+    </div>
+  );
 }
 
 export default TodoList;

@@ -129,9 +129,7 @@ function EmployerDashboard({ projects, setProjects }) {
             </div>
           ))
         ) : (
-          <div className="no-projects-message">
-            <TodoList />
-          </div>
+          <TodoList />
         )}
       </main>
       <ToastContainer />
