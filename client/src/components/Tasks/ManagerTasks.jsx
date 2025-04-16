@@ -53,10 +53,7 @@ function ManagerTasks({ projectId, tasks, setTasks }) {
         <main className="tasks-container">
           {Array.isArray(tasks) && tasks.length > 0 ? (
             tasks.map((task) => (
-              <div
-                key={task._id}
-                className="tasks-card"
-              >
+              <div key={task._id} className="tasks-card">
                 <div className="tasks-card-header">
                   <h2 className="tasks-card-title">{task.taskName}</h2>
                   <div className="tasks-card-button-container">
@@ -165,7 +162,18 @@ function ManagerTasks({ projectId, tasks, setTasks }) {
           task={taskToDelete}
           onDeleted={handleTaskDeleted}
         />
-        <ToastContainer />
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={true}
+          toastStyle={{
+            color: "#000",
+            fontSize: "16px",
+            borderRadius: "10px",
+            backgroundColor: "#f4f4f4",
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        />
       </div>
     </>
   );

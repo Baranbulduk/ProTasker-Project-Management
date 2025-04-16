@@ -170,7 +170,18 @@ function AdminDashboard({ projects, setProjects }) {
         project={projectToDelete}
         onDeleted={handleProjectDeleted}
       />
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+        toastStyle={{
+          color: "#000",
+          fontSize: "16px",
+          borderRadius: "10px",
+          backgroundColor: "#f4f4f4",
+          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+        }}
+      />
     </div>
   );
 }

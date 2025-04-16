@@ -43,11 +43,14 @@ function ManagerMembers({ projectId, members, setMembers }) {
   return (
     <>
       <div>
-      <main className="members-container">
+        <main className="members-container">
           {Array.isArray(members) && members.length > 0 ? (
             members.map((member) => (
               <div key={member._id} className="members-card">
-                <div className="members-card-header" style={{ backgroundColor: getColorFromId(member._id) }}>
+                <div
+                  className="members-card-header"
+                  style={{ backgroundColor: getColorFromId(member._id) }}
+                >
                   <h2 className="members-card-title">{member.username}</h2>
                   <div className="members-card-button-container">
                     <button
@@ -89,7 +92,18 @@ function ManagerMembers({ projectId, members, setMembers }) {
           onDeleted={handleMemberDeleted}
         />
       </div>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={true}
+        toastStyle={{
+          color: "#000",
+          fontSize: "16px",
+          borderRadius: "10px",
+          backgroundColor: "#f4f4f4",
+          boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+        }}
+      />
     </>
   );
 }

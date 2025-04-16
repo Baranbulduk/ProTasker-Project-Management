@@ -42,7 +42,7 @@ function TodoList() {
             Add task
           </button>
         </form>
-        <ul className="todo-list">
+        <ul>
           {todos.map((todo, index) => (
             <li
               key={index}

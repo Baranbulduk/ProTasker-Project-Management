@@ -58,153 +58,117 @@ function EmployerTasks({ projectId, tasks, setTasks }) {
     }
   };
 
-return (
-  <>
-  <div>
-    <main className="tasks-container">
-      {Array.isArray(tasks) && tasks.length > 0 ? (
-        tasks.map((task) => (
-          <div
-            key={task._id}
-            className="tasks-card"
-          >
-            <div className="tasks-card-header">
-              <h2 className="tasks-card-title">{task.taskName}</h2>
-            </div>
-            <div className="tasks-body-header">
-              <strong>Created by</strong>{" "}
-              {task.creator ? (
-                <span
-                  className="tasks-color-member"
-                  style={{
-                    backgroundColor: getColorFromId(task.creator._id),
-                  }}
-                >
-                  {task.creator.username.toUpperCase()}
-                </span>
-              ) : (
-                <p>
-                  <strong>Created by</strong> Unknown
-                </p>
-              )}
-            </div>
-            <div className="tasks-card-body">
-              <div className="tasks-card-description">
-                <p>{task.description || "No description available"}</p>
-              </div>
-              <div className="tasks-card-members-container">
-                <div>
-                  <p className="tasks-card-subheading">
-                    <strong>Assigned to</strong>
-                  </p>
-                  {task.assignedTo ? (
+  return (
+    <>
+      <div>
+        <main className="tasks-container">
+          {Array.isArray(tasks) && tasks.length > 0 ? (
+            tasks.map((task) => (
+              <div key={task._id} className="tasks-card">
+                <div className="tasks-card-header">
+                  <h2 className="tasks-card-title">{task.taskName}</h2>
+                </div>
+                <div className="tasks-body-header">
+                  <strong>Created by</strong>{" "}
+                  {task.creator ? (
                     <span
                       className="tasks-color-member"
                       style={{
-                        backgroundColor: getColorFromId(
-                          task.assignedTo._id
-                        ),
+                        backgroundColor: getColorFromId(task.creator._id),
                       }}
                     >
-                      {task.assignedTo.username.toUpperCase()}
+                      {task.creator.username.toUpperCase()}
                     </span>
                   ) : (
-                    "No Assigned Member!"
+                    <p>
+                      <strong>Created by</strong> Unknown
+                    </p>
                   )}
                 </div>
+                <div className="tasks-card-body">
+                  <div className="tasks-card-description">
+                    <p>{task.description || "No description available"}</p>
+                  </div>
+                  <div className="tasks-card-members-container">
+                    <div>
+                      <p className="tasks-card-subheading">
+                        <strong>Assigned to</strong>
+                      </p>
+                      {task.assignedTo ? (
+                        <span
+                          className="tasks-color-member"
+                          style={{
+                            backgroundColor: getColorFromId(
+                              task.assignedTo._id
+                            ),
+                          }}
+                        >
+                          {task.assignedTo.username.toUpperCase()}
+                        </span>
+                      ) : (
+                        "No Assigned Member!"
+                      )}
+                    </div>
 
-                <div style={{ textAlign: "right" }}>
+                    <div style={{ textAlign: "right" }}>
+                      <p className="tasks-card-subheading">
+                        <strong>Latest change</strong>
+                      </p>
+                      <p className="tasks-card-dates">
+                        {task.updatedAt
+                          ? new Date(task.updatedAt).toLocaleString()
+                          : "N/A"}
+                      </p>
+                    </div>
+                  </div>
+
                   <p className="tasks-card-subheading">
-                    <strong>Latest change</strong>
+                    <strong>Status</strong>
                   </p>
-                  <p className="tasks-card-dates">
-                    {task.updatedAt
-                      ? new Date(task.updatedAt).toLocaleString()
-                      : "N/A"}
-                  </p>
-                </div>
-              </div>
 
-                <p className="tasks-card-subheading">
-                  <strong>Status</strong>
-                </p>
-
-              <div>
+                  <div>
                     {task.assignedTo && task.assignedTo._id === user._id ? (
-                      <select className="tasks-card-status-select"
+                      <select
+                        className="tasks-card-status-select"
                         value={task.status}
                         onChange={(e) =>
                           handleStatusChange(task, e.target.value)
                         }
                       >
-                        <option  value="Begin">Begin</option>
+                        <option value="Begin">Begin</option>
                         <option value="Ongoing">Ongoing</option>
                         <option value="Completed">Completed</option>
                       </select>
                     ) : (
-                      <span className={`tasks-card-status status-${task.status.toLowerCase()}`}>{task.status}</span>
+                      <span
+                        className={`tasks-card-status status-${task.status.toLowerCase()}`}
+                      >
+                        {task.status}
+                      </span>
                     )}
                   </div>
-            </div>
-          </div>
-        ))
-      ) : (
-        <h3 className="no-projects-message">No tasks found</h3>
-      )}
-    </main>
-    <ToastContainer />
-  </div>
-</>
-);
+                </div>
+              </div>
+            ))
+          ) : (
+            <h3 className="no-projects-message">No tasks found</h3>
+          )}
+        </main>
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar={true}
+          toastStyle={{
+            color: "#000",
+            fontSize: "16px",
+            borderRadius: "10px",
+            backgroundColor: "#f4f4f4",
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        />
+      </div>
+    </>
+  );
 }
 
 export default EmployerTasks;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
