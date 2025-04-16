@@ -150,7 +150,7 @@ function TasksPage() {
       <div className="tasks-header">
         <h1 className="tasks-header-title">
           <span style={{ color: "#969696", fontWeight: "400" }}>
-            Project Name:
+            Project Name: 
           </span>{" "}
           {project ? project.projectTitle : "Loading..."}
         </h1>
@@ -160,7 +160,7 @@ function TasksPage() {
           <div className="tasks-menu-container">
             <div>
               <button
-                className="tasks-menu-button"
+                className="tasks-menu-button-back"
                 onClick={() => window.history.back()}
               >
                 <img className="back-icon" src={backIcon} alt="back" /> Back

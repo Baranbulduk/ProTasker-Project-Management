@@ -55,6 +55,7 @@
   background-color: #f4f4f4;
   border-bottom: 1px solid #ececec;
   padding: 15px 20px;
+  font-size: 18px;
 }
 
 .tasks-card-body {
@@ -138,8 +139,44 @@
   font-size: 18px;
 }
 
-@media screen and (max-width: 1300px) {
-  .tasks-card {
-    width: 592px;
+@media screen and (max-width: 600px) {
+  .tasks-card-title {
+    font-size: 16px;
   }
+
+  .tasks-card-button {
+    font-size: 15px;
+  }
+
+  .tasks-body-header {
+    font-size: 16px;
+  }
+
+  .tasks-color-member {
+    font-size: 12px;
+  }
+
+  .tasks-card-description {
+    font-size: 14px;
+  }
+
+  .tasks-card-subheading {
+    font-size: 16px;
+  }
+
+  .tasks-card-dates {
+    font-size: 14px;
+  }
+
+  .tasks-card-status {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .tasks-card-status-select {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+
 }

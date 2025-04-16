@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,8 +9,6 @@ import TodoList from "./Todo-list/Todo-list";
 
 function EmployerDashboard({ projects, setProjects }) {
   const navigate = useNavigate();
-  const [todos, setTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState("");
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -34,26 +32,6 @@ function EmployerDashboard({ projects, setProjects }) {
 
   const handleViewTasks = (projectId) => {
     navigate(`/tasks/${projectId}`);
-  };
-
-  const handleAddTodo = (e) => {
-    e.preventDefault();
-    if (newTodo.trim()) {
-      setTodos([...todos, { text: newTodo, completed: false }]);
-      setNewTodo("");
-    }
-  };
-
-  const toggleTodo = (index) => {
-    const updated = [...todos];
-    updated[index].completed = !updated[index].completed;
-    setTodos(updated);
-  };
-
-  const handleDeleteTodo = (index) => {
-    const updated = [...todos];
-    updated.splice(index, 1);
-    setTodos(updated);
   };
 
   return (
@@ -96,7 +74,7 @@ function EmployerDashboard({ projects, setProjects }) {
                   <div className="dashboard-card-members">
                     {project.members
                       .filter((member) => member._id !== project.creator?._id)
-                      .slice(0, 5)
+                      .slice(0, 4)
                       .map((member, index) => (
                         <span
                           className="dashboard-card-member"
@@ -110,9 +88,9 @@ function EmployerDashboard({ projects, setProjects }) {
                       ))}
                     {project.members.filter(
                       (member) => member._id !== project.creator?._id
-                    ).length > 5 && (
+                    ).length > 4 && (
                       <span className="dashboard-card-member extra-members">
-                        +{project.members.length - 5}
+                        +{project.members.length - 4}
                       </span>
                     )}
                   </div>

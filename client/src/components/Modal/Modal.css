@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.705);
+  background: rgba(0, 0, 0, 0.904);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,3 +124,40 @@ textarea {
   cursor: pointer;
 }
 
+@media screen and (max-width: 600px) {
+
+  .modal {
+    padding: 20px 0 40px 0;
+    position: fixed;
+    bottom: 0;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .modal-close {
+    top: -0px;
+    right: 30px;
+    color: #000000;
+  }
+
+  .modal-title {
+    font-size: 24px;
+  }
+
+  .modal-input {
+    width: 300px;
+  }
+
+  .modal-section-date-container {
+    justify-content: center;
+    gap: 10px;
+
+  }
+
+  .modal-section-date {
+    width: 160px;
+    
+  }
+
+
+
+}

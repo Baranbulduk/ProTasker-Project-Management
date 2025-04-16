@@ -126,7 +126,7 @@ function ManagerDashboard({ projects, setProjects }) {
                   <div className="dashboard-card-members">
                     {project.members
                       .filter((member) => member._id !== project.creator?._id)
-                      .slice(0, 5)
+                      .slice(0, 4)
                       .map((member, index) => (
                         <span
                           className="dashboard-card-member"
@@ -140,9 +140,9 @@ function ManagerDashboard({ projects, setProjects }) {
                       ))}
                     {project.members.filter(
                       (member) => member._id !== project.creator?._id
-                    ).length > 5 && (
+                    ).length > 4 && (
                       <span className="dashboard-card-member extra-members">
-                        +{project.members.length - 5}
+                        +{project.members.length - 4}
                       </span>
                     )}
                   </div>

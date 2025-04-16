@@ -6,6 +6,11 @@
   justify-content: space-between;
   align-items: center;
   color: white;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
 }
 
 .header-dashboard-title,

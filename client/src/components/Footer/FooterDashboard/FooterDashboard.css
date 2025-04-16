@@ -11,6 +11,21 @@
   height: 20px;
   display: flex;
   justify-content: center;
+  align-items: center;
   padding-top: 75px;
   opacity: 0.4;
+}
+
+@media screen and (max-width: 600px) {
+  .footer-dashboard {
+    height: 55px;
+  }
+
+  .footer-text {
+    margin: auto;
+    width: 280px;
+    text-align: center;
+    font-size: 12px;
+    padding-top: 20px;
+  }
 }

@@ -11,7 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -100px;
+  margin-top: -90px;
   margin-bottom: -100px;
 }
 
@@ -72,5 +72,14 @@ input {
 .register-link {
   color: #014ae6;
   font-weight: 400;
+}
 
+@media screen and (max-width: 600px) {
+  .login-container {
+    padding: 20px 0 40px 0;
+  }
+  
+  .login-page {
+    margin-bottom: -55px;
+  }
 }
