@@ -5,13 +5,15 @@ import "react-toastify/dist/ReactToastify.css";
 import EditTask from "../Modal/Task/EditTask";
 import DeleteTask from "../Modal/Task/DeleteTask";
 import "./Tasks.css";
-import { getColorFromId } from "../../utils/color";
+import { getColorFromId, darkenColor } from "../../utils/color";
+import { useAuth } from "../../context/AuthContext";
 
 function ManagerTasks({ projectId, tasks, setTasks }) {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -82,11 +84,13 @@ function ManagerTasks({ projectId, tasks, setTasks }) {
                   {task.creator ? (
                     <span
                       className="tasks-color-member"
-                      style={{
-                        backgroundColor: getColorFromId(task.creator._id),
-                      }}
+                    style={{
+                      background: `linear-gradient(135deg, ${getColorFromId(task.creator._id)} 0%, ${darkenColor(getColorFromId(task.creator._id), 30)} 100%)`
+                    }}
                     >
-                      {task.creator.username.toUpperCase()}
+                      {task.creator._id === user._id
+                      ? "YOU"
+                      : task.creator.username.toUpperCase()}
                     </span>
                   ) : (
                     <p>
@@ -107,9 +111,7 @@ function ManagerTasks({ projectId, tasks, setTasks }) {
                         <span
                           className="tasks-color-member"
                           style={{
-                            backgroundColor: getColorFromId(
-                              task.assignedTo._id
-                            ),
+                            background: `linear-gradient(135deg, ${getColorFromId(task.assignedTo._id)} 0%, ${darkenColor(getColorFromId(task.assignedTo._id), 30)} 100%)`
                           }}
                         >
                           {task.assignedTo.username.toUpperCase()}

@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context/AuthContext";
 import "./Tasks.css";
-import { getColorFromId } from "../../utils/color";
+import { getColorFromId, darkenColor } from "../../utils/color";
 
 function EmployerTasks({ projectId, tasks, setTasks }) {
   const { user } = useAuth();
@@ -74,7 +74,12 @@ function EmployerTasks({ projectId, tasks, setTasks }) {
                     <span
                       className="tasks-color-member"
                       style={{
-                        backgroundColor: getColorFromId(task.creator._id),
+                        background: `linear-gradient(135deg, ${getColorFromId(
+                          task.creator._id
+                        )} 0%, ${darkenColor(
+                          getColorFromId(task.creator._id),
+                          30
+                        )} 100%)`,
                       }}
                     >
                       {task.creator.username.toUpperCase()}
@@ -98,12 +103,17 @@ function EmployerTasks({ projectId, tasks, setTasks }) {
                         <span
                           className="tasks-color-member"
                           style={{
-                            backgroundColor: getColorFromId(
+                            background: `linear-gradient(135deg, ${getColorFromId(
                               task.assignedTo._id
-                            ),
+                            )} 0%, ${darkenColor(
+                              getColorFromId(task.assignedTo._id),
+                              30
+                            )} 100%)`,
                           }}
                         >
-                          {task.assignedTo.username.toUpperCase()}
+                          {task.assignedTo._id === user._id
+                            ? "YOU"
+                            : task.assignedTo.username.toUpperCase()}
                         </span>
                       ) : (
                         "No Assigned Member!"

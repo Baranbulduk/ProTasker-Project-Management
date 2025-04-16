@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DeleteMember from "../Modal/Member/DeleteMember";
-import { getColorFromId } from "../../utils/color";
+import { getColorFromId, darkenColor } from "../../utils/color";
 import "./Members.css";
 
 function AdminMembers({ projectId, members, setMembers }) {
@@ -50,7 +50,14 @@ function AdminMembers({ projectId, members, setMembers }) {
               <div key={member._id} className="members-card">
                 <div
                   className="members-card-header"
-                  style={{ backgroundColor: getColorFromId(member._id) }}
+                  style={{
+                    background: `linear-gradient(135deg, ${getColorFromId(
+                      member._id
+                    )} 0%, ${darkenColor(
+                      getColorFromId(member._id),
+                      30
+                    )} 100%)`,
+                  }}
                 >
                   <h2 className="members-card-title">{member.username}</h2>
                   <div className="members-card-button-container">

@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EditProject from "../Modal/Project/EditProject";
 import DeleteProject from "../Modal/Project/DeleteProject";
 import "./Dashboard.css";
-import { getColorFromId } from "../../utils/color";
+import { getColorFromId, darkenColor } from "../../utils/color";
 
 function AdminDashboard({ projects, setProjects }) {
   const [selectedProject, setSelectedProject] = useState(null);
@@ -101,7 +101,7 @@ function AdminDashboard({ projects, setProjects }) {
                   <span
                     className="dashboard-color-member"
                     style={{
-                      backgroundColor: getColorFromId(project.creator._id),
+                      background: `linear-gradient(135deg, ${getColorFromId(project.creator._id)} 0%, ${darkenColor(getColorFromId(project.creator._id), 30)} 100%)`
                     }}
                   >
                     {project.creator.username.toUpperCase()}
@@ -128,7 +128,7 @@ function AdminDashboard({ projects, setProjects }) {
                           className="dashboard-card-member"
                           key={member._id || index}
                           style={{
-                            backgroundColor: getColorFromId(member._id),
+                            background: `linear-gradient(135deg, ${getColorFromId(member._id)} 0%, ${darkenColor(getColorFromId(member._id), 30)} 100%)`
                           }}
                         >
                           {member.username.charAt(0).toUpperCase()}

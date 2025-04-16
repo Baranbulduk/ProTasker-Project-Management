@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditMember from "../Modal/Member/EditMember";
 import { useAuth } from "../../context/AuthContext";
-import { getColorFromId } from "../../utils/color";
+import { getColorFromId, darkenColor } from "../../utils/color";
 import "./Members.css";
 
 function EmployerMembers({ projectId, members, setMembers }) {
@@ -60,9 +60,20 @@ function EmployerMembers({ projectId, members, setMembers }) {
               <div key={member._id} className="members-card">
                 <div
                   className="members-card-header"
-                  style={{ backgroundColor: getColorFromId(member._id) }}
+                  style={{
+                    background: `linear-gradient(135deg, ${getColorFromId(
+                      member._id
+                    )} 0%, ${darkenColor(
+                      getColorFromId(member._id),
+                      30
+                    )} 100%)`,
+                  }}
                 >
-                  <h2 className="members-card-title">{member.username}</h2>
+                  <h2 className="members-card-title">
+                    {user && user._id === member._id
+                      ? `${member.username} - YOU`
+                      : member.username}
+                  </h2>
                   <div className="members-card-button-container">
                     {user && user._id === member._id && (
                       <button

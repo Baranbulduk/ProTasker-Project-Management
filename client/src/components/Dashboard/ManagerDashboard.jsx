@@ -5,7 +5,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProject from "../Modal/Project/EditProject";
 import DeleteProject from "../Modal/Project/DeleteProject";
-import { getColorFromId } from "../../utils/color";
+import { getColorFromId, darkenColor } from "../../utils/color";
+import { useAuth } from "../../context/AuthContext";
 import "./Dashboard.css";
 
 function ManagerDashboard({ projects, setProjects }) {
@@ -14,6 +15,7 @@ function ManagerDashboard({ projects, setProjects }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState(null);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -105,10 +107,17 @@ function ManagerDashboard({ projects, setProjects }) {
                   <span
                     className="dashboard-color-member"
                     style={{
-                      backgroundColor: getColorFromId(project.creator._id),
+                      background: `linear-gradient(135deg, ${getColorFromId(
+                        project.creator._id
+                      )} 0%, ${darkenColor(
+                        getColorFromId(project.creator._id),
+                        30
+                      )} 100%)`,
                     }}
                   >
-                    {project.creator.username.toUpperCase()}
+                    {project.creator._id === user._id
+                      ? "YOU"
+                      : project.creator.username.toUpperCase()}
                   </span>
                 ) : (
                   <p>
@@ -132,7 +141,12 @@ function ManagerDashboard({ projects, setProjects }) {
                           className="dashboard-card-member"
                           key={member._id || index}
                           style={{
-                            backgroundColor: getColorFromId(member._id),
+                            background: `linear-gradient(135deg, ${getColorFromId(
+                              member._id
+                            )} 0%, ${darkenColor(
+                              getColorFromId(member._id),
+                              30
+                            )} 100%)`,
                           }}
                         >
                           {member.username.charAt(0).toUpperCase()}

@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { getColorFromId } from "../../utils/color";
+import { getColorFromId, darkenColor } from "../../utils/color";
 import "./Dashboard.css";
 import TodoList from "./Todo-list/Todo-list";
 
@@ -53,7 +53,7 @@ function EmployerDashboard({ projects, setProjects }) {
                   <span
                     className="dashboard-color-member"
                     style={{
-                      backgroundColor: getColorFromId(project.creator._id),
+                      background: `linear-gradient(135deg, ${getColorFromId(project.creator._id)} 0%, ${darkenColor(getColorFromId(project.creator._id), 30)} 100%)`
                     }}
                   >
                     {project.creator.username.toUpperCase()}
@@ -80,7 +80,7 @@ function EmployerDashboard({ projects, setProjects }) {
                           className="dashboard-card-member"
                           key={member._id || index}
                           style={{
-                            backgroundColor: getColorFromId(member._id),
+                            background: `linear-gradient(135deg, ${getColorFromId(member._id)} 0%, ${darkenColor(getColorFromId(member._id), 30)} 100%)`
                           }}
                         >
                           {member.username.charAt(0).toUpperCase()}
