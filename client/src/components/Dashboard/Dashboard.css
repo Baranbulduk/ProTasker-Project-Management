@@ -103,9 +103,8 @@
 .dashboard-card-member {
   color: white;
   font-weight: 500;
-  font-size: 16x;
+  font-size: 18px;
   border-radius: 50%;
-  height: 25px;
   width: 25px;
   display: flex;
   justify-content: center;

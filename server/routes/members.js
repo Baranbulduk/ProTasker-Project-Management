@@ -50,6 +50,11 @@ router.post('/add-member', authenticateToken, isManager, async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
+        
+        // manager får inte lägga till admin eller annan manager
+        if (req.user.role === 'manager' && (user.role === 'admin' || user.role === 'manager')) {
+            return res.status(403).json({ message: 'Managers can only add users with employer role' });
+          }
 
         // Kontrollera om projektet finns
         const project = await Project.findById(projectId);

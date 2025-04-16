@@ -83,6 +83,11 @@ router.post('/', authenticateToken, isManager, async (req, res) => {
 
       assignedTo = user._id;
 
+      // manager får inte lägga till admin eller annan manager
+      if (req.user.role === 'manager' && (user.role === 'manager' || user.role === 'admin')) {
+        return res.status(403).json({ message: 'Managers can only assign tasks to employees' });
+      }
+
       // Lägg till användaren i projektet om de inte redan är medlem
       if (!project.members.includes(user._id)) {
         project.members.push(user._id);
@@ -179,6 +184,11 @@ router.patch('/:id', authenticateToken, findTaskId, async (req, res) => {
     if (newEmail) {
       const newUser = await User.findOne({ email: newEmail });
       if (!newUser) return res.status(400).json({ message: 'User not found' });
+
+      // manager får inte lägga till admin eller annan manager
+      if (req.user.role === 'manager' && (newUser.role === 'manager' || newUser.role === 'admin')) {
+        return res.status(403).json({ message: 'Managers can only assign tasks to employees' });
+      }
 
       // Ta bort tasken från den tidigare användarens `tasks`-lista
       if (task.assignedTo) {
