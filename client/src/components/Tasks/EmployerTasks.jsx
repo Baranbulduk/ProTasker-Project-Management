@@ -131,11 +131,9 @@ function EmployerTasks({ projectId, tasks, setTasks }) {
                       </p>
                     </div>
                   </div>
-
                   <p className="tasks-card-subheading">
                     <strong>Status</strong>
                   </p>
-
                   <div>
                     {task.assignedTo && task.assignedTo._id === user._id ? (
                       <select

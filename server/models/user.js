@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema({
         enum: ['admin', 'manager', 'employer'],
         default: 'employer'
     },
+    // IN PROGRESS //
+    lastLogin: {
+        type: Date,
+        default: null
+    },
     tasks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Task"

@@ -52,9 +52,6 @@ router.get('/assigned', authenticateToken, async (req, res) => {
 
 // Hämtar projekt som rollen har tillgång till (Rollbaserat: manager och employer)
 router.get('/:id', authenticateToken, findProjectId, async (req, res) => {
-  console.log("User ID:", req.user.id); // Logga användarens ID
-  console.log("Project Members:", req.project.members);
-
   if (req.user.role === 'manager' && req.project.creator.toString() !== req.user.id) {
     return res.status(403).json({ message: 'Access denied. Managers can only access their own projects.' });
   }
@@ -68,6 +65,42 @@ router.get('/:id', authenticateToken, findProjectId, async (req, res) => {
 
   res.json(req.project);
 });
+
+
+
+
+// IN PROGRESS //
+// Hämta nya projekt tilldelade efter senaste inloggning
+router.get('/new-projects', authenticateToken, async (req, res) => {
+  try {
+    const { lastLogin } = req.user; // Anta att `lastLogin` finns i användarens token eller databas
+
+    if (!lastLogin) {
+      console.log('Last login is missing');
+      return res.status(400).json({ message: 'Last login time is missing' });
+    }
+
+    console.log('Fetching new projects for user:', req.user.id);
+    console.log('Last login:', lastLogin);
+
+    // Hämta projekt som tilldelats efter senaste inloggning
+    const newProjects = await Project.find({
+      members: req.user.id,
+      createdAt: { $gt: lastLogin }, // Kontrollera om projektet skapades efter senaste inloggning
+    }).select('projectTitle createdAt');
+
+    console.log('New projects found:', newProjects);
+
+    res.status(200).json(newProjects);
+  } catch (error) {
+    console.error('Error fetching new projects:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
 
 // Skapa ett nytt projekt (endast manager och admin)
 router.post('/', authenticateToken, isManager, async (req, res) => {
